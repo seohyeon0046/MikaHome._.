@@ -1,9 +1,1735 @@
-<html>
-  <head>
-    <title>Mika Home</title>
-  </head>
-  <body>
-    <h1>Welcome to MIKA Home!</h1>
-    <p>Hello Students!</p>
-  </body>
-</htmL>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#101115">
+  <meta name="description" content="Seohyeon Park — master's student at the SNU OP Lab. Research interests: hybrid entrepreneurship, multiple jobholding, positive spillover, well-being, and meaningful career development.">
+  <title>Seohyeon Park — Beyond one role</title>
+
+  <style>
+    /* 전체 색상 */
+    :root {
+      --bg: #101115;
+      --panel: #191a20;
+      --text: #f3f2ed;
+      --muted: #b0b1bc;
+      --mint: #d4f79b;
+      --purple: #b7a4ff;
+      --line: #ffffff26;
+      --paper: #eae8df;
+    }
+
+    * { box-sizing: border-box; }
+
+    html {
+      scroll-behavior: smooth;
+      scroll-padding-top: 105px;
+    }
+
+    body {
+      margin: 0;
+      background: var(--bg);
+      color: var(--text);
+      font-family: Arial, Helvetica, sans-serif;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    a { color: inherit; text-decoration: none; }
+    button { font: inherit; cursor: pointer; }
+    button, a { -webkit-tap-highlight-color: transparent; }
+
+    button:focus-visible,
+    a:focus-visible,
+    summary:focus-visible {
+      outline: 3px solid var(--purple);
+      outline-offset: 6px;
+    }
+
+    ::selection { background: var(--mint); color: var(--bg); }
+    h1, h2, h3, p { margin: 0; }
+    p { line-height: 1.7; }
+    main { overflow: clip; }
+
+    .shell {
+      width: min(1280px, calc(100% - 96px));
+      margin-inline: auto;
+    }
+
+    .eyebrow {
+      font: 11px/1.5 "Courier New", monospace;
+      letter-spacing: 1.6px;
+      text-transform: uppercase;
+    }
+
+    .muted { color: var(--muted); }
+    .accent { color: var(--mint); }
+
+    .skip {
+      position: fixed;
+      left: 20px;
+      top: -100px;
+      background: var(--mint);
+      color: #101115;
+      padding: 15px;
+      z-index: 100;
+    }
+
+    .skip:focus { top: 15px; }
+
+    .progress {
+      position: fixed;
+      inset: 0 auto auto 0;
+      width: 100%;
+      height: 3px;
+      background: linear-gradient(90deg, var(--purple), var(--mint));
+      transform: scaleX(0);
+      transform-origin: left;
+      z-index: 50;
+      pointer-events: none;
+    }
+
+    /* 상단 메뉴 */
+    header {
+      position: fixed;
+      inset: 0 0 auto;
+      z-index: 30;
+      border-bottom: 1px solid var(--line);
+      background: #101115df;
+      backdrop-filter: blur(20px);
+    }
+
+    nav {
+      height: 88px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 24px;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      font-size: 14px;
+      font-weight: 700;
+    }
+
+    .brand-mark {
+      width: 35px;
+      height: 35px;
+      display: grid;
+      place-items: center;
+      border: 1px solid #7c7d89;
+      border-radius: 50%;
+      font: italic 23px Georgia, serif;
+      color: var(--mint);
+    }
+
+    .navlinks {
+      display: flex;
+      gap: 30px;
+      align-items: center;
+      font-size: 12px;
+    }
+
+    .navlinks a {
+      padding: 10px 0;
+      color: #c3c3cc;
+      transition: color .2s;
+    }
+
+    .navlinks a:hover,
+    .navlinks a[aria-current="location"] {
+      color: var(--mint);
+    }
+
+    .navlinks .nav-contact {
+      padding: 11px 18px;
+      border: 1px solid #676873;
+      border-radius: 100px;
+      color: var(--text);
+    }
+
+    /* 첫 화면 */
+    .hero {
+      position: relative;
+      padding: 157px 0 35px;
+      min-height: 820px;
+    }
+
+    .hero::before {
+      content: "";
+      position: absolute;
+      width: 650px;
+      height: 650px;
+      right: -240px;
+      top: 20px;
+      pointer-events: none;
+      background: radial-gradient(circle, #54428e36, transparent 68%);
+    }
+
+    .hero-top {
+      display: flex;
+      justify-content: space-between;
+      gap: 20px;
+    }
+
+    .status {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .status i {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: var(--mint);
+      box-shadow: 0 0 12px #d4f79b80;
+    }
+
+    .hero-grid {
+      display: grid;
+      grid-template-columns: 1.2fr 1fr;
+      align-items: center;
+      position: relative;
+      gap: 20px;
+      margin-top: 55px;
+    }
+
+    .hero-copy { position: relative; z-index: 2; }
+
+    h1 {
+      font-size: clamp(72px, 7.6vw, 112px);
+      font-weight: 500;
+      letter-spacing: -7px;
+      line-height: .97;
+    }
+
+    h1 em {
+      font-family: Georgia, serif;
+      font-weight: 400;
+      color: var(--mint);
+      letter-spacing: -6px;
+    }
+
+    .hero-intro {
+      max-width: 435px;
+      margin-top: 30px;
+      font-size: 15px;
+      color: var(--muted);
+    }
+
+    .hero-intro strong {
+      color: var(--text);
+      font-weight: 500;
+    }
+
+    .hero-actions {
+      display: flex;
+      align-items: center;
+      gap: 27px;
+      margin-top: 29px;
+    }
+
+    .pill {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 27px;
+      border: 1px solid transparent;
+      border-radius: 100px;
+      background: var(--mint);
+      color: #181b12;
+      padding: 16px 24px;
+      font-size: 12px;
+      font-weight: 700;
+      transition: transform .25s, box-shadow .25s;
+    }
+
+    .pill:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 8px 35px #d4f79b25;
+    }
+
+    .text-link {
+      font-size: 12px;
+      border-bottom: 1px solid #696a72;
+      padding: 9px 0;
+    }
+
+    .text-link:hover { color: var(--mint); }
+
+    /* CSS로 만든 메탈릭 구체와 궤도 */
+    .sculpture {
+      position: relative;
+      aspect-ratio: 1;
+      isolation: isolate;
+      transform: translate(var(--dx, 0px), var(--dy, 0px));
+      transition: transform .4s ease-out;
+    }
+
+    .sculpture::before {
+      content: "";
+      position: absolute;
+      inset: 2%;
+      border-radius: 50%;
+      background: radial-gradient(ellipse, #9e80f025, transparent 65%);
+      filter: blur(15px);
+    }
+
+    .orb {
+      position: absolute;
+      inset: 20%;
+      border-radius: 50%;
+      background: radial-gradient(
+        circle at 28% 24%,
+        #f2ebff 0%,
+        #c8b7f9 7%,
+        #7e69bb 21%,
+        #29233b 49%,
+        #101115 64%,
+        #73629b 79%,
+        #c8bdf1 88%,
+        #332b48 98%
+      );
+      box-shadow:
+        inset -13px -10px 25px #bab1e947,
+        inset 5px 8px 24px #ffffff5c,
+        18px 30px 70px #0008;
+      animation: breathe 7s ease-in-out infinite;
+    }
+
+    .ring {
+      position: absolute;
+      inset: 7%;
+      border: 1px solid #d4cbf888;
+      border-radius: 50%;
+      transform: rotate(-30deg) scaleY(.42);
+      box-shadow: 0 1px 0 #ffffff18, 0 0 22px #af8ff015;
+      animation: ring 22s linear infinite;
+    }
+
+    .ring.two {
+      inset: 1%;
+      transform: rotate(48deg) scaleY(.52);
+      border-color: #d4f79b6b;
+      animation: ring-two 28s linear infinite;
+    }
+
+    .ring.three {
+      inset: 13%;
+      transform: rotate(83deg) scaleY(.62);
+      border-color: #b7a4ff5e;
+      animation: none;
+    }
+
+    .satellite {
+      position: absolute;
+      right: 15%;
+      top: 22%;
+      width: 19px;
+      height: 19px;
+      background: radial-gradient(
+        circle at 30% 30%,
+        #f8ffea,
+        #c4ee89 50%,
+        #4d6434
+      );
+      border-radius: 50%;
+      box-shadow: 0 0 30px #d4f79b48;
+    }
+
+    .cross {
+      position: absolute;
+      left: 9%;
+      bottom: 24%;
+      font-size: 25px;
+      color: var(--mint);
+    }
+
+    .orbit-caption {
+      position: absolute;
+      bottom: 2%;
+      right: 2%;
+      font: 10px/1.6 "Courier New", monospace;
+      letter-spacing: 2px;
+      color: #aaa6bc;
+      text-align: right;
+    }
+
+    .orbit-label {
+      position: absolute;
+      top: 6%;
+      left: 2%;
+      font: 10px "Courier New", monospace;
+      color: #bdb3d6;
+      letter-spacing: 2px;
+    }
+
+    .hero-bottom {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 20px;
+      margin-top: 58px;
+      padding-top: 26px;
+      border-top: 1px solid var(--line);
+    }
+
+    .signature { font: italic 27px Georgia, serif; }
+    .hero-bottom .eyebrow { color: #a7a8b2; }
+
+    .scroll-link {
+      font-size: 11px;
+      display: flex;
+      align-items: center;
+      gap: 15px;
+    }
+
+    .scroll-link span {
+      width: 30px;
+      height: 30px;
+      border: 1px solid var(--line);
+      border-radius: 50%;
+      display: grid;
+      place-items: center;
+    }
+
+    /* 움직이는 연구 키워드 */
+    .ticker {
+      margin-top: 26px;
+      background: var(--mint);
+      color: #1d2417;
+      padding: 21px 0;
+      overflow: hidden;
+      transform: rotate(-1.5deg) scale(1.01);
+    }
+
+    .ticker-track {
+      display: flex;
+      width: max-content;
+      animation: ticker 35s linear infinite;
+    }
+
+    .ticker-group {
+      display: flex;
+      gap: 37px;
+      align-items: center;
+      padding-right: 37px;
+      flex-shrink: 0;
+      font-size: 14px;
+      font-weight: 700;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+    }
+
+    .ticker b { font-size: 22px; font-weight: 400; }
+
+    .motion-control {
+      display: flex;
+      justify-content: flex-end;
+      margin-top: 22px;
+    }
+
+    .motion-control button {
+      background: none;
+      border: 1px solid #5b5d69;
+      color: #c7c9d2;
+      border-radius: 99px;
+      padding: 9px 14px;
+      font-size: 10px;
+    }
+
+    .paused *,
+    .paused *::before,
+    .paused *::after {
+      animation-play-state: paused !important;
+    }
+
+    .paused .sculpture { transform: none; }
+
+    /* 연구 관심사 */
+    .section { padding: 106px 0; }
+
+    .section-heading {
+      display: flex;
+      align-items: flex-end;
+      justify-content: space-between;
+      gap: 30px;
+      margin: 24px 0 45px;
+    }
+
+    h2 {
+      font-size: clamp(42px, 5.2vw, 72px);
+      font-weight: 400;
+      line-height: 1.04;
+      letter-spacing: -3px;
+    }
+
+    h2 em {
+      font: italic 1em Georgia, serif;
+      color: var(--purple);
+    }
+
+    .section-heading > p {
+      max-width: 280px;
+      color: var(--muted);
+      font-size: 13px;
+    }
+
+    .research-grid {
+      display: grid;
+      grid-template-columns: 1.15fr 1fr;
+      gap: 20px;
+    }
+
+    .project {
+      position: relative;
+      background: var(--panel);
+      border: 1px solid var(--line);
+      border-radius: 22px;
+      overflow: hidden;
+      transition: border-color .3s, transform .3s;
+    }
+
+    .project:hover {
+      border-color: #b7a4ff88;
+      transform: translateY(-5px);
+    }
+
+    .project::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      background: radial-gradient(
+        400px circle at var(--mx, 50%) var(--my, 0%),
+        #b7a4ff15,
+        transparent 70%
+      );
+    }
+
+    .project.featured {
+      grid-row: span 2;
+      background: linear-gradient(145deg, #262332, #191a20 70%);
+    }
+
+    .project-meta {
+      position: relative;
+      display: flex;
+      justify-content: space-between;
+      gap: 16px;
+      align-items: center;
+      padding: 28px 30px 0;
+    }
+
+    .project-no {
+      font: 12px "Courier New", monospace;
+      color: #b9b6c8;
+    }
+
+    .tags { display: flex; flex-wrap: wrap; gap: 8px; }
+
+    .tag {
+      border: 1px solid #ffffff30;
+      border-radius: 100px;
+      padding: 6px 10px;
+      font-size: 9px;
+      color: #dedde6;
+    }
+
+    .project-copy {
+      padding: 28px 30px 30px;
+      position: relative;
+    }
+
+    .project h3 {
+      font-size: 30px;
+      font-weight: 400;
+      letter-spacing: -1px;
+      line-height: 1.15;
+    }
+
+    .project p {
+      margin-top: 14px;
+      font-size: 13px;
+      color: #b9b9c5;
+      max-width: 440px;
+    }
+
+    .project details {
+      margin-top: 24px;
+      border-top: 1px solid var(--line);
+      padding-top: 16px;
+      font-size: 12px;
+    }
+
+    .project summary {
+      cursor: pointer;
+      list-style: none;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 20px;
+      color: var(--mint);
+      min-height: 28px;
+    }
+
+    .project summary::-webkit-details-marker { display: none; }
+
+    .project summary::after {
+      content: "+";
+      font-size: 22px;
+      font-weight: 400;
+    }
+
+    .project details[open] summary::after { content: "−"; }
+    .project details p { font-size: 12px; }
+
+    .project-art {
+      height: 255px;
+      position: relative;
+      display: grid;
+      place-items: center;
+      overflow: hidden;
+    }
+
+    .grid-field {
+      position: absolute;
+      width: 380px;
+      height: 240px;
+      background:
+        linear-gradient(#ffffff0c 1px, transparent 1px),
+        linear-gradient(90deg, #ffffff0c 1px, transparent 1px);
+      background-size: 30px 30px;
+      transform: perspective(400px) rotateX(40deg) rotateZ(-20deg);
+      mask-image: radial-gradient(ellipse, black 25%, transparent 70%);
+    }
+
+    .arch {
+      position: absolute;
+      width: 108px;
+      height: 160px;
+      border-radius: 65px 65px 10px 10px;
+      border: 1px solid #d2befd8c;
+      background: linear-gradient(130deg, #ba9fe947, #78649d08);
+      box-shadow:
+        inset 3px 2px 8px #ffffff20,
+        12px 12px 30px #0002;
+      transform: rotate(-16deg);
+    }
+
+    .arch.a { margin-left: -100px; margin-top: 40px; }
+
+    .arch.b {
+      margin-left: 100px;
+      margin-top: -20px;
+      border-color: #d4f79b7a;
+      background: linear-gradient(130deg, #d4f79b33, #d4f79b05);
+    }
+
+    .arch.c {
+      background: linear-gradient(135deg, #d9ccff8c, #74638815);
+      margin-top: 10px;
+    }
+
+    .small-visual {
+      display: flex;
+      gap: 7px;
+      height: 46px;
+      align-items: center;
+      margin-bottom: 23px;
+    }
+
+    .small-visual i {
+      display: block;
+      width: 34px;
+      height: 34px;
+      border: 1px solid #b7a4ff;
+      border-radius: 50%;
+      background: #b7a4ff13;
+    }
+
+    .small-visual i + i { margin-left: -18px; }
+    .small-visual.wave { gap: 6px; }
+
+    .wave i {
+      border: 0;
+      border-radius: 9px;
+      background: var(--mint);
+      width: 5px;
+      height: 18px;
+      opacity: .7;
+      margin: 0;
+    }
+
+    .wave i:nth-child(2n) { height: 35px; }
+    .wave i:nth-child(3n) { height: 45px; }
+    .compact .project-copy { padding-top: 25px; }
+    .compact h3 { font-size: 25px; }
+
+    /* 소개와 학력 */
+    .about-band {
+      background: var(--paper);
+      color: #242620;
+      border-radius: 34px;
+      margin: 0 20px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .about-band .eyebrow { color: #656859; }
+
+    .about-layout {
+      display: grid;
+      grid-template-columns: .9fr 1.1fr;
+      gap: 95px;
+    }
+
+    .about-band h2 { margin: 23px 0 24px; }
+    .about-band h2 em { color: #68648b; }
+
+    .about-text {
+      max-width: 390px;
+      color: #626359;
+      font-size: 14px;
+    }
+
+    .focus-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-top: 30px;
+      max-width: 370px;
+    }
+
+    .focus-tags span {
+      font-size: 11px;
+      border: 1px solid #b9bcaf;
+      border-radius: 100px;
+      padding: 9px 13px;
+    }
+
+    .education {
+      padding-left: 24px;
+      border-left: 1px solid #b6b8ad;
+      position: relative;
+    }
+
+    .education + .education { margin-top: 37px; }
+
+    .education::before {
+      content: "";
+      width: 9px;
+      height: 9px;
+      background: #888197;
+      box-shadow: 0 0 0 5px var(--paper);
+      border-radius: 50%;
+      position: absolute;
+      left: -5px;
+      top: 4px;
+    }
+
+    .education.current::before { background: #5a7045; }
+
+    .education time {
+      font: 10px "Courier New", monospace;
+      letter-spacing: 1px;
+      color: #67695e;
+    }
+
+    .education h3 {
+      font-size: 27px;
+      font-weight: 500;
+      letter-spacing: -1px;
+      margin: 13px 0 8px;
+    }
+
+    .education p { font-size: 13px; color: #606357; }
+
+    .current-label {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font: 10px Arial, sans-serif;
+      color: #435831;
+      background: #d8e3c9;
+      border: 1px solid #bdcaa9;
+      border-radius: 100px;
+      padding: 5px 8px;
+      margin-left: 8px;
+    }
+
+    .earlier {
+      margin-top: 35px;
+      padding-top: 22px;
+      border-top: 1px solid #bfc2b5;
+    }
+
+    .earlier summary {
+      cursor: pointer;
+      list-style: none;
+      display: flex;
+      justify-content: space-between;
+      gap: 15px;
+      font-size: 12px;
+      color: #55594b;
+      min-height: 30px;
+    }
+
+    .earlier summary::-webkit-details-marker { display: none; }
+
+    .earlier summary span {
+      font-size: 19px;
+      transition: transform .2s;
+    }
+
+    .earlier[open] summary span { transform: rotate(45deg); }
+
+    .earlier p {
+      font-size: 12px;
+      color: #606357;
+      margin-top: 12px;
+    }
+
+    /* 연구 비전 */
+    .vision-layout {
+      display: grid;
+      grid-template-columns: 1fr 1.05fr;
+      gap: 65px;
+      margin-top: 28px;
+      align-items: start;
+    }
+
+    .vision-note {
+      font-size: 12px;
+      color: var(--muted);
+      margin-top: 24px;
+    }
+
+    .vision-statement {
+      border-left: 1px solid var(--line);
+      padding-left: 45px;
+    }
+
+    .vision-star {
+      display: block;
+      color: var(--mint);
+      font-size: 44px;
+      margin-bottom: 22px;
+      line-height: 1;
+    }
+
+    .vision-statement > p {
+      font-size: clamp(20px, 2.2vw, 29px);
+      line-height: 1.5;
+      letter-spacing: -.5px;
+      color: #e4e1ec;
+    }
+
+    .vision-labels {
+      display: flex;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 15px;
+      font: 10px "Courier New", monospace;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      color: var(--mint);
+      margin-top: 30px;
+    }
+
+    /* 연락처 */
+    .contact {
+      padding: 70px 0 40px;
+      position: relative;
+      border-top: 1px solid var(--line);
+    }
+
+    .contact::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      background: radial-gradient(
+        ellipse at 80% 100%,
+        #9480f51c,
+        transparent 60%
+      );
+    }
+
+    .contact .shell { position: relative; }
+
+    .contact-top {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 25px;
+    }
+
+    .contact h2 {
+      font-size: clamp(58px, 8vw, 115px);
+      letter-spacing: -5px;
+      margin-top: 27px;
+    }
+
+    .contact h2 em { color: var(--mint); }
+
+    .contact-arrow {
+      width: 100px;
+      height: 100px;
+      border-radius: 50%;
+      display: grid;
+      place-items: center;
+      border: 1px solid #bfc0c9;
+      font-size: 50px;
+      transition: background .2s, color .2s, transform .2s;
+    }
+
+    .contact-arrow:hover {
+      background: var(--mint);
+      color: #101115;
+      transform: rotate(8deg);
+    }
+
+    .contact-bottom {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 25px;
+      margin-top: 45px;
+      padding-top: 28px;
+      border-top: 1px solid var(--line);
+    }
+
+    .email-wrap {
+      display: flex;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 16px;
+    }
+
+    .email { font-size: 17px; }
+
+    .copy {
+      background: none;
+      color: var(--muted);
+      border: 1px solid #555660;
+      border-radius: 50%;
+      height: 36px;
+      width: 36px;
+      font-size: 17px;
+    }
+
+    .copy:hover {
+      color: var(--mint);
+      border-color: var(--mint);
+    }
+
+    .copy-status {
+      font-size: 11px;
+      color: var(--mint);
+      min-height: 18px;
+      margin-top: 10px;
+    }
+
+    .footer {
+      display: flex;
+      justify-content: space-between;
+      gap: 20px;
+      padding-top: 34px;
+      font: 10px "Courier New", monospace;
+      color: #a4a5b1;
+      letter-spacing: .5px;
+    }
+
+    .footer a { padding: 8px 0; }
+
+    .reveal { transition: opacity .8s, transform .8s; }
+
+    .reveal.pending {
+      opacity: 0;
+      transform: translateY(25px);
+    }
+
+    /* 애니메이션 */
+    @keyframes breathe {
+      50% { transform: translateY(-12px); }
+    }
+
+    @keyframes ring {
+      to { transform: rotate(330deg) scaleY(.42); }
+    }
+
+    @keyframes ring-two {
+      to { transform: rotate(-312deg) scaleY(.52); }
+    }
+
+    @keyframes ticker {
+      to { transform: translateX(-50%); }
+    }
+
+    /* 반응형 */
+    @media (min-width: 1500px) {
+      .hero { min-height: 880px; }
+    }
+
+    @media (max-width: 1000px) {
+      .shell { width: calc(100% - 56px); }
+
+      h1 {
+        font-size: 78px;
+        letter-spacing: -5px;
+      }
+
+      h1 em { letter-spacing: -4px; }
+      .hero { min-height: auto; }
+
+      .hero-grid {
+        grid-template-columns: 1.2fr 1fr;
+        gap: 0;
+      }
+
+      .about-layout { gap: 45px; }
+      .about-band { margin: 0 12px; }
+      .hero-bottom { margin-top: 45px; }
+    }
+
+    @media (max-width: 700px) {
+      html { scroll-padding-top: 85px; }
+      .shell { width: calc(100% - 40px); }
+      nav { height: 72px; gap: 10px; }
+      .brand { font-size: 12px; gap: 8px; }
+
+      .brand-mark {
+        width: 29px;
+        height: 29px;
+        font-size: 20px;
+      }
+
+      .navlinks { gap: 15px; font-size: 10px; }
+      .navlinks .nav-contact { padding: 9px 12px; }
+      .navlinks .desktop-link { display: none; }
+      .hero { padding: 112px 0 24px; }
+      .hero-top { font-size: 9px; }
+      .hero-top > .eyebrow { display: none; }
+
+      .hero-grid {
+        grid-template-columns: 1fr;
+        margin-top: 34px;
+        gap: 0;
+      }
+
+      .hero h1 {
+        font-size: clamp(64px, 13vw, 88px);
+        letter-spacing: -4px;
+      }
+
+      .hero-intro {
+        max-width: 440px;
+        font-size: 14px;
+        margin-top: 24px;
+      }
+
+      .hero-actions { gap: 18px; }
+      .hero-actions .pill { gap: 15px; }
+      .pill { padding: 15px 21px; }
+
+      .sculpture {
+        width: min(390px, 100%);
+        margin: 25px auto 0;
+        aspect-ratio: 1.15;
+      }
+
+      .orbit-caption { font-size: 9px; }
+
+      .hero-bottom {
+        margin-top: 22px;
+        align-items: flex-start;
+        gap: 12px;
+      }
+
+      .hero-bottom > div { max-width: 65%; }
+      .signature { font-size: 23px; }
+
+      .hero-bottom .eyebrow {
+        font-size: 9px;
+        line-height: 1.7;
+      }
+
+      .scroll-link { font-size: 10px; }
+      .ticker { padding: 17px 0; }
+
+      .ticker-group {
+        font-size: 11px;
+        gap: 25px;
+        padding-right: 25px;
+      }
+
+      .section { padding: 70px 0; }
+
+      .section-heading {
+        display: block;
+        margin: 19px 0 30px;
+      }
+
+      h2 { font-size: 45px; letter-spacing: -2px; }
+
+      .section-heading > p {
+        margin-top: 20px;
+        max-width: 340px;
+      }
+
+      .research-grid { grid-template-columns: 1fr; }
+      .project.featured { grid-row: auto; }
+      .project-art { height: 225px; }
+      .project-meta { padding: 24px 24px 0; }
+      .project-copy { padding: 24px; }
+      .project h3 { font-size: 28px; }
+      .compact h3 { font-size: 26px; }
+
+      .about-band {
+        border-radius: 22px;
+        margin: 0 9px;
+      }
+
+      .about-band .shell { width: calc(100% - 40px); }
+
+      .about-layout {
+        grid-template-columns: 1fr;
+        gap: 43px;
+      }
+
+      .about-band h2 { font-size: 41px; }
+      .about-text { max-width: none; }
+      .education h3 { font-size: 25px; }
+
+      .vision-layout {
+        grid-template-columns: 1fr;
+        gap: 32px;
+      }
+
+      .vision-statement { padding-left: 22px; }
+      .vision-statement > p { font-size: 23px; }
+      .contact { padding-top: 55px; }
+
+      .contact-top {
+        align-items: flex-end;
+        gap: 16px;
+      }
+
+      .contact h2 {
+        font-size: clamp(54px, 10vw, 72px);
+        letter-spacing: -3px;
+      }
+
+      .contact-arrow {
+        width: 58px;
+        height: 58px;
+        font-size: 30px;
+        flex-shrink: 0;
+        margin-bottom: 5px;
+      }
+
+      .contact-bottom {
+        align-items: flex-start;
+        flex-direction: column;
+        margin-top: 30px;
+      }
+
+      .email { font-size: 15px; }
+      .footer { font-size: 9px; }
+      .section .eyebrow { font-size: 10px; }
+      .motion-control { margin-top: 18px; }
+    }
+
+    @media (max-width: 380px) {
+      .navlinks a[href="#about"] { display: none; }
+      .navlinks { gap: 12px; }
+      .hero-actions .text-link { font-size: 11px; }
+      .current-label { margin: 8px 0 0; }
+      .education time { display: block; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      html { scroll-behavior: auto; }
+
+      *,
+      *::before,
+      *::after {
+        animation: none !important;
+        transition: none !important;
+      }
+
+      .sculpture { transform: none; }
+      .reveal.pending { opacity: 1; transform: none; }
+    }
+  </style>
+</head>
+
+<body>
+  <a class="skip" href="#main">Skip to content</a>
+  <div class="progress" aria-hidden="true"></div>
+
+  <header>
+    <nav class="shell" aria-label="Main navigation">
+      <a class="brand" href="#main">
+        <span class="brand-mark" aria-hidden="true">s.</span>
+        Seohyeon Park
+      </a>
+
+      <div class="navlinks">
+        <a href="#research">Research</a>
+        <a href="#about">About</a>
+        <a class="desktop-link" href="#vision">Vision</a>
+        <a class="nav-contact" href="#contact">Let's talk ↗</a>
+      </div>
+    </nav>
+  </header>
+
+  <main id="main">
+    <!-- 첫 화면 -->
+    <section class="hero shell" aria-labelledby="hero-title">
+      <div class="hero-top">
+        <p class="status eyebrow">
+          <i aria-hidden="true"></i>
+          Master’s student · SNU OP Lab
+        </p>
+        <p class="eyebrow muted">
+          Multiple roles. Meaningful possibilities.
+        </p>
+      </div>
+
+      <div class="hero-grid">
+        <div class="hero-copy">
+          <h1 id="hero-title">
+            Beyond<br>
+            <em>one role.</em>
+          </h1>
+
+          <p class="hero-intro">
+            I’m <strong>Seohyeon Park</strong>, a master’s student at
+            the <strong>SNU OP Lab</strong>. I study
+            <strong>hybrid entrepreneurship</strong> and how experiences
+            across multiple work roles can enrich well-being and
+            meaningful career development.
+          </p>
+
+          <div class="hero-actions">
+            <a class="pill" href="#research">
+              Explore my research <span aria-hidden="true">↘</span>
+            </a>
+            <a class="text-link" href="#about">A little about me ↗</a>
+          </div>
+        </div>
+
+        <div class="sculpture" aria-hidden="true">
+          <span class="orbit-label">
+            WORK / ENTREPRENEURSHIP / LIFE
+          </span>
+          <div class="orb"></div>
+          <div class="ring"></div>
+          <div class="ring two"></div>
+          <div class="ring three"></div>
+          <div class="satellite"></div>
+          <span class="cross">✳</span>
+          <span class="orbit-caption">
+            MULTIPLE ROLES.<br>
+            CONNECTED EXPERIENCES.
+          </span>
+        </div>
+      </div>
+
+      <div class="hero-bottom">
+        <div>
+          <p class="signature">Seohyeon Park</p>
+          <p class="eyebrow" style="margin-top: 9px">
+            Hybrid entrepreneurship & multiple jobholding
+          </p>
+        </div>
+        <a class="scroll-link" href="#research">
+          Scroll to discover <span aria-hidden="true">↓</span>
+        </a>
+      </div>
+    </section>
+
+    <!-- 움직이는 연구 키워드 -->
+    <div class="ticker" aria-hidden="true">
+      <div class="ticker-track">
+        <div class="ticker-group">
+          Hybrid entrepreneurship <b>✳</b>
+          Positive spillover <b>✳</b>
+          Well-being <b>✳</b>
+          Meaningful careers <b>✳</b>
+          Hybrid entrepreneurship <b>✳</b>
+          Positive spillover <b>✳</b>
+          Well-being <b>✳</b>
+          Meaningful careers <b>✳</b>
+        </div>
+        <div class="ticker-group">
+          Hybrid entrepreneurship <b>✳</b>
+          Positive spillover <b>✳</b>
+          Well-being <b>✳</b>
+          Meaningful careers <b>✳</b>
+          Hybrid entrepreneurship <b>✳</b>
+          Positive spillover <b>✳</b>
+          Well-being <b>✳</b>
+          Meaningful careers <b>✳</b>
+        </div>
+      </div>
+    </div>
+
+    <div class="shell motion-control">
+      <button id="motion" type="button" aria-pressed="false" hidden>
+        Pause animation Ⅱ
+      </button>
+    </div>
+
+    <!-- 현재 연구 관심사 -->
+    <section class="section shell" id="research">
+      <p class="eyebrow accent reveal">
+        01 / Current research interests
+      </p>
+
+      <div class="section-heading reveal">
+        <h2>Many roles.<br><em>New possibilities.</em></h2>
+        <p>
+          My research centers on hybrid entrepreneurship, with a
+          broader interest in how experiences across multiple jobs
+          shape people's lives and careers.
+        </p>
+      </div>
+
+      <div class="research-grid">
+        <article class="project featured reveal">
+          <div class="project-meta">
+            <span class="project-no">FOCUS / 01</span>
+            <div class="tags">
+              <span class="tag">Multiple jobholding</span>
+              <span class="tag">Entrepreneurship</span>
+            </div>
+          </div>
+
+          <div class="project-art" aria-hidden="true">
+            <div class="grid-field"></div>
+            <div class="arch a"></div>
+            <div class="arch b"></div>
+            <div class="arch c"></div>
+          </div>
+
+          <div class="project-copy">
+            <h3>Hybrid<br>entrepreneurship.</h3>
+            <p>
+              What happens when someone combines paid employment
+              with an entrepreneurial venture? I am interested in
+              how these overlapping work experiences shape individual
+              well-being and meaningful career development.
+            </p>
+
+            <details>
+              <summary>A question I explore</summary>
+              <p>
+                How can entrepreneurial experiences alongside a
+                primary job open up new possibilities for a person's
+                working life?
+              </p>
+            </details>
+          </div>
+        </article>
+
+        <article class="project compact reveal">
+          <div class="project-meta">
+            <span class="project-no">FOCUS / 02</span>
+            <span class="tag">Across work roles</span>
+          </div>
+
+          <div class="project-copy">
+            <div class="small-visual" aria-hidden="true">
+              <i></i><i></i><i></i><i></i>
+            </div>
+
+            <h3>Positive spillover.<br>Across roles.</h3>
+            <p>
+              I explore how experiences in one work role can
+              positively influence experiences in another.
+            </p>
+
+            <details>
+              <summary>A question I explore</summary>
+              <p>
+                When and how do experiences across multiple jobs
+                enrich one another, creating opportunities for both
+                individuals and organizations?
+              </p>
+            </details>
+          </div>
+        </article>
+
+        <article class="project compact reveal">
+          <div class="project-meta">
+            <span class="project-no">FOCUS / 03</span>
+            <span class="tag">Well-being & careers</span>
+          </div>
+
+          <div class="project-copy">
+            <div class="small-visual wave" aria-hidden="true">
+              <i></i><i></i><i></i><i></i><i></i>
+              <i></i><i></i><i></i><i></i>
+            </div>
+
+            <h3>Working well.<br>Finding meaning.</h3>
+            <p>
+              I am interested in how holding multiple jobs shapes
+              individual well-being and the development of
+              meaningful careers.
+            </p>
+
+            <details>
+              <summary>A question I explore</summary>
+              <p>
+                Under what conditions can multiple work roles support
+                a fulfilling working life and a meaningful career path?
+              </p>
+            </details>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <!-- 소개와 학력 -->
+    <section class="about-band" id="about">
+      <div class="section shell about-layout">
+        <div class="reveal">
+          <p class="eyebrow">02 / About Seohyeon</p>
+          <h2>One person.<br><em>Many possibilities.</em></h2>
+
+          <p class="about-text">
+            Seohyeon is a master’s student at the SNU OP Lab.
+            She received her bachelor's degree in Psychology from
+            Chung-Ang University with magna cum laude distinction.
+          </p>
+
+          <p class="about-text" style="margin-top: 18px">
+            Her research interest focuses on how experiences across
+            multiple jobs influence individual well-being and
+            meaningful career development, with particular emphasis
+            on positive spillover between multiple work roles.
+          </p>
+
+          <div class="focus-tags">
+            <span>Hybrid entrepreneurship</span>
+            <span>Multiple jobholding</span>
+            <span>Positive spillover</span>
+            <span>Well-being</span>
+            <span>Meaningful careers</span>
+          </div>
+        </div>
+
+        <div class="reveal">
+          <article class="education current">
+            <time>MAR 2025 — PRESENT</time>
+            <span class="current-label">Currently studying</span>
+            <h3>Seoul National University</h3>
+            <p>
+              Master's program in Psychology<br>
+              Specialization in Organizational Psychology<br>
+              SNU OP Lab
+            </p>
+          </article>
+
+          <article class="education">
+            <time>MAR 2019 — FEB 2025</time>
+            <h3>Chung-Ang University</h3>
+            <p>
+              Bachelor's degree in Psychology<br>
+              Magna cum laude · Graduated February 2025
+            </p>
+          </article>
+
+          <details class="earlier">
+            <summary>
+              Earlier academic background
+              <span aria-hidden="true">+</span>
+            </summary>
+            <p>
+              Before graduate school, Seohyeon gained research
+              experience in organizational and health psychology,
+              including work at Chung-Ang University's Human
+              Performance Lab. She presented posters at psychology
+              conferences in 2023 and 2024, receiving an Academic Award
+              from the Korean Health Psychological Association in 2023.
+            </p>
+          </details>
+        </div>
+      </div>
+    </section>
+
+    <!-- 연구 비전 -->
+    <section class="section shell" id="vision">
+      <p class="eyebrow accent reveal">03 / The bigger picture</p>
+
+      <div class="vision-layout">
+        <div class="reveal">
+          <h2>More roles.<br>More <em>possibility.</em></h2>
+          <p class="vision-note">
+            An aspiration that guides my research.
+          </p>
+        </div>
+
+        <div class="vision-statement reveal">
+          <span class="vision-star" aria-hidden="true">✳</span>
+          <p>
+            Seohyeon's overarching goal is to contribute to shaping
+            workplaces where multiple jobholding is recognized as an
+            opportunity that benefits both individuals and organizations.
+          </p>
+
+          <div class="vision-labels">
+            <span>For individuals</span>
+            <span aria-hidden="true">↔</span>
+            <span>For organizations</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 연락처 -->
+    <section class="contact" id="contact">
+      <div class="shell">
+        <p class="eyebrow accent">
+          04 / A conversation is a good beginning
+        </p>
+
+        <div class="contact-top">
+          <h2>Let's connect<br>the <em>dots.</em></h2>
+          <a
+            class="contact-arrow"
+            href="mailto:micha4673@gmail.com"
+            aria-label="Email Seohyeon Park"
+          >↗</a>
+        </div>
+
+        <div class="contact-bottom">
+          <div>
+            <div class="email-wrap">
+              <a
+                class="email"
+                id="email"
+                href="mailto:micha4673@gmail.com"
+              >micha4673@gmail.com</a>
+
+              <button
+                class="copy"
+                id="copy"
+                type="button"
+                aria-label="Copy email address"
+                hidden
+              >⧉</button>
+            </div>
+
+            <p
+              id="copy-status"
+              class="copy-status"
+              role="status"
+              aria-live="polite"
+            ></p>
+          </div>
+
+          <p class="eyebrow muted">
+            Ideas, research & new perspectives.
+          </p>
+        </div>
+
+        <footer class="footer">
+          <p>
+            © <span id="year">2026</span> Seohyeon Park<br>
+            Exploring possibilities across work roles.
+          </p>
+          <a href="#main">BACK TO TOP ↑</a>
+        </footer>
+      </div>
+    </section>
+  </main>
+
+  <script>
+    // 애니메이션 정지 / 재생
+    const reducedMotion = window.matchMedia(
+      "(prefers-reduced-motion: reduce)"
+    );
+    const motionButton = document.getElementById("motion");
+    let paused = reducedMotion.matches;
+
+    function setMotion() {
+      document.body.classList.toggle("paused", paused);
+      motionButton.setAttribute("aria-pressed", String(paused));
+      motionButton.disabled = reducedMotion.matches;
+      motionButton.textContent = reducedMotion.matches
+        ? "Reduced motion enabled"
+        : paused
+          ? "Resume animation ▷"
+          : "Pause animation Ⅱ";
+    }
+
+    motionButton.hidden = false;
+    setMotion();
+
+    motionButton.addEventListener("click", () => {
+      paused = !paused;
+      setMotion();
+    });
+
+    reducedMotion.addEventListener("change", event => {
+      paused = event.matches;
+      setMotion();
+    });
+
+    document.getElementById("year").textContent =
+      new Date().getFullYear();
+
+    // 상단 스크롤 진행 표시
+    const progress = document.querySelector(".progress");
+    let scrollTick = false;
+
+    function updateScroll() {
+      const available =
+        document.documentElement.scrollHeight - window.innerHeight;
+
+      const ratio = available > 0
+        ? Math.min(1, Math.max(0, window.scrollY / available))
+        : 0;
+
+      progress.style.transform = "scaleX(" + ratio + ")";
+      scrollTick = false;
+    }
+
+    window.addEventListener("scroll", () => {
+      if (!scrollTick) {
+        scrollTick = true;
+        requestAnimationFrame(updateScroll);
+      }
+    }, { passive: true });
+
+    window.addEventListener("resize", updateScroll);
+    updateScroll();
+
+    // 스크롤에 따라 콘텐츠 표시
+    if ("IntersectionObserver" in window) {
+      const reveals = document.querySelectorAll(".reveal");
+
+      const revealObserver = new IntersectionObserver(entries => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            entry.target.classList.remove("pending");
+            revealObserver.unobserve(entry.target);
+          }
+        });
+      }, { threshold: 0.06 });
+
+      reveals.forEach(element => {
+        if (
+          element.getBoundingClientRect().top > innerHeight &&
+          !reducedMotion.matches
+        ) {
+          element.classList.add("pending");
+        }
+
+        revealObserver.observe(element);
+      });
+
+      const navLinks = document.querySelectorAll(".navlinks a");
+
+      const sectionObserver = new IntersectionObserver(entries => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            navLinks.forEach(link => {
+              if (
+                link.getAttribute("href") === "#" + entry.target.id
+              ) {
+                link.setAttribute("aria-current", "location");
+              } else {
+                link.removeAttribute("aria-current");
+              }
+            });
+          }
+        });
+      }, { rootMargin: "-15% 0px -55% 0px" });
+
+      document.querySelectorAll("section[id]").forEach(section => {
+        sectionObserver.observe(section);
+      });
+    }
+
+    // 마우스 움직임에 반응하는 오브젝트와 카드 조명
+    if (
+      window.matchMedia("(hover: hover) and (pointer: fine)").matches
+    ) {
+      const hero = document.querySelector(".hero");
+      const sculpture = document.querySelector(".sculpture");
+
+      hero.addEventListener("pointermove", event => {
+        if (paused || reducedMotion.matches) return;
+
+        const box = hero.getBoundingClientRect();
+
+        sculpture.style.setProperty(
+          "--dx",
+          ((event.clientX - box.left) / box.width - .5) * 20 + "px"
+        );
+
+        sculpture.style.setProperty(
+          "--dy",
+          ((event.clientY - box.top) / box.height - .5) * 15 + "px"
+        );
+      });
+
+      hero.addEventListener("pointerleave", () => {
+        sculpture.style.setProperty("--dx", "0px");
+        sculpture.style.setProperty("--dy", "0px");
+      });
+
+      document.querySelectorAll(".project").forEach(card => {
+        card.addEventListener("pointermove", event => {
+          if (paused || reducedMotion.matches) return;
+
+          const box = card.getBoundingClientRect();
+
+          card.style.setProperty(
+            "--mx",
+            event.clientX - box.left + "px"
+          );
+
+          card.style.setProperty(
+            "--my",
+            event.clientY - box.top + "px"
+          );
+        });
+      });
+    }
+
+    // 이메일 주소 복사
+    const copyButton = document.getElementById("copy");
+    copyButton.hidden = false;
+
+    copyButton.addEventListener("click", async () => {
+      const status = document.getElementById("copy-status");
+      const address =
+        document.getElementById("email").textContent.trim();
+
+      try {
+        if (!navigator.clipboard) {
+          throw new Error("Clipboard unavailable");
+        }
+
+        await navigator.clipboard.writeText(address);
+        status.textContent =
+          "Email copied. Say hello whenever you like.";
+      } catch {
+        status.textContent =
+          "Please select and copy the email address above.";
+      }
+    });
+  </script>
+</body>
+</html>
