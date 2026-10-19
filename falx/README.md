@@ -1,5 +1,7 @@
 # Falx Interactive Paper
 
+**▶ 발표 자료 열기 / Open the deck: https://seohyeon0046.github.io/MikaHome._./falx/**
+
 An interactive presentation of **Falx: Synthesis-Powered Visualization Authoring** (Wang et al., CHI 2021).
 The slides are one scrollable web page. Every Falx demo runs the authors' own synthesizer, and the paper's R workflow runs in real R.
 
