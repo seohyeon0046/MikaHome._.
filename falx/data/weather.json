@@ -1,0 +1,417 @@
+[
+    {
+        "date": "2011-10-01",
+        "New York": 63.4,
+        "San Francisco": 62.7
+    },
+    {
+        "date": "2011-10-05",
+        "New York": 64.2,
+        "San Francisco": 58.7
+    },
+    {
+        "date": "2011-10-10",
+        "New York": 71.2,
+        "San Francisco": 60.1
+    },
+    {
+        "date": "2011-10-15",
+        "New York": 61.7,
+        "San Francisco": 64.6
+    },
+    {
+        "date": "2011-10-20",
+        "New York": 65.1,
+        "San Francisco": 57.2
+    },
+    {
+        "date": "2011-10-25",
+        "New York": 57.9,
+        "San Francisco": 56.1
+    },
+    {
+        "date": "2011-10-30",
+        "New York": 38.6,
+        "San Francisco": 57.7
+    },
+    {
+        "date": "2011-11-01",
+        "New York": 49.6,
+        "San Francisco": 57.9
+    },
+    {
+        "date": "2011-11-05",
+        "New York": 43.5,
+        "San Francisco": 51.3
+    },
+    {
+        "date": "2011-11-10",
+        "New York": 57.7,
+        "San Francisco": 55.6
+    },
+    {
+        "date": "2011-11-15",
+        "New York": 59.7,
+        "San Francisco": 53.4
+    },
+    {
+        "date": "2011-11-20",
+        "New York": 54.0,
+        "San Francisco": 50.4
+    },
+    {
+        "date": "2011-11-25",
+        "New York": 50.3,
+        "San Francisco": 51.5
+    },
+    {
+        "date": "2011-11-30",
+        "New York": 50.6,
+        "San Francisco": 49.8
+    },
+    {
+        "date": "2011-12-01",
+        "New York": 44.3,
+        "San Francisco": 60.4
+    },
+    {
+        "date": "2011-12-05",
+        "New York": 50.2,
+        "San Francisco": 51.5
+    },
+    {
+        "date": "2011-12-10",
+        "New York": 45.0,
+        "San Francisco": 52.1
+    },
+    {
+        "date": "2011-12-15",
+        "New York": 49.6,
+        "San Francisco": 48.8
+    },
+    {
+        "date": "2011-12-20",
+        "New York": 45.8,
+        "San Francisco": 49.3
+    },
+    {
+        "date": "2011-12-25",
+        "New York": 35.9,
+        "San Francisco": 48.9
+    },
+    {
+        "date": "2011-12-30",
+        "New York": 40.8,
+        "San Francisco": 52.9
+    },
+    {
+        "date": "2012-01-01",
+        "New York": 46.3,
+        "San Francisco": 53.9
+    },
+    {
+        "date": "2012-01-05",
+        "New York": 32.1,
+        "San Francisco": 52.6
+    },
+    {
+        "date": "2012-01-10",
+        "New York": 39.4,
+        "San Francisco": 51.6
+    },
+    {
+        "date": "2012-01-15",
+        "New York": 23.9,
+        "San Francisco": 49.7
+    },
+    {
+        "date": "2012-01-20",
+        "New York": 32.8,
+        "San Francisco": 51.4
+    },
+    {
+        "date": "2012-01-25",
+        "New York": 43.0,
+        "San Francisco": 52.1
+    },
+    {
+        "date": "2012-01-30",
+        "New York": 38.0,
+        "San Francisco": 51.9
+    },
+    {
+        "date": "2012-02-01",
+        "New York": 50.4,
+        "San Francisco": 50.0
+    },
+    {
+        "date": "2012-02-05",
+        "New York": 36.5,
+        "San Francisco": 53.8
+    },
+    {
+        "date": "2012-02-10",
+        "New York": 38.3,
+        "San Francisco": 53.9
+    },
+    {
+        "date": "2012-02-15",
+        "New York": 42.3,
+        "San Francisco": 49.9
+    },
+    {
+        "date": "2012-02-20",
+        "New York": 38.1,
+        "San Francisco": 48.7
+    },
+    {
+        "date": "2012-02-25",
+        "New York": 42.6,
+        "San Francisco": 51.7
+    },
+    {
+        "date": "2012-03-01",
+        "New York": 41.3,
+        "San Francisco": 48.9
+    },
+    {
+        "date": "2012-03-05",
+        "New York": 38.5,
+        "San Francisco": 48.8
+    },
+    {
+        "date": "2012-03-10",
+        "New York": 37.2,
+        "San Francisco": 49.3
+    },
+    {
+        "date": "2012-03-15",
+        "New York": 47.2,
+        "San Francisco": 55.9
+    },
+    {
+        "date": "2012-03-20",
+        "New York": 57.8,
+        "San Francisco": 49.7
+    },
+    {
+        "date": "2012-03-25",
+        "New York": 48.4,
+        "San Francisco": 46.4
+    },
+    {
+        "date": "2012-03-30",
+        "New York": 46.5,
+        "San Francisco": 54.5
+    },
+    {
+        "date": "2012-04-01",
+        "New York": 45.3,
+        "San Francisco": 51.1
+    },
+    {
+        "date": "2012-04-05",
+        "New York": 50.7,
+        "San Francisco": 47.9
+    },
+    {
+        "date": "2012-04-10",
+        "New York": 55.0,
+        "San Francisco": 53.8
+    },
+    {
+        "date": "2012-04-15",
+        "New York": 62.3,
+        "San Francisco": 51.5
+    },
+    {
+        "date": "2012-04-20",
+        "New York": 56.5,
+        "San Francisco": 55.8
+    },
+    {
+        "date": "2012-04-25",
+        "New York": 52.5,
+        "San Francisco": 57.5
+    },
+    {
+        "date": "2012-04-30",
+        "New York": 51.9,
+        "San Francisco": 53.4
+    },
+    {
+        "date": "2012-05-01",
+        "New York": 57.4,
+        "San Francisco": 52.7
+    },
+    {
+        "date": "2012-05-05",
+        "New York": 57.0,
+        "San Francisco": 53.1
+    },
+    {
+        "date": "2012-05-10",
+        "New York": 61.1,
+        "San Francisco": 53.4
+    },
+    {
+        "date": "2012-05-15",
+        "New York": 62.0,
+        "San Francisco": 53.0
+    },
+    {
+        "date": "2012-05-20",
+        "New York": 66.2,
+        "San Francisco": 54.5
+    },
+    {
+        "date": "2012-05-25",
+        "New York": 65.4,
+        "San Francisco": 52.5
+    },
+    {
+        "date": "2012-05-30",
+        "New York": 72.9,
+        "San Francisco": 52.1
+    },
+    {
+        "date": "2012-06-01",
+        "New York": 67.2,
+        "San Francisco": 54.8
+    },
+    {
+        "date": "2012-06-05",
+        "New York": 58.3,
+        "San Francisco": 53.5
+    },
+    {
+        "date": "2012-06-10",
+        "New York": 72.6,
+        "San Francisco": 60.0
+    },
+    {
+        "date": "2012-06-15",
+        "New York": 68.5,
+        "San Francisco": 54.6
+    },
+    {
+        "date": "2012-06-20",
+        "New York": 77.9,
+        "San Francisco": 55.3
+    },
+    {
+        "date": "2012-06-25",
+        "New York": 70.9,
+        "San Francisco": 56.8
+    },
+    {
+        "date": "2012-06-30",
+        "New York": 84.2,
+        "San Francisco": 58.4
+    },
+    {
+        "date": "2012-07-01",
+        "New York": 81.8,
+        "San Francisco": 58.8
+    },
+    {
+        "date": "2012-07-05",
+        "New York": 86.1,
+        "San Francisco": 54.8
+    },
+    {
+        "date": "2012-07-10",
+        "New York": 76.1,
+        "San Francisco": 53.1
+    },
+    {
+        "date": "2012-07-15",
+        "New York": 78.9,
+        "San Francisco": 54.0
+    },
+    {
+        "date": "2012-07-20",
+        "New York": 68.4,
+        "San Francisco": 58.1
+    },
+    {
+        "date": "2012-07-25",
+        "New York": 78.4,
+        "San Francisco": 57.5
+    },
+    {
+        "date": "2012-07-30",
+        "New York": 72.9,
+        "San Francisco": 55.6
+    },
+    {
+        "date": "2012-08-01",
+        "New York": 75.0,
+        "San Francisco": 55.4
+    },
+    {
+        "date": "2012-08-05",
+        "New York": 81.5,
+        "San Francisco": 57.8
+    },
+    {
+        "date": "2012-08-10",
+        "New York": 77.8,
+        "San Francisco": 54.8
+    },
+    {
+        "date": "2012-08-15",
+        "New York": 76.7,
+        "San Francisco": 56.2
+    },
+    {
+        "date": "2012-08-20",
+        "New York": 71.8,
+        "San Francisco": 53.1
+    },
+    {
+        "date": "2012-08-25",
+        "New York": 76.2,
+        "San Francisco": 53.8
+    },
+    {
+        "date": "2012-08-30",
+        "New York": 73.5,
+        "San Francisco": 55.9
+    },
+    {
+        "date": "2012-09-01",
+        "New York": 80.7,
+        "San Francisco": 55.7
+    },
+    {
+        "date": "2012-09-05",
+        "New York": 77.7,
+        "San Francisco": 54.5
+    },
+    {
+        "date": "2012-09-10",
+        "New York": 67.8,
+        "San Francisco": 55.4
+    },
+    {
+        "date": "2012-09-15",
+        "New York": 69.3,
+        "San Francisco": 54.3
+    },
+    {
+        "date": "2012-09-20",
+        "New York": 62.1,
+        "San Francisco": 55.4
+    },
+    {
+        "date": "2012-09-25",
+        "New York": 63.2,
+        "San Francisco": 53.3
+    },
+    {
+        "date": "2012-09-30",
+        "New York": 62.3,
+        "San Francisco": 55.1
+    }
+]

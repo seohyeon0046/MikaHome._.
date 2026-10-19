@@ -1,0 +1,52 @@
+[
+ {
+  "id": "pivot_printed",
+  "title": "Step 1 \u00b7 reshape (as printed)",
+  "code": "# Section 2.1 listing, as printed in the paper\ndf1 <- pivot_longer(data = df,\n        cols = (\"New York\", \"San Francisco\"),\n        names_to = \"City\", values_to = \"Temperature\")\nhead(df1, 4)\n"
+ },
+ {
+  "id": "pivot_fixed",
+  "title": "Step 1 \u00b7 reshape (runs)",
+  "code": "df1 <- pivot_longer(data = df,\n        cols = c(\"New York\", \"San Francisco\"),\n        names_to = \"City\", values_to = \"Temperature\")\nhead(df1, 4)\n"
+ },
+ {
+  "id": "line_printed",
+  "title": "Step 2 \u00b7 line layer (as printed)",
+  "code": "df1 <- pivot_longer(data = df,\n        cols = c(\"New York\", \"San Francisco\"),\n        names_to = \"City\", values_to = \"Temperature\")\n# Figure 4a listing, as printed\nplot1 <- ggplot(data = df1) +\n         geom_line(aes(x = `Date`, y = `City`,\n            color= `Temperature`, group = `Temperature`))\nplot1\n"
+ },
+ {
+  "id": "line_fixed",
+  "title": "Step 2 \u00b7 line layer (runs)",
+  "code": "df1 <- pivot_longer(data = df,\n        cols = c(\"New York\", \"San Francisco\"),\n        names_to = \"City\", values_to = \"Temperature\")\nplot1 <- ggplot(data = df1) +\n         geom_line(aes(x = `Date`, y = `Temperature`,\n            color = `City`, group = `City`))\nplot1\n"
+ },
+ {
+  "id": "rect_printed",
+  "title": "Step 3 \u00b7 difference bars (as printed)",
+  "code": "# Figure 4b listing, as printed\ndf2 <- mutate(df, Diff = `New York` - `San Francisco`)\nplot2 <- ggplot(df2) +\n         geom_rect(aes(xmin = `Date`, xmax = `Date`,\n            ymin = `New York`, ymax = `San Francisco`,\n            fill = `Diff`))\nplot2\n"
+ },
+ {
+  "id": "rect_fixed",
+  "title": "Step 3 \u00b7 difference bars (runs)",
+  "code": "df2 <- mutate(df, Diff = `New York` - `San Francisco`)\nplot2 <- ggplot(df2) +\n         geom_rect(aes(xmin = `Date` - 2, xmax = `Date` + 2,\n            ymin = `New York`, ymax = `San Francisco`,\n            fill = `Diff`))\nplot2\n"
+ },
+ {
+  "id": "final",
+  "title": "Step 4 \u00b7 combine layers (Figure 3)",
+  "code": "df1 <- pivot_longer(data = df,\n        cols = c(\"New York\", \"San Francisco\"),\n        names_to = \"City\", values_to = \"Temperature\")\ndf2 <- mutate(df, Diff = `New York` - `San Francisco`)\nggplot() +\n  geom_rect(data = df2, aes(xmin = Date - 2, xmax = Date + 2,\n            ymin = `San Francisco`, ymax = `New York`, fill = Diff)) +\n  geom_step(data = df1, aes(x = Date, y = Temperature, color = City)) +\n  scale_fill_gradient2(low = \"#3d74b8\", mid = \"#f2f2f2\", high = \"#b8433a\") +\n  labs(x = \"Date\", y = \"Temperature\", fill = \"Temp Diff\")\n"
+ },
+ {
+  "id": "trap_bar",
+  "title": "Detour \u00b7 geom_bar",
+  "code": "# A novice reaches for geom_bar first\nggplot(df) + geom_bar(aes(x = Date, y = `New York`))\n"
+ },
+ {
+  "id": "trap_col",
+  "title": "Detour \u00b7 geom_col",
+  "code": "# geom_col draws bars, but every bar starts at zero\nggplot(df) + geom_col(aes(x = Date, y = `New York`))\n"
+ },
+ {
+  "id": "falx_export",
+  "title": "Falx's export, run in R",
+  "code": "# Table program synthesized by Falx, written as tidyverse\n# Falx keeps dates as text, as in its input table\nd <- mutate(rename(df, date = Date), date = as.character(date))\ndata_0 <- pivot_longer(d, cols = c(`New York`, `San Francisco`),\n                       names_to = \"KEY\", values_to = \"VALUE\")\ndata_1 <- mutate(d, COL_0 = `New York` - `San Francisco`)\ndata_0$row_id <- as.numeric(row.names(data_0))\ndata_1$row_id <- as.numeric(row.names(data_1))\n# ggplot2 line exported by Falx, verbatim\np <- ggplot() + geom_line(data=data_0,aes(x=`date`,y=`VALUE`,col=`KEY`,group=`KEY`),alpha=0.5) + geom_rect(data=data_1,aes(x=`date`,ymin=`San Francisco`,ymax=`New York`,fill=`COL_0`,xmin=`row_id`-0.45,xmax=`row_id`+0.45),stat ='identity',alpha=0.5) + scale_x_discrete()\np\n"
+ }
+]

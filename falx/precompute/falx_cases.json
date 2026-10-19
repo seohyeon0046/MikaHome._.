@@ -1,0 +1,341 @@
+{
+ "datasets": {
+  "fig1": [
+   {
+    "Date": "09-05",
+    "Temp": 64.4,
+    "Type": "Low"
+   },
+   {
+    "Date": "09-05",
+    "Temp": 87.8,
+    "Type": "High"
+   },
+   {
+    "Date": "09-06",
+    "Temp": 53.6,
+    "Type": "Low"
+   },
+   {
+    "Date": "09-06",
+    "Temp": 80.6,
+    "Type": "High"
+   }
+  ]
+ },
+ "cases": [
+  {
+   "id": "line_ny",
+   "label": "Paper step 1 \u00b7 one example line (color = New York)",
+   "data": "weather",
+   "tags": [
+    {
+     "type": "line",
+     "props": {
+      "x1": "2011-10-01",
+      "y1": 63.4,
+      "x2": "2011-10-05",
+      "y2": 64.2,
+      "size": "",
+      "color": "New York",
+      "column": ""
+     }
+    }
+   ]
+  },
+  {
+   "id": "line_nocolor",
+   "label": "Variant \u00b7 example line with the color left blank",
+   "data": "weather",
+   "tags": [
+    {
+     "type": "line",
+     "props": {
+      "x1": "2011-10-01",
+      "y1": 63.4,
+      "x2": "2011-10-05",
+      "y2": 64.2,
+      "size": "",
+      "color": "",
+      "column": ""
+     }
+    }
+   ]
+  },
+  {
+   "id": "line_sf",
+   "label": "Variant \u00b7 example line drawn from San Francisco values",
+   "data": "weather",
+   "tags": [
+    {
+     "type": "line",
+     "props": {
+      "x1": "2011-10-01",
+      "y1": 62.7,
+      "x2": "2011-10-05",
+      "y2": 58.7,
+      "size": "",
+      "color": "San Francisco",
+      "column": ""
+     }
+    }
+   ]
+  },
+  {
+   "id": "line_bar",
+   "label": "Paper step 2 \u00b7 example line + example bar",
+   "data": "weather",
+   "tags": [
+    {
+     "type": "line",
+     "props": {
+      "x1": "2011-10-01",
+      "y1": 63.4,
+      "x2": "2011-10-05",
+      "y2": 64.2,
+      "size": "",
+      "color": "New York",
+      "column": ""
+     }
+    },
+    {
+     "type": "bar",
+     "props": {
+      "x": "2011-10-01",
+      "y": 62.7,
+      "y2": 63.4,
+      "color": 0.7,
+      "x2": "",
+      "column": ""
+     }
+    }
+   ]
+  },
+  {
+   "id": "line_bar_bar",
+   "label": "Disambiguation \u00b7 add a second example bar",
+   "data": "weather",
+   "tags": [
+    {
+     "type": "line",
+     "props": {
+      "x1": "2011-10-01",
+      "y1": 63.4,
+      "x2": "2011-10-05",
+      "y2": 64.2,
+      "size": "",
+      "color": "New York",
+      "column": ""
+     }
+    },
+    {
+     "type": "bar",
+     "props": {
+      "x": "2011-10-01",
+      "y": 62.7,
+      "y2": 63.4,
+      "color": 0.7,
+      "x2": "",
+      "column": ""
+     }
+    },
+    {
+     "type": "bar",
+     "props": {
+      "x": "2011-10-05",
+      "y": 58.7,
+      "y2": 64.2,
+      "color": 5.5,
+      "x2": "",
+      "column": ""
+     }
+    }
+   ]
+  },
+  {
+   "id": "bar_only",
+   "label": "Variant \u00b7 example bar only",
+   "data": "weather",
+   "tags": [
+    {
+     "type": "bar",
+     "props": {
+      "x": "2011-10-01",
+      "y": 62.7,
+      "y2": 63.4,
+      "color": 0.7,
+      "x2": "",
+      "column": ""
+     }
+    }
+   ]
+  },
+  {
+   "id": "line_nocolor_bar",
+   "label": "Variant \u00b7 blank line color + example bar",
+   "data": "weather",
+   "tags": [
+    {
+     "type": "line",
+     "props": {
+      "x1": "2011-10-01",
+      "y1": 63.4,
+      "x2": "2011-10-05",
+      "y2": 64.2,
+      "size": "",
+      "color": "",
+      "column": ""
+     }
+    },
+    {
+     "type": "bar",
+     "props": {
+      "x": "2011-10-01",
+      "y": 62.7,
+      "y2": 63.4,
+      "color": 0.7,
+      "x2": "",
+      "column": ""
+     }
+    }
+   ]
+  },
+  {
+   "id": "line_bar_nocolor",
+   "label": "Variant \u00b7 example bar without a color value",
+   "data": "weather",
+   "tags": [
+    {
+     "type": "line",
+     "props": {
+      "x1": "2011-10-01",
+      "y1": 63.4,
+      "x2": "2011-10-05",
+      "y2": 64.2,
+      "size": "",
+      "color": "New York",
+      "column": ""
+     }
+    },
+    {
+     "type": "bar",
+     "props": {
+      "x": "2011-10-01",
+      "y": 62.7,
+      "y2": 63.4,
+      "color": "",
+      "x2": "",
+      "column": ""
+     }
+    }
+   ]
+  },
+  {
+   "id": "wrong_diff",
+   "label": "Critique \u00b7 bar color typed as 0.8 instead of 0.7",
+   "data": "weather",
+   "tags": [
+    {
+     "type": "line",
+     "props": {
+      "x1": "2011-10-01",
+      "y1": 63.4,
+      "x2": "2011-10-05",
+      "y2": 64.2,
+      "size": "",
+      "color": "New York",
+      "column": ""
+     }
+    },
+    {
+     "type": "bar",
+     "props": {
+      "x": "2011-10-01",
+      "y": 62.7,
+      "y2": 63.4,
+      "color": 0.8,
+      "x2": "",
+      "column": ""
+     }
+    }
+   ]
+  },
+  {
+   "id": "ratio",
+   "label": "Critique \u00b7 bar color is the ratio NY / SF (1.011)",
+   "data": "weather",
+   "tags": [
+    {
+     "type": "line",
+     "props": {
+      "x1": "2011-10-01",
+      "y1": 63.4,
+      "x2": "2011-10-05",
+      "y2": 64.2,
+      "size": "",
+      "color": "New York",
+      "column": ""
+     }
+    },
+    {
+     "type": "bar",
+     "props": {
+      "x": "2011-10-01",
+      "y": 62.7,
+      "y2": 63.4,
+      "color": 1.011,
+      "x2": "",
+      "column": ""
+     }
+    }
+   ]
+  },
+  {
+   "id": "opening_one_bar",
+   "label": "Opening (Figure 2) \u00b7 one floating bar",
+   "data": "fig1",
+   "tags": [
+    {
+     "type": "bar",
+     "props": {
+      "x": "09-05",
+      "y": 64.4,
+      "y2": 87.8,
+      "color": "",
+      "x2": "",
+      "column": ""
+     }
+    }
+   ]
+  },
+  {
+   "id": "opening_two_bars",
+   "label": "Opening (Figure 2) \u00b7 two floating bars",
+   "data": "fig1",
+   "tags": [
+    {
+     "type": "bar",
+     "props": {
+      "x": "09-05",
+      "y": 64.4,
+      "y2": 87.8,
+      "color": "",
+      "x2": "",
+      "column": ""
+     }
+    },
+    {
+     "type": "bar",
+     "props": {
+      "x": "09-06",
+      "y": 53.6,
+      "y2": 80.6,
+      "color": "",
+      "x2": "",
+      "column": ""
+     }
+    }
+   ]
+  }
+ ]
+}

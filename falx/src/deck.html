@@ -1,0 +1,1418 @@
+<title>Falx Interactive Paper</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap">
+<style>
+/* Layout: sticky section bar on an espresso band, then scroll-told scenes; each scene = argument column (left) + live demo card (right). */
+:root {
+  --hero: #2f2328; --hero-fg: #f6efe6; --hero-muted: #c7b9ad;
+  --accent: #f0c46a; --accent-ink: #3b2a0c; --accent-soft: #fbefcf;
+  --bg: #eef1f5; --surface: #ffffff; --surface-2: #f6f8fb; --soft: #e5ecf4;
+  --fg: #1e1b1d; --muted: #59606b; --faint: #8a909a; --eyebrow: #3b679a;
+  --line: #d9dfe7; --line-strong: #b9c1cc; --grid: #e6eaf0;
+  --btn: #3a2a2e; --btn-fg: #f6efe6; --btn-soft: #d9e2ee; --btn-soft-fg: #24364d;
+  --thought: #fbf3e2; --thought-line: #ecd9a8;
+  --ok: #2c7a52; --ok-soft: #dff0e6; --bad: #b0473b; --bad-soft: #f7e1dd;
+  --code-bg: #f4f1ec; --code-fg: #2a2629;
+  --ny: #3d74b8; --sf: #c8752c;
+  --font: "Inter", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --mono: "JetBrains Mono", ui-monospace, "SFMono-Regular", Menlo, monospace;
+  --r-card: 14px; --r-ctl: 9px;
+}
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) {
+  --hero: #231a1e; --hero-fg: #f3ebe1; --hero-muted: #b3a597;
+  --accent: #f0c46a; --accent-ink: #2b1f08; --accent-soft: #3a3020;
+  --bg: #16181c; --surface: #1f2227; --surface-2: #252930; --soft: #263040;
+  --fg: #ecebe8; --muted: #a6acb6; --faint: #7d838d; --eyebrow: #8db3df;
+  --line: #333841; --line-strong: #4a515c; --grid: #2b3038;
+  --btn: #e9dccb; --btn-fg: #241a1d; --btn-soft: #2f3a4a; --btn-soft-fg: #cfe0f5;
+  --thought: #2c2618; --thought-line: #5a4a24;
+  --ok: #6cc596; --ok-soft: #1d3428; --bad: #ec8a7d; --bad-soft: #3a2320;
+  --code-bg: #1a1c20; --code-fg: #e6e3de;
+  --ny: #5b8fd0; --sf: #c97f35; color-scheme: dark } }
+:root[data-theme="dark"] {
+  --hero: #231a1e; --hero-fg: #f3ebe1; --hero-muted: #b3a597;
+  --accent: #f0c46a; --accent-ink: #2b1f08; --accent-soft: #3a3020;
+  --bg: #16181c; --surface: #1f2227; --surface-2: #252930; --soft: #263040;
+  --fg: #ecebe8; --muted: #a6acb6; --faint: #7d838d; --eyebrow: #8db3df;
+  --line: #333841; --line-strong: #4a515c; --grid: #2b3038;
+  --btn: #e9dccb; --btn-fg: #241a1d; --btn-soft: #2f3a4a; --btn-soft-fg: #cfe0f5;
+  --thought: #2c2618; --thought-line: #5a4a24;
+  --ok: #6cc596; --ok-soft: #1d3428; --bad: #ec8a7d; --bad-soft: #3a2320;
+  --code-bg: #1a1c20; --code-fg: #e6e3de;
+  --ny: #5b8fd0; --sf: #c97f35; color-scheme: dark }
+
+* { box-sizing: border-box }
+html { scroll-behavior: smooth; scroll-padding-top: 96px }
+@media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto } * { animation: none !important; transition: none !important } }
+body { margin: 0; background: var(--bg); color: var(--fg); font: 15px/1.6 var(--font); -webkit-font-smoothing: antialiased }
+body::before { content: ""; position: fixed; inset: 0 0 auto; height: env(safe-area-inset-top, 0px); z-index: 10; background: var(--hero) }
+.wrap { max-width: 1320px; margin: 0 auto; padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)) }
+h1, h2, h3, h4 { text-wrap: balance; margin: 0 }
+p { margin: 0 }
+a { color: var(--eyebrow) }
+button { font: inherit; color: inherit }
+:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px }
+code, pre, .mono { font-family: var(--mono); font-size: 12.5px }
+
+/* ---------- top bar ---------- */
+.topbar { position: sticky; top: env(safe-area-inset-top, 0px); z-index: 20; background: var(--hero); color: var(--hero-fg); border-bottom: 1px solid rgba(255,255,255,.06) }
+.topbar .wrap { display: flex; align-items: center; gap: 18px; padding-block: 10px 0 }
+.logo { font-weight: 800; font-size: 19px; letter-spacing: -.02em; white-space: nowrap }
+.logo sup { color: var(--accent); font-size: 11px; margin-left: 2px }
+.tabs { display: flex; gap: 2px; overflow-x: auto; scrollbar-width: none; flex: 1; min-width: 0 }
+.tabs::-webkit-scrollbar { display: none }
+.tabs a { color: var(--hero-muted); text-decoration: none; padding: 5px 10px; border-radius: 8px; font-size: 13.5px; font-weight: 500; white-space: nowrap }
+.tabs a:hover { color: var(--hero-fg) }
+.tabs a.on { background: var(--accent); color: var(--accent-ink); font-weight: 600 }
+.modes { display: flex; gap: 4px; align-items: center }
+.seg { display: inline-flex; background: rgba(255,255,255,.07); border-radius: 9px; padding: 2px }
+.seg button { border: 0; background: none; color: var(--hero-muted); padding: 4px 10px; border-radius: 7px; cursor: pointer; font-size: 13px; font-weight: 500 }
+.seg button.on { background: #7f9cc0; color: #13202f }
+.modes a { color: var(--hero-muted); font-size: 13px; text-decoration: none; padding: 4px 8px }
+.livebadge { font-size: 11.5px; padding: 3px 8px; border-radius: 99px; background: rgba(255,255,255,.08); color: var(--hero-muted); white-space: nowrap }
+.livebadge.on { background: #2c7a52; color: #eafff2 }
+.progress { display: flex; gap: 4px; padding-block: 8px 9px }
+.progress i { flex: 1; height: 4px; border-radius: 4px; background: rgba(255,255,255,.12); cursor: pointer }
+.progress i.done { background: #7f9cc0 }
+.progress i.on { background: var(--accent) }
+
+/* ---------- hero ---------- */
+.hero { background: var(--hero); color: var(--hero-fg) }
+.hero .wrap { display: grid; grid-template-columns: minmax(0, 1.15fr) minmax(0, .85fr); gap: 48px; padding-block: 56px 60px; align-items: end }
+.hero .venue { color: var(--hero-muted); font-size: 13px; font-weight: 500; letter-spacing: .04em }
+.hero h1 { font-size: clamp(34px, 5vw, 60px); line-height: 1.04; letter-spacing: -.035em; font-weight: 800; margin: 14px 0 22px }
+.hero h1 em { font-style: normal; color: var(--accent) }
+.hero .cite { color: var(--hero-muted); font-size: 14px; max-width: 60ch }
+.hero .cite b { color: var(--hero-fg); font-weight: 600 }
+.steps6 { list-style: none; margin: 0; padding: 0; display: grid; gap: 4px }
+.steps6-h { font-size: 13px; color: var(--hero-muted); font-weight: 500; margin-bottom: 8px }
+.steps6 li { display: grid; grid-template-columns: 22px 1fr; gap: 8px; padding: 7px 0; font-size: 15px; border-bottom: 1px solid rgba(255,255,255,.07); cursor: pointer }
+.steps6 li span { color: var(--accent); font-weight: 600; font-variant-numeric: tabular-nums }
+.steps6 li:hover { color: #fff }
+
+/* ---------- scenes ---------- */
+.scene { padding-block: 64px; border-bottom: 1px solid var(--line) }
+.scene .grid { display: grid; grid-template-columns: minmax(0, 5fr) minmax(0, 7fr); gap: 44px; align-items: start }
+.scene.wide .grid { grid-template-columns: minmax(0, 1fr) }
+.scene.wide .copy { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 12px 44px }
+.scene.wide .copy > * { grid-column: 1 }
+.scene.wide .copy > .side { grid-column: 2; grid-row: 1 / span 8 }
+.copy { display: flex; flex-direction: column; gap: 14px; min-width: 0 }
+.eyebrow { color: var(--eyebrow); font-size: 13px; font-weight: 600 }
+.copy h2 { font-size: clamp(30px, 3.4vw, 46px); line-height: 1.06; letter-spacing: -.03em; font-weight: 800 }
+.lead { font-size: 18.5px; line-height: 1.55; color: var(--fg); max-width: 60ch }
+.copy p { color: var(--muted); max-width: 62ch }
+.copy p b, .copy li b { color: var(--fg) }
+.key { color: var(--fg) !important; font-weight: 650; font-size: 16px }
+.hl { background: linear-gradient(transparent 58%, var(--accent-soft) 58%); color: var(--fg); font-weight: 650; padding: 0 2px }
+.copy ul { margin: 0; padding-left: 18px; color: var(--muted); display: grid; gap: 4px; max-width: 62ch }
+details { border-top: 1px solid var(--line); padding-top: 10px; max-width: 64ch }
+details > summary { cursor: pointer; font-weight: 600; color: var(--fg); list-style: none }
+details > summary::before { content: "▸ "; color: var(--faint) }
+details[open] > summary::before { content: "▾ " }
+details > div { margin-top: 10px; display: grid; gap: 8px; color: var(--muted) }
+.thoughts { background: var(--thought); border: 1px solid var(--thought-line); border-radius: 12px; padding: 14px 16px; display: grid; gap: 8px; max-width: 64ch }
+.thoughts h4 { font-size: 14px; font-weight: 700 }
+.thoughts h4 span { background: linear-gradient(transparent 50%, var(--accent) 50%); padding: 0 3px; color: var(--fg) }
+.thoughts p, .thoughts li { color: var(--fg) !important; opacity: .92; font-size: 14.5px }
+.thoughts ul { color: var(--fg) }
+.thoughts .status { font-size: 12.5px; color: var(--muted) !important; font-style: italic }
+.next { font-weight: 600; text-decoration: none; color: var(--eyebrow); margin-top: 6px }
+.next:hover { text-decoration: underline }
+.note { background: var(--soft); border-radius: 10px; padding: 11px 14px; font-size: 14px; color: var(--fg) !important }
+.note b { font-weight: 650 }
+
+/* ---------- cards & controls ---------- */
+.card { background: var(--surface); border: 1px solid var(--line); border-radius: var(--r-card); padding: 20px; min-width: 0; display: flex; flex-direction: column; gap: 14px }
+.card-head { display: flex; justify-content: space-between; align-items: center; gap: 12px; flex-wrap: wrap }
+.card-head h3 { font-size: 15px; font-weight: 650 }
+.tag { font-size: 11.5px; font-weight: 600; color: var(--eyebrow); letter-spacing: .02em }
+.btn { border: 1px solid var(--line-strong); background: var(--surface); border-radius: var(--r-ctl); padding: 7px 13px; cursor: pointer; font-size: 13.5px; font-weight: 550 }
+.btn:hover { border-color: var(--fg) }
+.btn.primary { background: var(--btn-soft); border-color: transparent; color: var(--btn-soft-fg) }
+.btn.dark { background: var(--btn); color: var(--btn-fg); border-color: transparent }
+.btn:disabled { opacity: .45; cursor: not-allowed }
+.btn.sm { padding: 4px 9px; font-size: 12.5px }
+.row { display: flex; gap: 8px; flex-wrap: wrap; align-items: center }
+.pills { display: inline-flex; background: var(--surface-2); border: 1px solid var(--line); border-radius: 10px; padding: 3px; gap: 2px; flex-wrap: wrap }
+.pills button { border: 0; background: none; padding: 5px 11px; border-radius: 7px; cursor: pointer; font-size: 13px; font-weight: 550; color: var(--muted) }
+.pills button.on { background: var(--btn); color: var(--btn-fg) }
+.stepinfo { margin-left: auto; color: var(--faint); font-size: 12.5px; font-variant-numeric: tabular-nums }
+.box { background: var(--soft); border-radius: 10px; padding: 12px 14px; display: grid; gap: 4px }
+.box h4 { font-size: 14px; font-weight: 650 }
+.box p { font-size: 14px; color: var(--fg) }
+.big { font-size: 40px; font-weight: 800; letter-spacing: -.03em; line-height: 1; font-variant-numeric: tabular-nums }
+.small { font-size: 12.5px; color: var(--faint) }
+.illus { font-size: 11.5px; font-weight: 600; color: var(--eyebrow) }
+pre.code { background: var(--code-bg); color: var(--code-fg); border-radius: 10px; padding: 12px 14px; margin: 0; overflow-x: auto; line-height: 1.55; white-space: pre }
+textarea.code { width: 100%; min-height: 140px; resize: vertical; background: var(--code-bg); color: var(--code-fg); border: 1px solid var(--line); border-radius: 10px; padding: 12px 14px; font-family: var(--mono); font-size: 12.5px; line-height: 1.55; white-space: pre; overflow-x: auto; tab-size: 2 }
+pre.console { background: var(--surface-2); border: 1px solid var(--line); border-radius: 10px; padding: 10px 12px; margin: 0; overflow-x: auto; font-size: 12px; color: var(--fg); white-space: pre }
+pre.console.err { border-color: var(--bad); color: var(--bad); background: var(--bad-soft) }
+.rplot { background: #fff; border: 1px solid var(--line); border-radius: 10px; padding: 6px; overflow: hidden }
+.rplot svg { width: 100%; height: auto; display: block }
+.chart { min-height: 40px; width: 100% }
+.chart svg { max-width: 100% }
+figure { margin: 0; display: grid; gap: 6px }
+figure img { border-radius: 10px; border: 1px solid var(--line); background: #fff }
+figcaption { font-size: 12px; color: var(--faint) }
+table.t { border-collapse: collapse; width: 100%; font-size: 13px; font-variant-numeric: tabular-nums }
+table.t th, table.t td { border-bottom: 1px solid var(--line); padding: 6px 8px; text-align: left; vertical-align: top }
+table.t th { color: var(--muted); font-weight: 600; font-size: 12px }
+table.t td.num, table.t th.num { text-align: right }
+.scroll-x { overflow-x: auto; max-width: 100% }
+.sig { font-size: 11.5px; font-weight: 600 }
+.sig.yes { color: var(--ok) } .sig.no { color: var(--faint) }
+.chip { display: inline-block; font-family: var(--mono); font-size: 12px; padding: 2px 7px; border-radius: 6px; background: var(--surface-2); border: 1px solid var(--line) }
+.okc { color: var(--ok); font-weight: 650 } .badc { color: var(--bad); font-weight: 650 }
+
+/* ---------- problem demo ---------- */
+.mini-table { border-collapse: collapse; font-size: 13px; font-variant-numeric: tabular-nums }
+.mini-table th, .mini-table td { border: 1px solid var(--line); padding: 4px 10px; text-align: left }
+.mini-table th { background: var(--surface-2); font-weight: 600 }
+.mini-table td.flash { background: var(--accent-soft) }
+.rules { display: grid; gap: 6px }
+.rule { display: grid; grid-template-columns: 22px 1fr; gap: 8px; font-size: 14px; align-items: start }
+.rule i { font-style: normal; font-weight: 700 }
+.two { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 16px; align-items: start }
+.three { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 14px; align-items: start }
+
+/* ---------- related work map ---------- */
+.flow { display: grid; grid-template-columns: minmax(0,1fr) 36px minmax(0,1fr) 36px minmax(0,1fr); align-items: stretch; gap: 0 }
+.node { border: 1px solid var(--line); border-radius: 12px; padding: 10px 12px; background: var(--surface-2); display: grid; gap: 4px; cursor: pointer; text-align: left }
+.node h4 { font-size: 13.5px; font-weight: 650 }
+.node p { font-size: 12.5px; color: var(--muted) }
+.node.on { border-color: var(--eyebrow); box-shadow: 0 0 0 2px color-mix(in srgb, var(--eyebrow) 25%, transparent) }
+.node.falx { background: var(--accent-soft); border-color: var(--thought-line) }
+.arrow { display: grid; place-items: center; color: var(--faint); font-size: 18px }
+.span-falx { grid-column: 1 / -1; margin-top: 10px }
+
+/* ---------- R workbench ---------- */
+.rw-tabs { display: flex; gap: 6px; flex-wrap: wrap }
+.counter { display: flex; gap: 18px; flex-wrap: wrap }
+.counter div { display: grid }
+.counter b { font-size: 22px; font-weight: 800; font-variant-numeric: tabular-nums }
+.counter span { font-size: 12px; color: var(--faint) }
+
+/* ---------- Falx replica ---------- */
+.fx { display: grid; grid-template-columns: minmax(0, 300px) minmax(0, 1fr) minmax(0, 300px); gap: 14px; align-items: start }
+.fx-panel { border: 2px solid var(--line); border-radius: 12px; padding: 12px; display: grid; gap: 10px; min-width: 0; background: var(--surface) }
+.fx-panel.p1 { border-color: color-mix(in srgb, var(--ny) 55%, var(--line)) }
+.fx-panel.p2 { border-color: color-mix(in srgb, #3a9a8a 55%, var(--line)) }
+.fx-panel.p3 { border-color: var(--line-strong) }
+.fx-panel h4 { font-size: 13.5px; font-weight: 700 }
+.fx-panel h5 { font-size: 12.5px; font-weight: 650; margin: 0; color: var(--muted) }
+.dtable { width: 100%; border-collapse: collapse; font-size: 12px; font-variant-numeric: tabular-nums }
+.dtable th, .dtable td { padding: 3px 5px; text-align: left; border-bottom: 1px solid var(--grid) }
+.dtable th { color: var(--muted); font-weight: 600; cursor: pointer }
+.dtable td { cursor: pointer }
+.dtable td:hover, .dtable th:hover { background: var(--accent-soft) }
+.pager { display: flex; justify-content: space-between; align-items: center; font-size: 12px; color: var(--faint) }
+.pager button { border: 0; background: none; cursor: pointer; color: var(--muted); font-size: 15px; padding: 0 6px }
+.demo-list { display: flex; flex-wrap: wrap; gap: 6px; min-height: 30px; align-items: flex-start }
+.ex { border: 1px solid color-mix(in srgb, var(--ny) 60%, transparent); border-radius: 8px; font-family: var(--mono); font-size: 11px; line-height: 1.45; padding: 0; cursor: pointer; background: var(--surface); text-align: left; overflow: hidden }
+.ex .h { background: color-mix(in srgb, var(--ny) 85%, #000 0%); color: #fff; padding: 2px 8px; font-weight: 600 }
+.ex .b { padding: 3px 8px; color: var(--ny) }
+.ex.on { box-shadow: 0 0 0 2px var(--accent) }
+.add { width: 30px; height: 30px; border-radius: 8px; border: 1px dashed var(--line-strong); background: none; cursor: pointer; font-size: 17px; color: var(--muted) }
+.addmenu { display: flex; flex-wrap: wrap; gap: 4px }
+.editor { border: 1px solid var(--line); border-radius: 10px; padding: 10px; display: grid; gap: 6px; background: var(--surface-2) }
+.editor .fields { display: grid; grid-template-columns: 1fr 1fr; gap: 6px }
+.editor label { display: grid; gap: 2px; font-size: 11px; color: var(--muted) }
+.editor input { border: 1px solid var(--line); border-radius: 6px; padding: 4px 6px; font: 12px var(--mono); background: var(--surface); color: var(--fg); min-width: 0 }
+.editor input:focus { border-color: var(--eyebrow); outline: none; box-shadow: 0 0 0 2px color-mix(in srgb, var(--eyebrow) 25%, transparent) }
+.synth { width: 100%; padding: 9px; font-weight: 650 }
+.sysmsg { border: 1px solid var(--line); border-radius: 10px; padding: 9px 12px; font-size: 13px; display: grid; gap: 4px; background: var(--surface-2) }
+.sysmsg.warn { border-color: var(--bad); background: var(--bad-soft) }
+.bar { height: 4px; border-radius: 4px; background: var(--grid); overflow: hidden }
+.bar i { display: block; height: 100%; width: 0; background: var(--accent); transition: width .1s linear }
+.center { min-height: 240px; border: 1px solid var(--grid); border-radius: 10px; padding: 8px; overflow-x: auto }
+.thumbs { display: flex; gap: 8px; overflow-x: auto; padding-bottom: 4px }
+.thumb { flex: 0 0 auto; width: 176px; border: 1px solid var(--line); border-radius: 10px; padding: 6px; background: var(--surface); cursor: pointer; display: grid; gap: 4px; text-align: left }
+.thumb.on { border-color: var(--accent); box-shadow: 0 0 0 2px var(--accent) }
+.thumb .lbl { font-size: 11px; color: var(--muted); display: flex; justify-content: space-between; gap: 4px }
+.thumb.out { opacity: .32 }
+.thumb .why { font-size: 10.5px; color: var(--bad); line-height: 1.3 }
+.grid-thumbs { display: grid; grid-template-columns: repeat(auto-fill, minmax(170px, 1fr)); gap: 8px }
+.grid-thumbs .thumb { width: auto }
+.prog { font-family: var(--mono); font-size: 10.5px; color: var(--muted); line-height: 1.35; word-break: break-word }
+.empty { color: var(--faint); font-size: 13px; padding: 30px 10px; text-align: center }
+.fx-presets { display: flex; gap: 6px; flex-wrap: wrap; align-items: center }
+.fx-presets .lab { font-size: 12px; color: var(--faint); margin-right: 4px }
+.post label { display: grid; gap: 3px; font-size: 12px; color: var(--muted) }
+.post select, .post input { border: 1px solid var(--line); border-radius: 7px; padding: 5px 7px; background: var(--surface); color: var(--fg); font: 13px var(--font) }
+
+/* search replay */
+.search-list { max-height: 300px; overflow-y: auto; border: 1px solid var(--line); border-radius: 10px; font-family: var(--mono); font-size: 11.5px }
+.search-list div { padding: 4px 10px; border-bottom: 1px solid var(--grid); display: grid; grid-template-columns: 18px 1fr auto; gap: 8px; align-items: baseline }
+.search-list div.cur { background: var(--accent-soft) }
+.search-list .n { color: var(--faint); font-variant-numeric: tabular-nums }
+.decomp { display: grid; grid-template-columns: minmax(0,1fr) minmax(0,1fr); gap: 12px }
+.decomp .box pre { margin: 0; font-family: var(--mono); font-size: 12px; white-space: pre-wrap; color: var(--fg) }
+tr.hit td { background: var(--ok-soft); font-weight: 650 }
+
+/* results bars */
+.hbars { display: grid; gap: 14px }
+.hb-task { display: grid; gap: 4px }
+.hb-task .tt { display: flex; justify-content: space-between; font-size: 13px; font-weight: 600; gap: 8px; flex-wrap: wrap }
+.hb-row { display: grid; grid-template-columns: 42px 1fr 112px; align-items: center; gap: 8px; font-size: 12px; color: var(--muted); font-variant-numeric: tabular-nums }
+.hb-track { position: relative; height: 14px; background: var(--grid); border-radius: 4px }
+.hb-fill { position: absolute; left: 0; top: 0; bottom: 0; border-radius: 0 4px 4px 0 }
+.hb-err { position: absolute; top: 50%; height: 2px; background: var(--fg); opacity: .55 }
+.hb-err::before, .hb-err::after { content: ""; position: absolute; top: -4px; width: 2px; height: 10px; background: var(--fg) }
+.hb-err::before { left: 0 } .hb-err::after { right: 0 }
+.legend { display: flex; gap: 14px; font-size: 12px; color: var(--muted); flex-wrap: wrap }
+.legend i { display: inline-block; width: 10px; height: 10px; border-radius: 3px; margin-right: 5px; vertical-align: -1px }
+
+.cards3 { display: grid; grid-template-columns: repeat(3, minmax(0,1fr)); gap: 10px }
+.cards3 .box { align-content: start }
+.end { padding-block: 48px 72px; display: grid; gap: 10px }
+.end .row a { font-weight: 600 }
+.draft { border: 2px dashed var(--line-strong); border-radius: var(--r-card); padding: 22px; color: var(--muted); display: grid; gap: 8px }
+
+/* present mode */
+body.present .scene { display: none; min-height: calc(100vh - 92px); padding-block: 36px }
+body.present .scene.cur { display: block }
+body.present .hero { display: none }
+body.present .hero.cur { display: block }
+body.present .end, body.present footer { display: none }
+.presnav { position: fixed; right: max(16px, env(safe-area-inset-right, 0px)); bottom: max(16px, env(safe-area-inset-bottom, 0px)); z-index: 30; display: none; gap: 6px; align-items: center; background: var(--surface); border: 1px solid var(--line); border-radius: 12px; padding: 6px 8px; font-size: 12.5px; color: var(--muted) }
+body.present .presnav { display: flex }
+
+@media (max-width: 1100px) {
+  .fx { grid-template-columns: minmax(0,1fr) minmax(0,1fr) }
+  .fx-panel.p2 { grid-column: 1 / -1; grid-row: 1 }
+}
+@media (max-width: 900px) {
+  .hero .wrap, .scene .grid, .scene.wide .copy { grid-template-columns: minmax(0,1fr) }
+  .scene.wide .copy > .side { grid-column: 1; grid-row: auto }
+  .fx { grid-template-columns: minmax(0,1fr) }
+  .three, .cards3, .decomp { grid-template-columns: minmax(0,1fr) }
+  .flow { grid-template-columns: minmax(0,1fr) }
+  .flow .arrow { transform: rotate(90deg); height: 26px }
+  .modes a, .livebadge { display: none }
+}
+@media (max-width: 560px) {
+  .two { grid-template-columns: minmax(0,1fr) }
+  .scene { padding-block: 44px }
+  .lead { font-size: 17px }
+}
+</style>
+
+<header class="topbar" id="top">
+  <div class="wrap">
+    <div class="logo">Falx<sup>CHI '21</sup></div>
+    <nav class="tabs" id="tabs" aria-label="Sections"></nav>
+    <div class="modes">
+      <span class="livebadge" id="livebadge" title="Live features need the local server (run.sh)">Recorded runs</span>
+      <div class="seg" role="group" aria-label="Mode"><button id="m-story" class="on">Story</button><button id="m-present">Present</button></div>
+      <a href="https://doi.org/10.1145/3411764.3445249" target="_blank" rel="noopener">Paper</a>
+    </div>
+  </div>
+  <div class="wrap"><div class="progress" id="progress"></div></div>
+</header>
+
+<main>
+<section class="hero scene-like" id="s-hero" data-tab="Problem">
+  <div class="wrap">
+    <div>
+      <div class="venue">CHI 2021 · Yokohama</div>
+      <h1>Can analysts get the chart they picture by <em>showing</em> a few marks, instead of reshaping the data first?</h1>
+      <p class="cite"><b>Falx: Synthesis-Powered Visualization Authoring.</b> Chenglong Wang, Yu Feng, Rastislav Bodik, Isil Dillig, Alvin Cheung, Amy J. Ko.<br><b>Falx</b>: users demonstrate how a few concrete values map to visual channels, and a program synthesizer infers both the chart and the data transformation.</p>
+    </div>
+    <div>
+      <h3 class="steps6-h">The argument in six steps</h3>
+      <ol class="steps6" id="steps6">
+        <li data-go="s-problem"><span>1</span>Grammars of graphics expect the table to match the chart</li>
+        <li data-go="s-rules"><span>2</span>New designs often need reshaping and derived columns</li>
+        <li data-go="s-falx"><span>3</span>Users demonstrate a few marks with concrete values</li>
+        <li data-go="s-arch"><span>4</span>Falx decompiles the examples into a chart program and an example table</li>
+        <li data-go="s-arch"><span>5</span>A deductive search synthesizes the table transformation</li>
+        <li data-go="s-study"><span>6</span>Users pick among candidates; a study compares Falx with R</li>
+      </ol>
+    </div>
+  </div>
+</section>
+
+<!-- 01 PROBLEM -->
+<section class="scene" id="s-problem" data-tab="Problem">
+  <div class="wrap grid">
+    <div class="copy">
+      <p class="eyebrow">01) Problem</p>
+      <h2>Same data. A new chart needs a new table.</h2>
+      <p class="lead">With a grammar of graphics, a chart is a mark plus a mapping from columns to channels. That works only while the table already has the right columns.</p>
+      <p>The four rows on the right are the paper's Figure 1 data. A scatter plot maps <b>Date → x</b>, <b>Temp → y</b>, <b>Type → color</b> directly. A floating bar per day needs <b>Low → y<sub>min</sub></b> and <b>High → y<sub>max</sub></b>, but Low and High are values inside the Type column, not columns.</p>
+      <p class="key">The chart changed a little. The data layout had to change completely.</p>
+      <a class="next" href="#s-rules">Next: Analysts spend their effort on layout, not on the chart. →</a>
+    </div>
+    <div class="card">
+      <div class="card-head"><h3>One dataset, two designs</h3><button class="btn sm" id="pb-reset">Reset demo</button></div>
+      <div class="pills" id="pb-design"><button data-d="scatter" class="on">Scatter (Figure 1)</button><button data-d="float">Floating bars (Figure 2)</button></div>
+      <div class="two">
+        <div style="display:grid;gap:8px;min-width:0">
+          <div class="small" id="pb-tcap">Input table, as it arrives</div>
+          <div class="scroll-x"><table class="mini-table" id="pb-table"></table></div>
+          <div class="rules" id="pb-rules"></div>
+          <div class="row"><button class="btn dark sm" id="pb-pivot" hidden>Reshape with pivot_wider</button><code class="mono small" id="pb-code"></code></div>
+        </div>
+        <div class="chart" id="pb-chart"></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="scene" id="s-rules" data-tab="Problem">
+  <div class="wrap grid">
+    <div class="copy">
+      <p class="eyebrow">01) Problem</p>
+      <h2>Analysts spend their effort on layout, not on the chart.</h2>
+      <p class="lead">Tools such as ggplot2, Vega-Lite and Tableau assume a layout in which each row is one mark and each variable is one column.</p>
+      <p>The paper lists three everyday reasons the layout and the design disagree. In each case the analyst first has to picture the expected table, then find the transformation operators, then write them.</p>
+      <p class="key">Research question: can users specify the visualization by example, and leave the data transformation to a synthesizer?</p>
+      <details><summary>Why examples, and why values instead of columns?</summary><div>
+        <p>Programming-by-example tools such as FlashFill and Wrex let end users show what they want instead of writing code. Falx brings that to charts: an example says "this bar starts at 62.7 and ends at 63.4", which is a statement about values. The user never names a column that does not exist yet.</p>
+      </div></details>
+      <a class="next" href="#s-related">Next: Where does Falx sit among existing tools? →</a>
+    </div>
+    <div class="card">
+      <div class="card-head"><h3>Why layout and design disagree</h3><span class="tag">Paper, Section 1</span></div>
+      <div class="cards3">
+        <div class="box"><h4>Different sources</h4><p>Tables exported from a database, an analysis tool or a teammate arrive in different layouts.</p></div>
+        <div class="box"><h4>Different tasks</h4><p>Each analysis task suggests a different design, and each design expects a different layout.</p></div>
+        <div class="box"><h4>Derived values</h4><p>Averages, counts, cumulative sums or differences have to be computed before they can be drawn.</p></div>
+      </div>
+      <div class="box" style="background:var(--surface-2)"><h4>What the analyst must do today</h4>
+        <div class="row" style="gap:6px;font-size:13px"><span class="chip">picture the target table</span>→<span class="chip">recall pivot_longer / mutate</span>→<span class="chip">write the transform</span>→<span class="chip">map columns to channels</span></div>
+        <p class="small">Falx aims to remove the first three boxes.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 02 RELATED -->
+<section class="scene" id="s-related" data-tab="Related work">
+  <div class="wrap grid">
+    <div class="copy">
+      <p class="eyebrow">02) Related work</p>
+      <h2>Where does Falx sit?</h2>
+      <p class="lead">Earlier tools either help you transform data or help you specify charts. Falx joins the two, and it is specified from the chart side.</p>
+      <p>I compare the families by one question: <b>who does the data-layout work, and what does the user have to write down?</b> Select a box.</p>
+      <details><summary>Exploration tools versus implementation tools</summary><div>
+        <p>The paper separates synthesizers that help users <b>explore</b> a space from weak constraints (Scout, Draco-style recommendation) from those that help users <b>implement</b> a design they already have in mind (Wrex, FlashProg, Regae). Falx is an implementation tool, but it borrows the exploration interface to disambiguate results.</p>
+      </div></details>
+      <a class="next" href="#s-r">Next: Two analysts, one target chart. →</a>
+    </div>
+    <div class="card">
+      <div class="card-head"><h3>Who does the layout work?</h3><span class="tag">Paper, Section 5</span></div>
+      <div class="flow" id="rw-flow"></div>
+      <div class="box" id="rw-detail"></div>
+    </div>
+  </div>
+</section>
+
+<!-- 03 SCENARIO: R -->
+<section class="scene" id="s-r" data-tab="Scenario">
+  <div class="wrap grid">
+    <div class="copy">
+      <p class="eyebrow">03) Usage scenario</p>
+      <h2>Eunice builds the chart in R.</h2>
+      <p class="lead">The target is the paper's Figure 3: New York and San Francisco temperatures as step lines, with a bar per day colored by the difference.</p>
+      <p>Section 2.1 walks an experienced analyst through tidyverse and ggplot2. Each step on the right is the paper's code, <b>run in real R</b> against the same 83-row weather table that ships with Falx.</p>
+      <p class="key">Four steps, two layouts, and a vocabulary she has to recall: pivot_longer, names_to, geom_line, group, geom_rect, mutate.</p>
+      <div class="thoughts"><h4><span>My thoughts</span></h4>
+        <p>Three of the printed listings do not produce the figures next to them. <code>cols = (…)</code> is a syntax error, Figure 4a's listing maps City to y and Temperature to color, and Figure 4b's <code>xmin = Date, xmax = Date</code> draws zero-width bars. The figures were clearly made with corrected code. The slip matters for one reason: it shows how much exact API knowledge this path assumes.</p>
+        <p class="status">Checked by running each listing in R 4.3 with tidyr 1.3 and ggplot2 3.4.</p>
+      </div>
+      <a class="next" href="#s-falx">Next: Amelia shows examples instead. →</a>
+    </div>
+    <div class="card" id="rw">
+      <div class="card-head"><h3>R workbench</h3><span class="tag" id="rw-mode">Recorded R output</span></div>
+      <div class="rw-tabs pills" id="rw-steps"></div>
+      <div class="row" id="rw-variant"></div>
+      <textarea class="code" id="rw-code" spellcheck="false" aria-label="R code"></textarea>
+      <div class="row"><button class="btn dark sm" id="rw-run">Show output</button><button class="btn sm" id="rw-revert">Restore listing</button><span class="small" id="rw-hint"></span></div>
+      <pre class="console" id="rw-console"></pre>
+      <div class="rplot" id="rw-plot" hidden></div>
+    </div>
+  </div>
+</section>
+
+<!-- 04 FALX DEMO -->
+<section class="scene wide" id="s-falx" data-tab="Falx">
+  <div class="wrap grid">
+    <div class="copy">
+      <p class="eyebrow">04) Falx</p>
+      <h2>Amelia shows one line. Falx finds the chart.</h2>
+      <p class="lead">She adds a line example, copies four values and a label from the table, and presses Synthesize. Falx returns charts that contain her example.</p>
+      <p>Click a field, then click a table cell to copy its value, as in the paper's Figure 6. Start from the presets to follow the paper exactly.</p>
+      <div class="side" style="display:grid;gap:12px">
+        <div class="note"><b>What runs here.</b> Every result comes from the authors' Falx code (github.com/Mestway/falx). With the local server running, Synthesize calls Falx live on any demonstration. Without it, the page replays runs recorded on the same code, and says so.</div>
+        <details><summary>Original interface (Figure 5)</summary><div><figure><img id="img-fig5" alt="Falx interface with input, exploration and post-processing panels"><figcaption>Figure 5 · Wang et al., CHI 2021</figcaption></figure></div></details>
+      </div>
+    </div>
+    <div class="card">
+      <div class="fx-presets"><span class="lab">Follow the paper</span>
+        <button class="btn sm primary" data-preset="line_ny">1 · One example line</button>
+        <button class="btn sm primary" data-preset="line_bar">2 · Add an example bar</button>
+        <button class="btn sm primary" data-preset="line_bar_bar">3 · Add a second bar</button>
+        <button class="btn sm" id="fx-reset">Reset demo</button>
+        <label class="small row" style="margin-left:auto;gap:4px"><input type="checkbox" id="fx-realtime"> Replay at recorded speed</label>
+      </div>
+      <div class="fx">
+        <section class="fx-panel p1" aria-label="Input panel">
+          <h4>① Input panel</h4>
+          <h5>Input data</h5>
+          <div class="scroll-x"><table class="dtable" id="fx-table"></table></div>
+          <div class="pager"><button id="fx-prev" aria-label="Previous page">‹</button><span id="fx-page"></span><button id="fx-next" aria-label="Next page">›</button></div>
+          <h5>Demonstration</h5>
+          <div class="demo-list" id="fx-demos"></div>
+          <div class="addmenu" id="fx-addmenu" hidden></div>
+          <div class="editor" id="fx-editor" hidden></div>
+          <h5>Demonstration preview</h5>
+          <div class="chart" id="fx-preview"></div>
+          <button class="btn dark synth" id="fx-synth">Synthesize</button>
+        </section>
+        <section class="fx-panel p2" aria-label="Exploration panel">
+          <h4>② Exploration panel</h4>
+          <div class="sysmsg" id="fx-msg"><span>Add an example and press Synthesize.</span></div>
+          <div class="bar" id="fx-bar" hidden><i></i></div>
+          <div class="center" id="fx-center"><div class="empty">Synthesized visualizations appear here.</div></div>
+          <h5 id="fx-candh">Visualization candidates</h5>
+          <div class="thumbs" id="fx-thumbs"></div>
+        </section>
+        <section class="fx-panel p3 post" aria-label="Post-processing panel">
+          <h4>③ Post-processing panel</h4>
+          <div class="pills" id="fx-posttabs"><button data-t="gui" class="on">GUI editor</button><button data-t="prog">Program viewer</button></div>
+          <div id="fx-gui" style="display:grid;gap:8px"></div>
+          <div id="fx-prog" hidden style="display:grid;gap:8px"></div>
+        </section>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="scene" id="s-ambig" data-tab="Falx">
+  <div class="wrap grid">
+    <div class="copy">
+      <p class="eyebrow">04) Falx</p>
+      <h2>Ambiguity is resolved by looking, not by coding.</h2>
+      <p class="lead">One line and one bar admit many programs. Falx shows all of them as charts, and the user either picks one or adds another example.</p>
+      <p>The paper reports 8 candidates in about 9 seconds for this demonstration. Running the released code gives <b id="am-n12">12</b>. Adding a second bar on 2011-10-05 cuts the list to <b id="am-n7">7</b>, and every survivor keeps the right line layer.</p>
+      <p class="key">Why so many? The example bar sits on the first date, where a cumulative sum equals the raw value. Falx cannot tell <code>NY</code> from <code>cumsum(NY)</code> from that row alone.</p>
+      <p>The six that survive the second bar use a <i>grouped</i> cumulative sum. They differ from the intended chart on only 3 to 24 of 83 days, wherever a temperature value repeats, which makes them hard to tell apart by eye.</p>
+      <div class="thoughts"><h4><span>My thoughts</span></h4>
+        <p>The choice of example row changes the search. A first-row example is the worst case for any running aggregate. A short hint in the interface ("examples on the first row cannot rule out cumulative sums") would cost little and save a round of exploration.</p>
+        <p class="status">Inference from the recorded candidate programs, not a claim from the paper.</p>
+      </div>
+      <a class="next" href="#s-compare">Next: Same chart, two paths. →</a>
+    </div>
+    <div class="card">
+      <div class="card-head"><h3>Candidates for each demonstration</h3><span class="tag" id="am-src">Recorded runs</span></div>
+      <div class="pills" id="am-tabs"><button data-k="line_bar" class="on">Line + bar</button><button data-k="line_bar_bar">+ second bar</button><button data-k="line_nocolor_bar">Line color left blank</button></div>
+      <div class="row" style="align-items:baseline;gap:10px"><span class="big" id="am-big">12</span><span class="small" id="am-cap"></span></div>
+      <div class="grid-thumbs" id="am-grid"></div>
+    </div>
+  </div>
+</section>
+
+<section class="scene" id="s-compare" data-tab="Falx">
+  <div class="wrap grid">
+    <div class="copy">
+      <p class="eyebrow">04) Falx</p>
+      <h2>Same chart, two paths.</h2>
+      <p class="lead">Eunice writes <span id="cmp-lines">10</span> lines with <span id="cmp-fns">9</span> functions. Amelia enters nine values in two examples, runs the synthesizer and picks one chart.</p>
+      <p>Falx also exports an R script. I ran that export in R: it reproduces the layered chart, with the date axis left as raw text, which the post-processing panel is meant to fix.</p>
+      <details><summary>How the counts were made</summary><div>
+        <p>R: non-empty, non-comment lines and distinct function names in the Step 4 script on the R workbench, counted by this page. Falx: fields filled in the two examples (line: x1, y1, x2, y2, color; bar: x, y, y2, color).</p>
+      </div></details>
+      <a class="next" href="#s-arch">Next: Decompile, search, compile. →</a>
+    </div>
+    <div class="card">
+      <div class="card-head"><h3>Effort and output</h3></div>
+      <div class="two">
+        <div class="box"><h4>R (Eunice)</h4><div class="counter" id="cmp-r"></div></div>
+        <div class="box"><h4>Falx (Amelia)</h4><div class="counter"><div><b>2</b><span>examples</span></div><div><b>9</b><span>values entered</span></div><div><b>1</b><span>of <span id="cmp-n">12</span> picked</span></div></div></div>
+      </div>
+      <div class="pills" id="cmp-tabs"><button data-v="r" class="on">R by hand</button><button data-v="falx">Falx candidate</button><button data-v="export">Falx export run in R</button></div>
+      <div id="cmp-view"></div>
+    </div>
+  </div>
+</section>
+
+<!-- 05 ARCHITECTURE -->
+<section class="scene" id="s-arch" data-tab="Architecture">
+  <div class="wrap grid">
+    <div class="copy">
+      <p class="eyebrow">05) Architecture</p>
+      <h2>Decompile, search, compile.</h2>
+      <p class="lead">Each solver thread turns the examples into a chart program plus an example table, searches for a table transformation that produces that table, and compiles the pair into Vega-Lite or R.</p>
+      <p>The key reduction: once the chart is fixed as <code>Bar(x→C1, y→C2, y2→C3, color→C4)</code>, the visualization problem becomes a <b>table</b> problem: find <i>P</i> with <i>T</i> ⊆ <i>P</i>(<i>T</i><sub>in</sub>).</p>
+      <p class="key">Why deduction? Each partial program stands for dozens of concrete ones. Abstract interpretation rules out a whole branch, for example <code>cumsum(I, □)</code> can never yield the four columns the bar needs.</p>
+      <details><summary>Optimizations reported in the paper</summary><div>
+        <ul><li>Memoize abstract-interpretation results of partial programs.</li><li>Aim for many diverse programs: threads start from different sketches.</li><li>Two threads in parallel: one with a 5 s timeout, one with 20 s.</li><li>Remove duplicate charts, then rank by program complexity.</li></ul>
+      </div></details>
+      <details><summary>Figure 8 from the paper</summary><div><figure><img id="img-fig8" alt="Falx architecture: decompilation, data transformation synthesis, program generation"><figcaption>Figure 8 · Wang et al., CHI 2021</figcaption></figure></div></details>
+      <a class="next" href="#s-study">Next: 33 analysts, two tools, four tasks. →</a>
+    </div>
+    <div class="card">
+      <div class="card-head"><h3>Inside one synthesis run</h3><span class="tag">Line + bar demonstration</span></div>
+      <div class="pills" id="ar-tabs"><button data-s="0" class="on">1 · Decompile</button><button data-s="1">2 · Search</button><button data-s="2">3 · Check T ⊆ P(T_in)</button><button data-s="3">4 · Compile</button></div>
+      <div id="ar-body"></div>
+      <div class="row"><button class="btn sm" id="ar-prev">Previous step</button><button class="btn sm primary" id="ar-next">Next step</button><span class="stepinfo" id="ar-info"></span></div>
+    </div>
+  </div>
+</section>
+
+<!-- 06 STUDY -->
+<section class="scene" id="s-study" data-tab="Study">
+  <div class="wrap grid">
+    <div class="copy">
+      <p class="eyebrow">06) User study</p>
+      <h2>33 analysts, two tools, four tasks.</h2>
+      <p class="lead">A between-subjects study: 16 people used Falx, 17 used R with tidyverse and ggplot2. Each solved the same four tasks that need data transformation.</p>
+      <p>Designs were described in text, so the task was implementation, not design. A task counted as solved when the chart's meaning matched the reference, regardless of styling. Participants could quit after 20 minutes.</p>
+      <details><summary>Procedure details</summary><div>
+        <ul><li>Falx group: 20-minute tutorial and a warm-up task with a sample solution.</li><li>R group: screened for ggplot2 and tidyverse experience; same warm-up with a solution.</li><li>Internet allowed for both groups. Task order counterbalanced with a Latin square. Session under 2 hours.</li><li>Analysis: Wilcoxon rank-sum tests with Holm correction. The paper also says mixed-effect models were used.</li></ul>
+      </div></details>
+      <div class="thoughts"><h4><span>My thoughts</span></h4>
+        <ul>
+          <li>The two groups were recruited differently: R users had to know R, while the Falx group included two people who had never made a chart. That makes the groups hard to compare in either direction.</li>
+          <li>All four tasks were written by the tool's authors and fit inside Falx's operator set. No task tests what happens when the needed transformation is outside the grammar.</li>
+          <li>Giving the design in text removes the step where analysts decide what to draw, which is where many real sessions start.</li>
+        </ul>
+      </div>
+      <a class="next" href="#s-results">Next: Falx helped most where transformation was hardest. →</a>
+    </div>
+    <div class="card">
+      <div class="card-head"><h3>Tasks and participants</h3><span class="tag">Paper, Section 4</span></div>
+      <figure><img id="img-fig10" alt="Four study tasks: disaster impact scatter, electric usage heatmap, car sales waterfall, movie awards dot plot"><figcaption>Figure 10 · Disaster impact, Electric usage, Car sales (waterfall), Movie awards</figcaption></figure>
+      <div class="scroll-x"><table class="t">
+        <thead><tr><th></th><th class="num">N</th><th>Gender (as reported)</th><th>Visualization experience in past 6 months</th></tr></thead>
+        <tbody>
+          <tr><td><b>Falx</b></td><td class="num">16</td><td>10 M, 5 F, 1 unknown · ages 23–51</td><td>6 made &gt;10 charts · 8 made 1–10 · 2 made none</td></tr>
+          <tr><td><b>R</b></td><td class="num">17</td><td>12 M, 4 F · ages 19–60</td><td>8 made &gt;10 charts · 9 made 1–10 · R experience required</td></tr>
+        </tbody></table></div>
+      <p class="small">The R group's reported genders sum to 16 of 17.</p>
+    </div>
+  </div>
+</section>
+
+<!-- 07 RESULTS -->
+<section class="scene" id="s-results" data-tab="Results">
+  <div class="wrap grid">
+    <div class="copy">
+      <p class="eyebrow">07) Results</p>
+      <h2>Falx helped most where transformation was hardest.</h2>
+      <p class="lead">Falx users completed more tasks in every case, but only the car-sales waterfall shows a significant difference in completion. Time was significantly shorter for car sales and electric usage.</p>
+      <p><span class="hl">Read the gap with its baseline.</span> Car sales: 11 of 16 Falx users versus 5 of 17 R users finished (68.8% vs 29.4%), and Falx users took about half the time (715 s vs 1473 s on average).</p>
+      <p>Qualitatively, R users struggled to find the right function name (14 of 17 mentioned it), and both groups described data transformation as the main barrier in daily work.</p>
+      <div class="thoughts"><h4><span>My thoughts</span></h4>
+        <ul>
+          <li>The paper says it used mixed-effect models with participant as a random effect, but reports only Wilcoxon tests. The model estimates, including the tool effect, are not shown.</li>
+          <li>Quitting at 20 minutes caps the time. The paper does not say whether quit or wrong attempts are inside the time plots, which matters most for car sales, where 12 of 17 R users did not finish.</li>
+          <li>With 16 and 17 people, a 2-of-4 significant result is a reasonable signal for the hardest tasks, not evidence about tasks in general.</li>
+        </ul>
+      </div>
+      <a class="next" href="#s-strat">Next: How analysts actually used Falx. →</a>
+    </div>
+    <div class="card">
+      <div class="card-head"><h3 id="rs-title">Completion rate per task</h3><div class="pills" id="rs-tabs"><button data-v="done" class="on">Completion</button><button data-v="time">Time</button></div></div>
+      <div class="legend"><span><i style="background:var(--ny)"></i>R (N = 17)</span><span><i style="background:var(--sf)"></i>Falx (N = 16)</span></div>
+      <div class="hbars" id="rs-bars"></div>
+      <p class="small" id="rs-note"></p>
+    </div>
+  </div>
+</section>
+
+<!-- 08 STRATEGIES -->
+<section class="scene" id="s-strat" data-tab="Strategies">
+  <div class="wrap grid">
+    <div class="copy">
+      <p class="eyebrow">08) How analysts used Falx</p>
+      <h2>People check candidates coarse to fine.</h2>
+      <p class="lead">Interviews showed a shared four-step routine for picking the right chart among synthesized candidates.</p>
+      <p>Step through it on the 12 real candidates from the line-and-bar run. Each check is computed by this page from the candidate's own data.</p>
+      <details><summary>Strategies for writing examples</summary><div>
+        <ul>
+          <li><b>Sketch first</b> on paper to understand the geometry (3 participants).</li>
+          <li><b>Pick representative points</b>, such as a value that is unique in the table, to reduce ambiguity (7).</li>
+          <li><b>Start small, add more</b> only when too many candidates appear (8).</li>
+          <li><b>Start with several examples</b> to avoid ambiguity up front (6).</li>
+        </ul>
+        <p>"It's easy to add multiple elements to the demonstration. A small number of elements make it easier to go back and fix." (F11)</p>
+      </div></details>
+      <a class="next" href="#s-disc">Next: What Falx contributes, and what remains open. →</a>
+    </div>
+    <div class="card">
+      <div class="card-head"><h3>Four checks on 12 candidates</h3><span class="tag">Section 4.5.2</span></div>
+      <div class="pills" id="st-tabs"></div>
+      <div class="box" id="st-box"></div>
+      <div class="grid-thumbs" id="st-grid"></div>
+    </div>
+  </div>
+</section>
+
+<!-- 09 DISCUSSION -->
+<section class="scene" id="s-disc" data-tab="Discussion">
+  <div class="wrap grid">
+    <div class="copy">
+      <p class="eyebrow">09) Discussion</p>
+      <h2>What Falx contributes, and what remains open.</h2>
+      <p class="lead">The authors show that example-driven synthesis lets analysts build charts they otherwise could not, for standard designs over tidy-able tables.</p>
+      <p class="key">Back to the opening: the floating-bar chart that needed a pivot is one demonstration away.</p>
+      <a class="next" href="#s-crit1">Next: An example still carries one row of the answer. →</a>
+    </div>
+    <div class="card">
+      <div class="card-head"><h3>A balanced reading</h3><div class="pills" id="ds-tabs"><button data-v="c" class="on">Contributions</button><button data-v="l">Limits</button><button data-v="o">Back to the opening</button></div></div>
+      <div id="ds-body"></div>
+    </div>
+  </div>
+</section>
+
+<!-- 10 CRITICAL -->
+<section class="scene" id="s-crit1" data-tab="Critical reflections">
+  <div class="wrap grid">
+    <div class="copy">
+      <p class="eyebrow">10) Critical reflections</p>
+      <h2>An example still carries one row of the answer.</h2>
+      <p class="lead">Amelia's bar color, 0.7, is New York minus San Francisco on 2011-10-01. She had to compute it herself before Falx could generalize it.</p>
+      <p>Change that one number. A typo or a ratio is a different program, and Falx reports nothing useful when no program fits.</p>
+      <div class="thoughts"><h4><span>My thoughts</span></h4>
+        <ul>
+          <li>The demonstration hides arithmetic, but does not remove it: for derived values the user still computes one instance by hand. That may be why the waterfall task, which needs running totals, was the Falx group's lowest (68.8%).</li>
+          <li>A miss is silent. Falx could search with a tolerance and report "closest program: NY − SF = 0.7, you typed 0.8", turning a dead end into a correction.</li>
+          <li>Ratios fall outside the grammar (mutate supports only + and −). The paper's own participant F16 wanted to type expressions; accepting a formula for one field would cover both cases.</li>
+        </ul>
+        <p class="status">Hypotheses from the recorded runs, not tested with users.</p>
+      </div>
+      <a class="next" href="#s-crit2">Next: The baseline measures API recall under a fixed target. →</a>
+    </div>
+    <div class="card">
+      <div class="card-head"><h3>Change the bar's color value</h3><span class="tag" id="c1-src">Recorded runs</span></div>
+      <div class="pills" id="c1-tabs"><button data-k="line_bar" class="on">0.7 · NY − SF</button><button data-k="wrong_diff">0.8 · typo</button><button data-k="ratio">1.011 · NY ÷ SF</button></div>
+      <div class="sysmsg" id="c1-msg"></div>
+      <div class="center" id="c1-chart"></div>
+    </div>
+  </div>
+</section>
+
+<section class="scene" id="s-crit2" data-tab="Critical reflections">
+  <div class="wrap grid">
+    <div class="copy">
+      <p class="eyebrow">10) Critical reflections</p>
+      <h2>The baseline measures API recall under a fixed target.</h2>
+      <p class="lead">The study compares Falx with R as it was used in 2020: searching documentation for the right function, with the design already decided.</p>
+      <div class="thoughts"><h4><span>My thoughts</span></h4>
+        <ul>
+          <li>The R group's main failure was naming the function (geom_rect for a waterfall). That is a real barrier, but it is a different one from conceptualizing the layout, which is Falx's stated target.</li>
+          <li>Tasks inside the grammar make the comparison favorable by construction. One task per group that needs an unsupported operator would show how each tool fails.</li>
+          <li>A within-subjects design, or groups matched on experience, would separate the tool effect from the recruitment difference.</li>
+        </ul>
+      </div>
+      <a class="next" href="#s-crit3">Next: Re-running the paper. →</a>
+    </div>
+    <div class="card">
+      <div class="card-head"><h3>What Falx can and cannot express</h3><span class="tag">Figure 9 operators</span></div>
+      <div class="scroll-x"><table class="t">
+        <thead><tr><th>Type</th><th>Operators in Falx</th><th>Example that falls outside</th></tr></thead>
+        <tbody>
+          <tr><td>Reshaping</td><td><span class="chip">pivot_longer</span> <span class="chip">pivot_wider</span></td><td>Nested or non-relational data</td></tr>
+          <tr><td>Filtering</td><td><span class="chip">select</span> <span class="chip">filter</span></td><td>Cleaning nulls and dirty values</td></tr>
+          <tr><td>Aggregation</td><td><span class="chip">group</span> <span class="chip">summarise</span> <span class="chip">cumsum</span></td><td>Rolling averages, ranks</td></tr>
+          <tr><td>Computation</td><td><span class="chip">mutate (+, −)</span> <span class="chip">separate</span> <span class="chip">unite</span></td><td>Ratios, percent change, log scales</td></tr>
+        </tbody></table></div>
+      <div class="box"><h4>A study design I would add</h4>
+        <div class="scroll-x"><table class="t"><thead><tr><th>Change</th><th>What it isolates</th></tr></thead><tbody>
+          <tr><td>Within-subjects, tool order counterbalanced</td><td>Tool effect, independent of who was recruited</td></tr>
+          <tr><td>One out-of-grammar task</td><td>How each tool fails, and whether users notice</td></tr>
+          <tr><td>R with a code assistant as a third arm</td><td>Whether recall, the R group's main failure, is still the bottleneck</td></tr>
+          <tr><td>Report the mixed-model estimates</td><td>Effect sizes with participant variance accounted for</td></tr>
+        </tbody></table></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="scene" id="s-crit3" data-tab="Critical reflections">
+  <div class="wrap grid">
+    <div class="copy">
+      <p class="eyebrow">10) Critical reflections</p>
+      <h2>Re-running the paper.</h2>
+      <p class="lead">I ran both sides of the paper: its R listings and the released Falx code. Both mostly reproduce, with differences worth reporting.</p>
+      <div class="thoughts"><h4><span>My thoughts</span></h4>
+        <ul>
+          <li>The Falx repository runs today only with 2020-era dependencies (Python 3.8, pandas 1.1). With current Python it fails on import. Pinning the environment in the repository would keep the artifact alive.</li>
+          <li>Candidate counts and times are close to the paper but not equal. The paper does not list the solver settings behind its numbers, so exact replication is not possible.</li>
+          <li>The Figure 2 demonstration with a single bar crashes the released code; two bars work. A small bug, but exactly the kind of silent failure users would meet.</li>
+        </ul>
+      </div>
+      <a class="next" href="#s-ext">Next: Extensions. →</a>
+    </div>
+    <div class="card">
+      <div class="card-head"><h3>Paper versus re-run</h3><span class="tag">Falx commit fcae5e5 · R 4.3</span></div>
+      <div class="scroll-x"><table class="t" id="rp-table"></table></div>
+      <p class="small">Times are wall-clock on a cloud container, one run each, heavy solver mode (20 s budget).</p>
+    </div>
+  </div>
+</section>
+
+<!-- 11 EXTENSIONS (placeholder) -->
+<section class="scene" id="s-ext" data-tab="Extensions">
+  <div class="wrap grid">
+    <div class="copy">
+      <p class="eyebrow">11) Extensions</p>
+      <h2>Connections to the course and to my work.</h2>
+      <p class="lead">This section will link Falx to course concepts, related papers and my own project.</p>
+    </div>
+    <div class="draft">
+      <b>Draft · to be added</b>
+      <p>Course concept · related papers · my project.</p>
+    </div>
+  </div>
+</section>
+
+<section class="wrap end" id="s-end">
+  <div class="row"><a href="#top" id="restart">Restart story ↑</a> · <a href="https://doi.org/10.1145/3411764.3445249" target="_blank" rel="noopener">Paper (DOI)</a> · <a href="https://falx.cs.washington.edu/" target="_blank" rel="noopener">Falx website</a> · <a href="https://github.com/Mestway/falx" target="_blank" rel="noopener">Authors' repository</a></div>
+  <p class="small">Source: Wang, C., Feng, Y., Bodik, R., Dillig, I., Cheung, A., &amp; Ko, A. J. (2021). Falx: Synthesis-Powered Visualization Authoring. CHI '21. doi.org/10.1145/3411764.3445249 · Falx code BSD-2-Clause · Figures reproduced from the paper for discussion.</p>
+</section>
+</main>
+
+<div class="presnav"><button class="btn sm" id="pn-prev" aria-label="Previous scene">←</button><span id="pn-info"></span><button class="btn sm" id="pn-next" aria-label="Next scene">→</button></div>
+
+<script src="https://cdn.jsdelivr.net/npm/vega@5.30.0/build/vega.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/vega-lite@5.21.0/build/vega-lite.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/vega-embed@6.26.0/build/vega-embed.min.js"></script>
+<script>
+const D = /*__DATA__*/null;
+const $ = (s, r = document) => r.querySelector(s);
+const $$ = (s, r = document) => [...r.querySelectorAll(s)];
+const esc = s => String(s).replace(/[&<>"]/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]));
+const sleep = ms => new Promise(r => setTimeout(r, ms));
+const LIVE = { falx: false, r: false };
+const COLS = { weather: ["date", "New York", "San Francisco"], fig1: ["Date", "Temp", "Type"] };
+const DATASETS = { weather: D.weather, fig1: D.fig1 };
+
+/* ---------------- charts ---------------- */
+function cssv(n) { return getComputedStyle(document.documentElement).getPropertyValue(n).trim(); }
+function vlConfig(mini) {
+  const m = cssv("--muted"), l = cssv("--line-strong"), g = cssv("--grid");
+  return {
+    background: null, font: "Inter, system-ui, sans-serif", view: { stroke: null },
+    axis: { labelColor: m, titleColor: m, domainColor: l, tickColor: l, gridColor: g, labelFontSize: 10, titleFontSize: 11, titleFontWeight: 500,
+      labels: !mini, title: !mini, ticks: !mini, domain: true, grid: !mini },
+    legend: { labelColor: m, titleColor: m, labelFontSize: 10, titleFontSize: 10.5, disable: !!mini },
+    range: { category: [cssv("--ny"), cssv("--sf"), "#5c9e8f", "#9a7bb8"] },
+    title: { color: cssv("--fg") }
+  };
+}
+const charts = new Map();
+async function drawChart(el, make) {
+  charts.set(el, make);
+  const { spec, mini } = make();
+  spec.config = Object.assign({}, vlConfig(mini), spec.config || {});
+  spec.$schema = "https://vega.github.io/schema/vega-lite/v5.json";
+  if (spec.autosize === undefined) spec.autosize = { type: "pad" };
+  try { await vegaEmbed(el, spec, { actions: false, renderer: "svg", logLevel: vega.Error }); }
+  catch (e) { el.innerHTML = '<div class="empty">Chart could not render: ' + esc(e.message) + "</div>"; }
+}
+function redrawAll() { for (const [el, make] of charts) { if (el.isConnected) drawChart(el, make); else charts.delete(el); } }
+matchMedia("(prefers-color-scheme: dark)").addEventListener("change", () => setTimeout(redrawAll, 30));
+new MutationObserver(() => setTimeout(redrawAll, 30)).observe(document.documentElement, { attributes: true, attributeFilter: ["data-theme"] });
+
+function widthOf(el, pad = 150, min = 220) { return Math.max(min, Math.floor((el.clientWidth || 600) - pad)); }
+
+/* Falx candidate spec -> renderable spec */
+function prepSpec(spec, { w, h, mini, post }) {
+  const s = JSON.parse(JSON.stringify(spec));
+  s.width = w; s.height = h; delete s.autosize;
+  const layers = s.layer || [s];
+  for (const L of layers) {
+    const enc = L.encoding || {};
+    if (enc.x && enc.x.type === "temporal") {
+      const v = (s.data.values[0] || {})[enc.x.field];
+      if (typeof v === "string" && /^\d\d-\d\d$/.test(v)) enc.x.type = "ordinal";
+    }
+    if (enc.x && s.data.values.length > 40 && L.mark && (L.mark === "bar" || L.mark.type === "bar")) {
+      L.mark = Object.assign({ type: "bar" }, typeof L.mark === "string" ? {} : L.mark, { width: mini ? 1.2 : 3 });
+    }
+    if (enc.color && enc.color.type === "quantitative") enc.color.scale = { scheme: "redblue", reverse: true, domainMid: 0 };
+  }
+  if (post) {
+    const first = layers[0];
+    const t = typeof first.mark === "string" ? first.mark : first.mark.type;
+    if (t === "line") first.mark = Object.assign({}, typeof first.mark === "string" ? { type: "line" } : first.mark, { interpolate: post.step ? "step-after" : "linear" });
+    if (post.xt) for (const L of layers) if (L.encoding && L.encoding.x) L.encoding.x.title = post.xt;
+    if (post.yt) for (const L of layers) if (L.encoding && L.encoding.y) L.encoding.y.title = post.yt;
+  }
+  return s;
+}
+function thumb(el, spec) { drawChart(el, () => ({ spec: prepSpec(spec, { w: 150, h: 70, mini: true }), mini: true })); }
+
+/* Falx DSL -> tidyverse (mechanical translation for reading) */
+function splitArgs(s) { const out = []; let d = 0, cur = ""; for (const ch of s) { if (ch === "(") d++; if (ch === ")") d--; if (ch === "," && d === 0) { out.push(cur.trim()); cur = ""; } else cur += ch; } if (cur.trim()) out.push(cur.trim()); return out; }
+const tuple = s => s.replace(/[()]/g, "").split(",").map(x => x.trim()).filter(Boolean).map(Number);
+function layersOf(rscript) { return rscript.trim().startsWith("[") ? [...rscript.matchAll(/'([^']*)'/g)].map(m => m[1]) : [rscript]; }
+function translate(prog, cols) {
+  let C = [...cols], k = 0; const q = c => "`" + c + "`"; const lines = [];
+  for (const st of prog.split(";").map(s => s.trim()).filter(Boolean)) {
+    const m = st.match(/^(t\d+) <- (\w+)\((.*)\)$/); if (!m) { lines.push("# " + st); continue; }
+    const [, out, op, raw] = m; const a = splitArgs(raw);
+    if (op === "table_ref") lines.push(`${out} <- df`);
+    else if (op === "gather") { const idx = tuple(a[1]); lines.push(`${out} <- pivot_longer(${a[0]}, cols = c(${idx.map(i => q(C[i])).join(", ")}),\n        names_to = "KEY", values_to = "VALUE")`); C = C.filter((c, i) => !idx.includes(i)).concat(["KEY", "VALUE"]); }
+    else if (op === "spread") { lines.push(`${out} <- pivot_wider(${a[0]}, names_from = ${q(C[+a[1]])}, values_from = ${q(C[+a[2]])})`); C = C.filter((c, i) => i !== +a[1] && i !== +a[2]).concat(["<one column per key>"]); }
+    else if (op === "mutate") { const nm = "COL_" + (k++); lines.push(`${out} <- mutate(${a[0]}, ${nm} = ${q(C[+a[1]])} ${a[2]} ${q(C[+a[3]])})`); C.push(nm); }
+    else if (op === "cumsum") { lines.push(`${out} <- mutate(${a[0]}, cumsum = cumsum(${q(C[+a[1]])}))`); C.push("cumsum"); }
+    else if (op === "group_sum") { const g = tuple(a[1]).map(i => C[i]); const col = C[+a[2]] || "n"; const f = a[3];
+      if (f === "cumsum") { lines.push(`${out} <- ${a[0]} %>% group_by(${g.map(q).join(", ")}) %>%\n        mutate(${q("cumsum_" + col)} = cumsum(${q(col)})) %>% ungroup()`); C.push("cumsum_" + col); }
+      else { lines.push(`${out} <- ${a[0]} %>% group_by(${g.map(q).join(", ")}) %>% summarise(${f}_${col} = ${f === "count" ? "n()" : f + "(" + q(col) + ")"})`); C = g.concat([f + "_" + col]); } }
+    else lines.push("# " + st);
+  }
+  return lines.join("\n");
+}
+const intended = r => { const L = layersOf(r.rscript); const bar = L[L.length - 1]; return /mutate\(t0, 1, -, 2\)/.test(bar) && !/cumsum/.test(r.rscript); };
+
+/* ---------------- live server detection ---------------- */
+async function detectLive() {
+  if (!/^https?:$/.test(location.protocol)) return;
+  try {
+    const ctl = new AbortController(); setTimeout(() => ctl.abort(), 2500);
+    const r = await fetch("health", { cache: "no-store", signal: ctl.signal });
+    if (r.ok) { const j = await r.json(); LIVE.falx = !!j.falx; LIVE.r = !!j.r; }
+  } catch (e) { /* recorded mode */ }
+  const b = $("#livebadge");
+  if (LIVE.falx || LIVE.r) { b.classList.add("on"); b.textContent = "Live · " + [LIVE.falx && "Falx", LIVE.r && "R"].filter(Boolean).join(" + "); }
+  RW.refreshMode(); FX.refreshMode();
+}
+
+/* ---------------- nav, progress, modes ---------------- */
+const scenes = $$("section.scene, section.hero");
+const tabNames = [...new Set(scenes.map(s => s.dataset.tab))];
+$("#tabs").innerHTML = tabNames.map(t => `<a href="#${scenes.find(s => s.dataset.tab === t).id}" data-tab="${t}">${t}</a>`).join("");
+$("#progress").innerHTML = scenes.map((s, i) => `<i data-i="${i}" title="${esc(s.querySelector("h1,h2").textContent)}"></i>`).join("");
+let curScene = 0;
+function setCur(i) {
+  curScene = Math.max(0, Math.min(scenes.length - 1, i));
+  $$("#progress i").forEach((el, j) => { el.classList.toggle("on", j === curScene); el.classList.toggle("done", j < curScene); });
+  const tab = scenes[curScene].dataset.tab;
+  $$("#tabs a").forEach(a => a.classList.toggle("on", a.dataset.tab === tab));
+  const on = $("#tabs a.on"); if (on) on.scrollIntoView({ block: "nearest", inline: "nearest" });
+  scenes.forEach((s, j) => s.classList.toggle("cur", j === curScene));
+  $("#pn-info").textContent = (curScene + 1) + " / " + scenes.length;
+}
+const io = new IntersectionObserver(es => {
+  if (document.body.classList.contains("present")) return;
+  const vis = es.filter(e => e.isIntersecting).sort((a, b) => a.boundingClientRect.top - b.boundingClientRect.top)[0];
+  if (vis) setCur(scenes.indexOf(vis.target));
+}, { rootMargin: "-35% 0px -60% 0px" });
+scenes.forEach(s => io.observe(s));
+function go(i) {
+  if (document.body.classList.contains("present")) { setCur(i); scrollTo(0, 0); setTimeout(redrawAll, 30); }
+  else scenes[Math.max(0, Math.min(scenes.length - 1, i))].scrollIntoView();
+}
+$("#progress").addEventListener("click", e => { if (e.target.dataset.i) go(+e.target.dataset.i); });
+document.addEventListener("click", e => {
+  const a = e.target.closest('a[href^="#s-"], a[href="#top"], .steps6 li');
+  if (!a) return;
+  const id = a.dataset.go || a.getAttribute("href").slice(1);
+  const idx = id === "top" ? 0 : scenes.findIndex(s => s.id === id);
+  if (idx >= 0 && document.body.classList.contains("present")) { e.preventDefault(); go(idx); }
+  else if (a.dataset.go) document.getElementById(id).scrollIntoView();
+});
+function setMode(p) {
+  document.body.classList.toggle("present", p);
+  $("#m-story").classList.toggle("on", !p); $("#m-present").classList.toggle("on", p);
+  try { localStorage.setItem("falx-mode", p ? "present" : "story"); } catch (e) {}
+  if (p) { setCur(curScene); scrollTo(0, 0); } else scenes[curScene].scrollIntoView();
+  setTimeout(redrawAll, 50);
+}
+$("#m-story").onclick = () => setMode(false);
+$("#m-present").onclick = () => setMode(true);
+$("#pn-prev").onclick = () => go(curScene - 1);
+$("#pn-next").onclick = () => go(curScene + 1);
+document.addEventListener("keydown", e => {
+  if (!document.body.classList.contains("present")) return;
+  if (/INPUT|TEXTAREA|SELECT/.test(document.activeElement.tagName)) return;
+  if (e.key === "ArrowRight" || e.key === "PageDown") { e.preventDefault(); go(curScene + 1); }
+  if (e.key === "ArrowLeft" || e.key === "PageUp") { e.preventDefault(); go(curScene - 1); }
+});
+setCur(0);
+
+/* figures */
+$("#img-fig5").src = D.figs.fig5; $("#img-fig8").src = D.figs.fig8; $("#img-fig10").src = D.figs.fig10;
+
+/* ---------------- 01 problem demo ---------------- */
+const PB = (() => {
+  const raw = D.fig1; let design = "scatter", pivoted = false;
+  const wide = [{ Date: "09-05", Low: 64.4, High: 87.8 }, { Date: "09-06", Low: 53.6, High: 80.6 }];
+  function table(rows, flash) {
+    const cols = Object.keys(rows[0]);
+    $("#pb-table").innerHTML = "<tr>" + cols.map(c => `<th>${c}</th>`).join("") + "</tr>" + rows.map(r => "<tr>" + cols.map(c => `<td class="${flash ? "flash" : ""}">${r[c]}</td>`).join("") + "</tr>").join("");
+  }
+  function rules(list) { $("#pb-rules").innerHTML = list.map(([ok, t]) => `<div class="rule"><i class="${ok ? "okc" : "badc"}">${ok ? "✓" : "✗"}</i><span>${t}</span></div>`).join(""); }
+  function render() {
+    $$("#pb-design button").forEach(b => b.classList.toggle("on", b.dataset.d === design));
+    $("#pb-pivot").hidden = !(design === "float" && !pivoted);
+    if (design === "scatter") {
+      table(raw); $("#pb-tcap").textContent = "Input table, as it arrives"; $("#pb-code").textContent = "";
+      rules([[true, "One row per point: each row becomes one mark."], [true, "Date, Temp and Type are all columns that can be mapped."]]);
+      drawChart($("#pb-chart"), () => ({ spec: { width: widthOf($("#pb-chart"), 90, 180), height: 190, data: { values: raw }, mark: { type: "point", size: 70, filled: false, strokeWidth: 2 },
+        encoding: { x: { field: "Date", type: "ordinal", axis: { labelAngle: 0 } }, y: { field: "Temp", type: "quantitative", scale: { domain: [50, 90] } }, color: { field: "Type", type: "nominal" } } } }));
+    } else if (!pivoted) {
+      table(raw); $("#pb-tcap").textContent = "Input table, as it arrives"; $("#pb-code").textContent = "";
+      rules([[false, "One row per bar: each day needs one bar, but has two rows."], [false, "Low → ymin and High → ymax: Low and High are values of Type, not columns."]]);
+      $("#pb-chart").innerHTML = '<div class="empty">Vega-Lite and ggplot2 have no column to map to y<sub>min</sub> or y<sub>max</sub>. Reshape first.</div>';
+      charts.delete($("#pb-chart"));
+    } else {
+      table(wide, true); $("#pb-tcap").textContent = "After pivot_wider: one row per day";
+      $("#pb-code").textContent = "pivot_wider(names_from = Type, values_from = Temp)";
+      rules([[true, "One row per bar."], [true, "Low and High are now columns: map them to ymin and ymax."]]);
+      drawChart($("#pb-chart"), () => ({ spec: { width: widthOf($("#pb-chart"), 90, 180), height: 190, data: { values: wide }, mark: { type: "bar", width: 34, cornerRadius: 3, color: cssv("--ny") },
+        encoding: { x: { field: "Date", type: "ordinal", axis: { labelAngle: 0 } }, y: { field: "Low", type: "quantitative", scale: { domain: [50, 90] }, title: "Low, High" }, y2: { field: "High" } } } }));
+    }
+  }
+  $("#pb-design").onclick = e => { if (e.target.dataset.d) { design = e.target.dataset.d; pivoted = false; render(); } };
+  $("#pb-pivot").onclick = () => { pivoted = true; render(); };
+  $("#pb-reset").onclick = () => { design = "scatter"; pivoted = false; render(); };
+  render();
+})();
+
+/* ---------------- 02 related work ---------------- */
+(() => {
+  const N = {
+    tx: { t: "Data transformation tools", s: "tidyverse · Wrangler · Potter's Wheel", who: "The user, by writing or clicking transformation steps.", spec: "Operators and their arguments (pivot_longer, mutate…).", gap: "The user must already know the target layout." },
+    pbe: { t: "Table synthesizers", s: "Morpheus · Scythe · Prose", who: "A synthesizer, from input–output tables.", spec: "An example of the output table.", gap: "The user still has to picture the output table, the step that Falx says users find hardest." },
+    gg: { t: "Grammars of graphics", s: "ggplot2 · Vega-Lite · Tableau", who: "Nobody: the table must already match.", spec: "Mark + column → channel mappings.", gap: "Breaks as soon as layout and design disagree." },
+    auto: { t: "Design automation", s: "Draco · Voyager · VizNet · Dziban", who: "Nobody: works over a fixed layout.", spec: "Partial specs or constraints; the tool recommends designs.", gap: "Explores which chart to draw, not how to get the data into shape." },
+    expr: { t: "Expressive authoring", s: "Data Illustrator · Lyra · Charticulator", who: "The user, before authoring (tidy data expected).", spec: "Direct manipulation of marks and bindings.", gap: "Richer designs, same layout assumption." },
+    falx: { t: "Falx", s: "visualization by example", who: "A synthesizer, from examples drawn in chart space.", spec: "A few marks with concrete values (x → 2011-10-01, y → 63.4…).", gap: "Covers standard designs and the operators in its grammar." }
+  };
+  const box = k => `<button class="node ${k === "falx" ? "falx" : ""}" data-k="${k}"><h4>${N[k].t}</h4><p>${N[k].s}</p></button>`;
+  $("#rw-flow").innerHTML = `${box("tx")}<div class="arrow">→</div>${box("gg")}<div class="arrow">→</div><div class="node" style="cursor:default"><h4>Chart</h4><p>rendered visualization</p></div>
+    <div style="grid-column:1;margin-top:10px">${box("pbe")}</div><div></div><div style="grid-column:3;margin-top:10px">${box("auto")}</div><div></div><div style="grid-column:5;margin-top:10px">${box("expr")}</div>
+    <div class="span-falx">${box("falx")}</div>`;
+  function pick(k) {
+    $$("#rw-flow .node[data-k]").forEach(n => n.classList.toggle("on", n.dataset.k === k));
+    const n = N[k];
+    $("#rw-detail").innerHTML = `<h4>${n.t}</h4><p><b>Who does the layout work:</b> ${n.who}</p><p><b>What the user specifies:</b> ${n.spec}</p><p><b>Where it stops:</b> ${n.gap}</p>`;
+  }
+  $("#rw-flow").onclick = e => { const n = e.target.closest(".node[data-k]"); if (n) pick(n.dataset.k); };
+  pick("falx");
+})();
+
+/* ---------------- 03 R workbench ---------------- */
+const RW = (() => {
+  const S = D.r;
+  const steps = [
+    { k: "s1", t: "1 · Reshape", v: [["pivot_printed", "As printed"], ["pivot_fixed", "Runs as intended"]] },
+    { k: "s2", t: "2 · Line layer", v: [["line_printed", "As printed"], ["line_fixed", "Runs as intended"]] },
+    { k: "s3", t: "3 · Difference bars", v: [["rect_printed", "As printed"], ["rect_fixed", "Runs as intended"]] },
+    { k: "s4", t: "4 · Combine (Figure 3)", v: [["final", "Final script"]] },
+    { k: "s5", t: "Novice detours", v: [["trap_bar", "geom_bar"], ["trap_col", "geom_col"]] }
+  ];
+  let step = 0, vid = "pivot_printed";
+  function show(res) {
+    const con = $("#rw-console"); const txt = (res.stdout || "") + (res.stderr ? (res.stdout ? "\n" : "") + res.stderr : "");
+    con.textContent = txt.trim() || (res.svg ? "(plot drawn below)" : "(no console output)");
+    con.classList.toggle("err", !res.ok);
+    const p = $("#rw-plot"); p.hidden = !res.svg; p.innerHTML = res.svg || "";
+    if (res.svg) { const s = p.querySelector("svg"); if (s) { s.removeAttribute("width"); s.removeAttribute("height"); } }
+  }
+  function load() {
+    $$("#rw-steps button").forEach((b, i) => b.classList.toggle("on", i === step));
+    $("#rw-variant").innerHTML = steps[step].v.map(([id, t]) => `<button class="btn sm ${id === vid ? "dark" : ""}" data-v="${id}">${t}</button>`).join("");
+    $("#rw-code").value = S[vid].code; show(S[vid]);
+  }
+  $("#rw-steps").innerHTML = steps.map((s, i) => `<button data-i="${i}">${s.t}</button>`).join("");
+  $("#rw-steps").onclick = e => { if (e.target.dataset.i) { step = +e.target.dataset.i; vid = steps[step].v[0][0]; load(); } };
+  $("#rw-variant").onclick = e => { if (e.target.dataset.v) { vid = e.target.dataset.v; load(); } };
+  $("#rw-revert").onclick = () => { $("#rw-code").value = S[vid].code; show(S[vid]); };
+  $("#rw-run").onclick = async () => {
+    const code = $("#rw-code").value;
+    if (!LIVE.r) { show(S[vid]); return; }
+    $("#rw-console").textContent = "Running in R…"; $("#rw-console").classList.remove("err");
+    try { const r = await fetch("r", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ code }) }); show(await r.json()); }
+    catch (e) { $("#rw-console").textContent = "Could not reach the local R server: " + e.message; $("#rw-console").classList.add("err"); }
+  };
+  function refreshMode() {
+    $("#rw-mode").textContent = LIVE.r ? "Live R on this machine" : "Recorded R output";
+    $("#rw-run").textContent = LIVE.r ? "Run in R" : "Show recorded output";
+    $("#rw-code").readOnly = !LIVE.r;
+    $("#rw-hint").textContent = LIVE.r ? "Edit the code freely; df holds the 83-row weather table." : "Start the local server to edit and run the code live.";
+  }
+  load(); refreshMode();
+  return { refreshMode };
+})();
+
+/* ---------------- 04 Falx replica ---------------- */
+const FX = (() => {
+  const W = D.weather; const PER = 8;
+  const st = { page: 0, tags: [], sel: -1, field: null, results: null, cand: 0, post: { step: false, xt: "", yt: "" }, busy: false, menu: false };
+  const FIELDS = { line: ["x1", "y1", "x2", "y2", "color"], bar: ["x", "y", "y2", "color"], point: ["x", "y", "color", "size"] };
+  const blank = type => ({ type, props: Object.fromEntries(FIELDS[type].map(f => [f, ""])) });
+  function drawTable() {
+    const rows = W.slice(st.page * PER, st.page * PER + PER);
+    $("#fx-table").innerHTML = "<tr>" + COLS.weather.map(c => `<th data-v="${esc(c)}">${c}</th>`).join("") + "</tr>" +
+      rows.map(r => "<tr>" + COLS.weather.map(c => `<td data-v="${esc(r[c])}">${r[c]}</td>`).join("") + "</tr>").join("");
+    $("#fx-page").textContent = `Page ${st.page + 1} of ${Math.ceil(W.length / PER)}`;
+  }
+  $("#fx-prev").onclick = () => { st.page = Math.max(0, st.page - 1); drawTable(); };
+  $("#fx-next").onclick = () => { st.page = Math.min(Math.ceil(W.length / PER) - 1, st.page + 1); drawTable(); };
+  $("#fx-table").addEventListener("mousedown", e => e.preventDefault());
+  $("#fx-table").onclick = e => {
+    const c = e.target.closest("td,th"); if (!c || st.sel < 0) return;
+    const f = st.field || FIELDS[st.tags[st.sel].type].find(k => st.tags[st.sel].props[k] === "") ; if (!f) return;
+    st.tags[st.sel].props[f] = c.dataset.v; const order = FIELDS[st.tags[st.sel].type];
+    st.field = order[order.indexOf(f) + 1] || null; drawDemos(); drawEditor(); drawPreview();
+  };
+  function chipBody(t) { return FIELDS[t.type].filter(f => t.props[f] !== "").map(f => `${f} → ${esc(t.props[f])}`).join("<br>") || "empty"; }
+  function drawDemos() {
+    $("#fx-demos").innerHTML = st.tags.map((t, i) => `<button class="ex ${i === st.sel ? "on" : ""}" data-i="${i}"><div class="h">${t.type} #${i + 1}</div><div class="b">${chipBody(t)}</div></button>`).join("") + `<button class="add" id="fx-add" aria-label="Add example">+</button>`;
+    $("#fx-addmenu").hidden = !st.menu;
+  }
+  $("#fx-addmenu").innerHTML = ["bar", "line", "point"].map(t => `<button class="btn sm" data-t="${t}">${t}</button>`).join("") + ["float bar", "rect", "area"].map(t => `<button class="btn sm" disabled title="Not used in this walkthrough">${t}</button>`).join("");
+  $("#fx-demos").onclick = e => {
+    if (e.target.closest("#fx-add")) { st.menu = !st.menu; drawDemos(); return; }
+    const b = e.target.closest(".ex"); if (b) { st.sel = +b.dataset.i; st.field = null; drawDemos(); drawEditor(); }
+  };
+  $("#fx-addmenu").onclick = e => { const t = e.target.dataset.t; if (!t) return; st.tags.push(blank(t)); st.sel = st.tags.length - 1; st.field = FIELDS[t][0]; st.menu = false; drawDemos(); drawEditor(); drawPreview(); };
+  function drawEditor() {
+    const ed = $("#fx-editor"); if (st.sel < 0 || !st.tags[st.sel]) { ed.hidden = true; return; }
+    const t = st.tags[st.sel]; ed.hidden = false;
+    ed.innerHTML = `<div class="row" style="justify-content:space-between"><b style="font-size:12.5px">Editing ${t.type} #${st.sel + 1}</b><span class="small">click a field, then a table cell</span></div>
+      <div class="fields">${FIELDS[t.type].map(f => `<label>${f}<input id="fx-f-${f}" data-f="${f}" value="${esc(t.props[f])}" placeholder="empty"></label>`).join("")}</div>
+      <div class="row"><button class="btn sm" id="fx-del">Delete</button><button class="btn sm dark" id="fx-done" style="margin-left:auto">Save</button></div>`;
+    if (st.field) { const inp = $("#fx-f-" + st.field, ed); if (inp) inp.style.borderColor = "var(--eyebrow)"; }
+    $$("input", ed).forEach(inp => {
+      inp.onfocus = () => { st.field = inp.dataset.f; $$("input", ed).forEach(x => x.style.borderColor = ""); inp.style.borderColor = "var(--eyebrow)"; };
+      inp.oninput = () => { t.props[inp.dataset.f] = inp.value; drawDemos(); drawPreview(); };
+    });
+    $("#fx-del").onclick = () => { st.tags.splice(st.sel, 1); st.sel = -1; drawDemos(); drawEditor(); drawPreview(); };
+    $("#fx-done").onclick = () => { st.sel = -1; st.field = null; drawDemos(); drawEditor(); };
+  }
+  function drawPreview() {
+    const el = $("#fx-preview"); const rows = [];
+    st.tags.forEach((t, i) => {
+      const p = t.props, num = v => v === "" ? null : +v;
+      if (t.type === "line" && p.x1 && p.x2) { rows.push({ k: "line #" + (i + 1), x: p.x1, y: num(p.y1), c: p.color || "line" }, { k: "line #" + (i + 1), x: p.x2, y: num(p.y2), c: p.color || "line" }); }
+      if (t.type === "bar" && p.x) rows.push({ k: "bar #" + (i + 1), x: p.x, y: num(p.y) ?? 0, y2: num(p.y2), c: "bar", bar: 1 });
+      if (t.type === "point" && p.x) rows.push({ k: "pt", x: p.x, y: num(p.y), c: p.color || "point", pt: 1 });
+    });
+    if (!rows.length) { el.innerHTML = '<div class="empty" style="padding:14px">No example yet.</div>'; charts.delete(el); return; }
+    drawChart(el, () => ({ spec: { width: widthOf(el, 70, 150), height: 110, data: { values: rows }, layer: [
+      { transform: [{ filter: "!datum.bar && !datum.pt" }], mark: { type: "line", point: true, strokeWidth: 2 }, encoding: { x: { field: "x", type: "ordinal", title: null, axis: { labelAngle: 0, labelFontSize: 9 } }, y: { field: "y", type: "quantitative", scale: { zero: false }, title: null }, color: { field: "c", type: "nominal", title: null }, detail: { field: "k" } } },
+      { transform: [{ filter: "datum.bar" }], mark: { type: "bar", width: 14, color: cssv("--ny"), opacity: .7 }, encoding: { x: { field: "x", type: "ordinal" }, y: { field: "y", type: "quantitative" }, y2: { field: "y2" } } },
+      { transform: [{ filter: "datum.pt" }], mark: { type: "point", filled: true, size: 60 }, encoding: { x: { field: "x", type: "ordinal" }, y: { field: "y", type: "quantitative" } } }
+    ], config: { legend: { orient: "bottom" } } } }));
+  }
+  /* matching recorded runs */
+  const norm = v => { if (v === undefined || v === null) return ""; const s = String(v).trim(); if (s === "") return ""; return isFinite(+s) ? String(+(+s).toFixed(4)) : s.toLowerCase(); };
+  const canon = (tags, ds) => ds + "::" + tags.map(t => t.type + "|" + ["x", "x1", "x2", "y", "y1", "y2", "color", "size"].map(k => norm(t.props[k])).join("|")).sort().join("||");
+  const RECORDED = Object.values(D.falx);
+  function findRecorded(tags, ds = "weather") { const k = canon(tags, ds); return RECORDED.find(r => canon(r.tags, r.data) === k); }
+  function falxTags(tags) {
+    return tags.map(t => { const p = {};
+      for (const f of FIELDS[t.type]) { const v = String(t.props[f] ?? "").trim(); p[f] = v !== "" && isFinite(+v) ? +v : v; }
+      if (t.type === "line") Object.assign(p, { size: "", column: "" }); if (t.type === "bar") Object.assign(p, { x2: "", column: "" }); if (t.type === "point") Object.assign(p, { shape: "", column: "" });
+      return { type: t.type, props: p }; });
+  }
+  function msg(html, warn) { const m = $("#fx-msg"); m.innerHTML = html; m.classList.toggle("warn", !!warn); }
+  async function progress(seconds, label) {
+    const bar = $("#fx-bar"), fill = $("#fx-bar i"); bar.hidden = false; fill.style.width = "0%";
+    const t0 = performance.now(), dur = seconds * 1000;
+    while (performance.now() - t0 < dur) { const f = (performance.now() - t0) / dur; fill.style.width = (f * 100).toFixed(1) + "%"; msg(`${label} ${((performance.now() - t0) / 1000).toFixed(1)} s`); await sleep(60); }
+    fill.style.width = "100%"; await sleep(120); bar.hidden = true;
+  }
+  async function synthesize() {
+    if (st.busy) return;
+    const tags = st.tags.filter(t => Object.values(t.props).some(v => String(v).trim() !== ""));
+    if (!tags.length) { msg("Add at least one example first.", true); return; }
+    st.busy = true; $("#fx-synth").disabled = true;
+    try {
+      if (LIVE.falx) {
+        const bar = $("#fx-bar"), fill = $("#fx-bar i"); bar.hidden = false; const t0 = performance.now();
+        const tick = setInterval(() => { const s = (performance.now() - t0) / 1000; fill.style.width = Math.min(100, s / 20 * 100) + "%"; msg(`Running Falx on this machine… ${s.toFixed(1)} s`); }, 100);
+        let res; try { const r = await fetch("falx", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ data: W, tags: falxTags(tags), mode: "heavy" }) }); res = await r.json(); }
+        finally { clearInterval(tick); bar.hidden = true; }
+        show(res, "live run on this machine");
+      } else {
+        const rec = findRecorded(falxTags(tags));
+        if (!rec) {
+          msg(`This demonstration is not among the recorded runs, and no local Falx server is connected.<br><span class="small">Recorded: ${RECORDED.filter(r => r.data === "weather").map(r => `<a href="#" data-rec="${r.id}">${esc(r.label.split(" · ")[1] || r.label)}</a>`).join(" · ")}</span><br><span class="small">Run <code>./run.sh</code> from the repository to synthesize any demonstration live.</span>`, true);
+          return;
+        }
+        const real = $("#fx-realtime").checked;
+        await progress(real ? Math.max(.4, rec.time_spent) : Math.min(1.6, Math.max(.5, rec.time_spent / 5)), real ? "Replaying recorded run…" : "Replaying recorded run (fast-forward)…");
+        show(rec, "recorded run · original time " + rec.time_spent.toFixed(1) + " s");
+      }
+    } catch (e) { msg("Synthesis failed: " + esc(e.message), true); }
+    finally { st.busy = false; $("#fx-synth").disabled = false; }
+  }
+  function show(res, src) {
+    st.results = res.result || []; st.cand = 0; st.post = { step: false, xt: "", yt: "" };
+    const n = st.results.length;
+    if (res.status === "error") msg(`Falx stopped with an error: <code>${esc(res.error || "")}</code><br><span class="small">${src}</span>`, true);
+    else if (!n) msg(`Falx found no visualization that matches the demonstration within the ${res.status === "timeout" ? "20 s budget" : "search"}.<br><span class="small">${src}</span>`, true);
+    else msg(`<b>Falx found ${n} visualization${n > 1 ? "s" : ""}</b> that match${n > 1 ? "" : "es"} the demonstration.<br><span class="small">${src}${res.time_spent !== undefined && src.startsWith("live") ? " · " + res.time_spent.toFixed(1) + " s" : ""}</span>`);
+    drawResults();
+  }
+  function drawResults() {
+    const th = $("#fx-thumbs"); th.innerHTML = "";
+    if (!st.results || !st.results.length) { $("#fx-center").innerHTML = '<div class="empty">No candidates.</div>'; charts.delete($("#fx-center")); drawPost(); return; }
+    st.results.forEach((r, i) => {
+      const b = document.createElement("button"); b.className = "thumb" + (i === st.cand ? " on" : "");
+      b.innerHTML = `<div class="lbl"><span>#${i + 1}</span></div><div class="chart"></div>`; b.onclick = () => { st.cand = i; drawResults(); };
+      th.appendChild(b); thumb($(".chart", b), r.vl_spec);
+    });
+    drawCenter(); drawPost();
+  }
+  function drawCenter() {
+    const el = $("#fx-center"); const r = st.results[st.cand];
+    drawChart(el, () => ({ spec: prepSpec(r.vl_spec, { w: widthOf(el, 170, 240), h: 220, post: st.post }) }));
+  }
+  function drawPost() {
+    const r = st.results && st.results[st.cand];
+    const gui = $("#fx-gui"), prog = $("#fx-prog");
+    if (!r) { gui.innerHTML = '<div class="empty" style="padding:14px">Select a candidate.</div>'; prog.innerHTML = gui.innerHTML; return; }
+    const first = (r.vl_spec.layer || [r.vl_spec])[0]; const mt = typeof first.mark === "string" ? first.mark : first.mark.type;
+    gui.innerHTML = `<label>Mark (layer 1)<select id="fx-mark">${mt === "line" ? `<option value="line">line</option><option value="step" ${st.post.step ? "selected" : ""}>step</option>` : `<option>${mt}</option>`}</select></label>
+      <label>x title<input id="fx-xt" value="${esc(st.post.xt)}" placeholder="date"></label>
+      <label>y title<input id="fx-yt" value="${esc(st.post.yt)}" placeholder="VALUE"></label>
+      <p class="small">Changes apply to the centered view immediately, as in the paper.</p>`;
+    $("#fx-mark").onchange = e => { st.post.step = e.target.value === "step"; drawCenter(); };
+    $("#fx-xt").oninput = e => { st.post.xt = e.target.value; drawCenter(); };
+    $("#fx-yt").oninput = e => { st.post.yt = e.target.value; drawCenter(); };
+    const L = layersOf(r.rscript);
+    prog.innerHTML = `<div class="small">Falx program${L.length > 1 ? " (one per layer)" : ""}, as printed by Falx</div><pre class="code">${esc(L.join("\n"))}</pre>
+      <div class="small">Same program as tidyverse <span class="illus">· mechanical translation by the presenter</span></div><pre class="code">${esc(L.map((p, i) => (L.length > 1 ? "# layer " + (i + 1) + "\n" : "") + translate(p, COLS.weather).replace(/^t0 <- df\n?/, "t0 <- df\n")).join("\n"))}</pre>
+      <details><summary>ggplot2 exported by Falx</summary><div><pre class="code">${esc((r.ggplot2 || []).join("\n"))}</pre></div></details>
+      <details><summary>Vega-Lite spec</summary><div><pre class="code">${esc(JSON.stringify(Object.assign({}, r.vl_spec, { data: { values: "[" + r.vl_spec.data.values.length + " rows]" } }), null, 1))}</pre></div></details>`;
+  }
+  $("#fx-posttabs").onclick = e => { const t = e.target.dataset.t; if (!t) return; $$("#fx-posttabs button").forEach(b => b.classList.toggle("on", b.dataset.t === t)); $("#fx-gui").hidden = t !== "gui"; $("#fx-prog").hidden = t !== "prog"; };
+  function preset(id, run = true) {
+    const rec = D.falx[id]; st.tags = rec.tags.map(t => ({ type: t.type, props: Object.fromEntries(FIELDS[t.type].map(f => [f, String(t.props[f] ?? "")])) }));
+    st.sel = -1; st.menu = false; st.page = 0; drawTable(); drawDemos(); drawEditor(); drawPreview();
+    $$(".fx-presets [data-preset]").forEach(b => b.classList.toggle("dark", b.dataset.preset === id));
+    if (run) synthesize();
+  }
+  $$(".fx-presets [data-preset]").forEach(b => b.onclick = () => preset(b.dataset.preset));
+  $("#fx-msg").addEventListener("click", e => { const a = e.target.closest("[data-rec]"); if (a) { e.preventDefault(); preset(a.dataset.rec); } });
+  $("#fx-reset").onclick = () => { st.tags = []; st.sel = -1; st.results = null; st.menu = false; drawTable(); drawDemos(); drawEditor(); drawPreview(); $("#fx-thumbs").innerHTML = ""; $("#fx-center").innerHTML = '<div class="empty">Synthesized visualizations appear here.</div>'; charts.delete($("#fx-center")); msg("Add an example and press Synthesize."); drawPost(); $$(".fx-presets [data-preset]").forEach(b => b.classList.remove("dark")); };
+  $("#fx-synth").onclick = synthesize;
+  function refreshMode() { /* label only */ }
+  drawTable(); drawDemos(); drawPreview(); drawPost();
+  /* open in a realistic state: paper step 1 already demonstrated and synthesized */
+  preset("line_ny", false); show(D.falx.line_ny, "recorded run · original time " + D.falx.line_ny.time_spent.toFixed(1) + " s");
+  return { refreshMode };
+})();
+
+/* ---------------- 04b ambiguity ---------------- */
+(() => {
+  $("#am-n12").textContent = D.falx.line_bar.result.length; $("#am-n7").textContent = D.falx.line_bar_bar.result.length;
+  function draw(k) {
+    $$("#am-tabs button").forEach(b => b.classList.toggle("on", b.dataset.k === k));
+    const rec = D.falx[k]; $("#am-big").textContent = rec.result.length;
+    $("#am-cap").textContent = `candidates · ${rec.time_spent.toFixed(1)} s · ${rec.label.split(" · ")[1] || rec.label}`;
+    const g = $("#am-grid"); g.innerHTML = "";
+    rec.result.forEach((r, i) => {
+      const L = layersOf(r.rscript); const ok = intended(r);
+      const d = document.createElement("div"); d.className = "thumb" + (ok ? " on" : "");
+      d.innerHTML = `<div class="lbl"><span>#${i + 1}</span>${ok ? '<span class="okc">intended</span>' : ""}</div><div class="chart"></div><div class="prog">${esc(L[L.length - 1].replace("t0 <- table_ref(0); ", ""))}</div>`;
+      g.appendChild(d); thumb($(".chart", d), r.vl_spec);
+    });
+  }
+  $("#am-tabs").onclick = e => { if (e.target.dataset.k) draw(e.target.dataset.k); };
+  draw("line_bar");
+})();
+
+/* ---------------- 04c comparison ---------------- */
+(() => {
+  const code = D.r.final.code.split("\n").filter(l => l.trim() && !l.trim().startsWith("#"));
+  const fns = new Set([...D.r.final.code.matchAll(/([A-Za-z_][A-Za-z0-9_.]*)\(/g)].map(m => m[1]));
+  $("#cmp-r").innerHTML = `<div><b>${code.length}</b><span>lines</span></div><div><b>${fns.size}</b><span>functions</span></div><div><b>2</b><span>table layouts</span></div>`;
+  $("#cmp-n").textContent = D.falx.line_bar.result.length; $("#cmp-lines").textContent = code.length; $("#cmp-fns").textContent = fns.size;
+  function draw(v) {
+    $$("#cmp-tabs button").forEach(b => b.classList.toggle("on", b.dataset.v === v));
+    const el = $("#cmp-view");
+    if (v === "r") { el.innerHTML = `<div class="rplot">${D.r.final.svg}</div><p class="small">Real R output of the Step 4 script.</p>`; }
+    else if (v === "export") { el.innerHTML = `<div class="rplot">${D.r.falx_export.svg}</div><p class="small">Falx's ggplot2 export with its table program written as tidyverse, run in R 4.3.</p>`; }
+    else { el.innerHTML = '<div class="center"></div><p class="small">Candidate #1 from the recorded line + bar run, rendered from Falx\'s Vega-Lite spec with the line set to step in post-processing.</p>';
+      const c = $(".center", el); drawChart(c, () => ({ spec: prepSpec(D.falx.line_bar.result[0].vl_spec, { w: widthOf(c, 170, 240), h: 220, post: { step: true, xt: "Date", yt: "Temperature" } }) })); }
+    $$("svg", el).forEach(s => { s.removeAttribute("width"); s.removeAttribute("height"); });
+  }
+  $("#cmp-tabs").onclick = e => { if (e.target.dataset.v) draw(e.target.dataset.v); };
+  draw("r");
+})();
+
+/* ---------------- 05 architecture ---------------- */
+(() => {
+  const S = D.search; let step = 0;
+  const pyRows = s => JSON.parse(s.replace(/'/g, '"'));
+  const lineT = pyRows(S.line_example_table), barT = pyRows(S.bar_example_table);
+  const tbl = (rows, cols, names) => `<table class="t"><thead><tr>${names.map(n => `<th>${n}</th>`).join("")}</tr></thead><tbody>${rows.map(r => `<tr>${cols.map(c => `<td>${r[c]}</td>`).join("")}</tr>`).join("")}</tbody></table>`;
+  const bar = S.bar_layer; const finals = new Set(D.falx.line_bar.result.map(r => layersOf(r.rscript)[1]));
+  let play = null, upto = bar.length;
+  function searchView() {
+    const shown = bar.slice(0, upto);
+    const rej = shown.filter(x => !x.ok.length).length, kept = shown.reduce((a, x) => a + x.ok.length, 0);
+    return `<div class="counter"><div><b>${shown.length}</b><span>sketches expanded</span></div><div><b>${rej}</b><span>rejected before filling arguments</span></div><div><b>${kept}</b><span>partial programs kept</span></div><div><b>${upto === bar.length ? D.falx.line_bar.result.length : "…"}</b><span>complete charts</span></div></div>
+      <div class="search-list" id="ar-list">${shown.map((x, i) => `<div class="${i === upto - 1 && play ? "cur" : ""}"><span class="${x.ok.length ? "okc" : "badc"}">${x.ok.length ? "✓" : "✗"}</span><span>${esc(x.sketch.replace("t0 <- table_ref(0); ", ""))}</span><span class="n">${x.ok.length ? x.ok.length + " kept" : "pruned"}</span></div>`).join("")}</div>
+      <div class="row"><button class="btn sm dark" id="ar-play">${play ? "Pause" : "Replay the search"}</button><span class="small">From Falx's own log for the bar layer. The log lists surviving partial programs, not every pruned one.</span></div>`;
+  }
+  const W = D.weather.slice(0, 3);
+  const progs = {
+    sub: { t: "mutate(I, NY − SF)", f: r => ({ ...r, COL_0: +(r["New York"] - r["San Francisco"]).toFixed(1) }), y2: "New York", c: "COL_0" },
+    cum: { t: "cumsum(I, NY) then mutate(NY − SF)", f: (r, i, a) => { const cs = +a.slice(0, i + 1).reduce((s, x) => s + x["New York"], 0).toFixed(1); return { ...r, cumsum: cs, COL_0: +(r["New York"] - r["San Francisco"]).toFixed(1) }; }, y2: "cumsum", c: "COL_0" },
+    add: { t: "mutate(I, NY + SF)", f: r => ({ ...r, COL_0: +(r["New York"] + r["San Francisco"]).toFixed(1) }), y2: "New York", c: "COL_0" }
+  };
+  let pk = "sub";
+  function checkView() {
+    const p = progs[pk]; const out = W.map((r, i, a) => p.f(r, i, a));
+    const ex = barT[0]; const hit = out.findIndex(r => r.date === ex.c_x && r["San Francisco"] === ex.c_y && r[p.y2] === ex.c_y2 && r[p.c] === ex.c_color);
+    const cols = Object.keys(out[0]);
+    return `<div class="small">Example table T for the bar layer (from Falx's log)</div>${tbl(barT, ["c_x", "c_y", "c_y2", "c_color"], ["C1 · x", "C2 · y", "C3 · y2", "C4 · color"])}
+      <div class="pills" id="ar-progs">${Object.entries(progs).map(([k, v]) => `<button data-p="${k}" class="${k === pk ? "on" : ""}">${v.t}</button>`).join("")}</div>
+      <div class="scroll-x"><table class="t"><thead><tr>${cols.map(c => `<th>${c}</th>`).join("")}</tr></thead><tbody>${out.map((r, i) => `<tr class="${i === hit ? "hit" : ""}">${cols.map(c => `<td>${r[c]}</td>`).join("")}</tr>`).join("")}</tbody></table></div>
+      <div class="box"><p>${hit >= 0 ? `<b class="okc">T ⊆ P(T_in)</b>: row ${hit + 1} contains (2011-10-01, 62.7, ${ex.c_y2}, 0.7) under the bar's mapping (y = San Francisco, y2 = ${p.y2}, color = COL_0).` : `<b class="badc">No row matches</b> the example, so this program is rejected.`}
+      ${pk === "cum" ? " On the first date the cumulative sum equals the raw value, so this wrong program also passes. A second example bar on 2011-10-05 (cumsum = 127.6, not 64.2) rejects it." : ""}</p></div>
+      <p class="illus">Computed in the page from the first rows of the weather table, to illustrate the containment check.</p>`;
+  }
+  function body() {
+    $$("#ar-tabs button").forEach(b => b.classList.toggle("on", +b.dataset.s === step));
+    $("#ar-info").textContent = `Step ${step + 1} of 4`; $("#ar-prev").disabled = step === 0; $("#ar-next").disabled = step === 3;
+    const el = $("#ar-body");
+    if (step === 0) el.innerHTML = `<p class="small" style="color:var(--muted)">Falx groups the examples by mark type, makes one layer per group, and writes each example as a row of an example table.</p>
+      <div class="decomp"><div class="box"><h4>Layer 1</h4><pre>Line(x → C1, y → C2, color → C3)</pre>${tbl(lineT, ["c_x", "c_y", "c_color"], ["C1", "C2", "C3"])}</div>
+      <div class="box"><h4>Layer 2</h4><pre>Bar(x → C1, y → C2, y2 → C3, color → C4)</pre>${tbl(barT, ["c_x", "c_y", "c_y2", "c_color"], ["C1", "C2", "C3", "C4"])}</div></div>
+      <p class="small">Example tables copied from Falx's log of the recorded run. The two line endpoints become two rows.</p>`;
+    else if (step === 1) { el.innerHTML = searchView(); $("#ar-play").onclick = togglePlay; }
+    else if (step === 2) { el.innerHTML = checkView(); $("#ar-progs").onclick = e => { if (e.target.dataset.p) { pk = e.target.dataset.p; body(); } }; }
+    else { const r = D.falx.line_bar.result[0]; el.innerHTML = `<p class="small" style="color:var(--muted)">Each table program is paired with the chart program, columns C1…C4 are renamed, scale types are filled in, and the pair is compiled. Duplicates are removed and candidates are ranked by program size.</p>
+      <div class="two"><div><div class="small">Vega-Lite (bar layer)</div><pre class="code">${esc(JSON.stringify(r.vl_spec.layer[1].encoding, null, 1))}</pre></div><div><div class="small">ggplot2, exported by Falx</div><pre class="code" style="white-space:pre-wrap">${esc(r.ggplot2.slice(-2).join("\n"))}</pre></div></div>`; }
+  }
+  async function togglePlay() {
+    if (play) { play = null; body(); return; }
+    play = true; upto = 1;
+    while (play && upto <= bar.length) { body(); const l = $("#ar-list"); if (l) l.scrollTop = l.scrollHeight; await sleep(140); upto++; }
+    upto = bar.length; play = null; if (step === 1) body();
+  }
+  $("#ar-tabs").onclick = e => { if (e.target.dataset.s) { step = +e.target.dataset.s; body(); } };
+  $("#ar-prev").onclick = () => { step = Math.max(0, step - 1); body(); };
+  $("#ar-next").onclick = () => { step = Math.min(3, step + 1); body(); };
+  body();
+})();
+
+/* ---------------- 07 results ---------------- */
+(() => {
+  const done = [ ["Disaster impact", 16, 94.1, 14, 87.5, false], ["Electric usage", 13, 75.6, 14, 87.5, false], ["Car sales", 5, 29.4, 11, 68.8, true], ["Movie awards", 14, 82.4, 16, 100, false] ];
+  const time = [ ["Disaster impact", 754, 279, 638, 209, "p = 0.23", false], ["Electric usage", 740, 297, 411, 192, "p < 0.001", true], ["Car sales", 1473, 743, 715, 202, "p < 0.01", true], ["Movie awards", 861, 490, 544, 215, "p = 0.07", false] ];
+  function draw(v) {
+    $$("#rs-tabs button").forEach(b => b.classList.toggle("on", b.dataset.v === v));
+    const el = $("#rs-bars");
+    if (v === "done") {
+      $("#rs-title").textContent = "Tasks completed correctly";
+      el.innerHTML = done.map(([t, rn, rp, fn, fp, sig]) => `<div class="hb-task"><div class="tt"><span>${t}</span><span class="sig ${sig ? "yes" : "no"}">${sig ? "significant · p &lt; 0.05" : "ns · no significant difference"}</span></div>
+        <div class="hb-row" title="R: ${rn} of 17"><span>R</span><div class="hb-track"><div class="hb-fill" style="width:${rp}%;background:var(--ny)"></div></div><span>${rp}% · ${rn}/17</span></div>
+        <div class="hb-row" title="Falx: ${fn} of 16"><span>Falx</span><div class="hb-track"><div class="hb-fill" style="width:${fp}%;background:var(--sf)"></div></div><span>${fp}% · ${fn}/16</span></div></div>`).join("");
+      $("#rs-note").textContent = "Figure 11. Failures: Falx 9 tasks (7 wrong, 2 quit); R 20 tasks (9 wrong, 11 quit).";
+    } else {
+      $("#rs-title").textContent = "Mean time per task (± SD)";
+      const max = 2300, pct = s => (s / max * 100).toFixed(1);
+      el.innerHTML = time.map(([t, rm, rs, fm, fs, p, sig]) => `<div class="hb-task"><div class="tt"><span>${t}</span><span class="sig ${sig ? "yes" : "no"}">${sig ? "significant · " : "ns · "}${p}</span></div>
+        ${[["R", rm, rs, "--ny"], ["Falx", fm, fs, "--sf"]].map(([n, m, s, c]) => `<div class="hb-row" title="${n}: ${m} ± ${s} s"><span>${n}</span><div class="hb-track"><div class="hb-fill" style="width:${pct(m)}%;background:var(${c})"></div><div class="hb-err" style="left:${pct(m - s)}%;width:${pct(2 * s)}%"></div></div><span>${m} ± ${s} s</span></div>`).join("")}</div>`).join("");
+      $("#rs-note").textContent = "From the text of Section 4.3 (Wilcoxon rank-sum, Holm correction). Axis 0–2300 s.";
+    }
+  }
+  $("#rs-tabs").onclick = e => { if (e.target.dataset.v) draw(e.target.dataset.v); };
+  draw("done");
+})();
+
+/* ---------------- 08 strategies ---------------- */
+(() => {
+  const res = D.falx.line_bar.result;
+  const info = res.map((r, i) => {
+    const bl = (r.vl_spec.layer || [r.vl_spec])[1].encoding; const rows = r.vl_spec.data.values.filter(d => d.layer_id === 1);
+    const ys = rows.flatMap(d => [d[bl.y.field], d[bl.y2.field]]).map(Number); const cs = rows.map(d => +d[bl.color.field]);
+    const sig = JSON.stringify(rows.map(d => [d[bl.y.field], d[bl.y2.field], d[bl.color.field]]));
+    const dk = rows.find(d => d.date === "2011-12-15") || {};
+    const marks = rows.map(d => [d[bl.y.field], d[bl.y2.field], +(+d[bl.color.field]).toFixed(1)].join());
+    return { i, ymax: Math.max(...ys), cmax: Math.max(...cs.map(Math.abs)), sig, marks, dk: [+dk[bl.y.field], +dk[bl.y2.field], +(+dk[bl.color.field]).toFixed(1)] };
+  });
+  info.forEach(x => { x.diff = x.marks.filter((m, j) => m !== info[0].marks[j]).length; });
+  const firstSig = {}; info.forEach(x => { if (firstSig[x.sig] === undefined) firstSig[x.sig] = x.i; });
+  const checks = [
+    { t: "1 · High-level picture", d: "Bars should sit between the two temperature lines. Drop charts whose bars leave the temperature range.", out: x => x.ymax > 120 && `bars reach ${Math.round(x.ymax)}` },
+    { t: "2 · Axes and invariants", d: "The color legend should show a difference of a few degrees. Drop charts whose color scale runs into the hundreds.", out: x => x.cmax > 60 && `color up to ${Math.round(x.cmax)}` },
+    { t: "3 · Compare similar charts", d: "The survivors look alike. Compared mark by mark with #1, they differ on only a few days, too few to see in a thumbnail.", out: () => false, note: x => x.i > 0 && x.diff ? `differs from #1 on ${x.diff} of 83 days` : "" },
+    { t: "4 · Inspect a known value", d: "Hover a day you can check by hand: on 2011-12-15 the bar should run 48.8 → 49.6 with color 0.8 (49.6 − 48.8).", out: x => !(x.dk[0] === 48.8 && x.dk[1] === 49.6 && x.dk[2] === 0.8) && `12-15 shows ${x.dk.map(v => Math.round(v * 10) / 10).join(" / ")}` }
+  ];
+  let k = -1;
+  $("#st-tabs").innerHTML = `<button data-k="-1" class="on">All 12</button>` + checks.map((c, i) => `<button data-k="${i}">${c.t}</button>`).join("");
+  const g = $("#st-grid");
+  res.forEach((r, i) => { const d = document.createElement("div"); d.className = "thumb"; d.innerHTML = `<div class="lbl"><span>#${i + 1}</span><span class="st"></span></div><div class="chart"></div><div class="why"></div>`; g.appendChild(d); thumb($(".chart", d), r.vl_spec); });
+  function draw() {
+    $$("#st-tabs button").forEach(b => b.classList.toggle("on", +b.dataset.k === k));
+    let left = 0;
+    info.forEach((x, i) => {
+      let why = ""; for (let j = 0; j <= k; j++) { const o = checks[j].out(x); if (o) { why = `step ${j + 1}: ${o}`; break; } }
+      const note = !why && k === 2 ? checks[2].note(x) : "";
+      const d = g.children[i]; d.classList.toggle("out", !!why); d.classList.toggle("on", k === 3 && !why); $(".why", d).textContent = why || note; $(".why", d).style.color = why ? "" : "var(--muted)"; if (!why) left++;
+    });
+    $("#st-box").innerHTML = k < 0 ? `<h4>12 candidates from one line and one bar</h4><p>Press each step to apply the participants' routine.</p>` : `<h4>${checks[k].t} · ${left} left</h4><p>${checks[k].d}</p>`;
+  }
+  $("#st-tabs").onclick = e => { if (e.target.dataset.k !== undefined) { k = +e.target.dataset.k; draw(); } };
+  draw();
+})();
+
+/* ---------------- 09 discussion ---------------- */
+(() => {
+  const C = `<div class="cards3"><div class="box"><h4>Interaction model</h4><p>Specify charts by mapping example values to channels, with no transformation code.</p></div><div class="box"><h4>Synthesis</h4><p>Decompile examples into a chart program plus an example table, then synthesize the table program with deduction.</p></div><div class="box"><h4>Evidence</h4><p>A 33-person study: Falx users solved tasks they could not solve in R, faster on the two hardest.</p></div></div>
+    <div class="small" style="margin-top:6px">Implications named by the authors</div><ul style="margin:0;padding-left:18px;color:var(--muted)"><li>Augment empirical work with ML-style exploration of design spaces</li><li>Combine with design exploration tools (Voyager, GraphScape) without layout constraints</li><li>Help novices learn visualization APIs by reading synthesized programs</li><li>Bootstrap complex analyses for experienced analysts</li></ul>`;
+  const L = `<div class="cards3"><div class="box"><h4>Scope</h4><p>Standard charts and the operators in Figure 9. No dirty or non-relational data.</p></div><div class="box"><h4>Polish</h4><p>Participants wanting "very high standard visualizations" still need extensive customization.</p></div><div class="box"><h4>Integration</h4><p>No deep link to databases, notebooks or data-cleaning tools.</p></div></div>
+    <details open><summary>Open questions from the authors</summary><div><ul><li><b>Explain differences</b> among candidates instead of making users compare them.</li><li><b>Show traces</b> of how each mark's properties derive from the input.</li><li><b>Mixed-initiative</b> interfaces for new users.</li><li><b>Accept richer input</b> than examples, such as formulas.</li></ul></div></details>`;
+  function opening() {
+    const ok = D.falx.opening_two_bars, bad = D.falx.opening_one_bar;
+    const el = $("#ds-body");
+    el.innerHTML = `<div class="two"><div style="display:grid;gap:8px"><div class="small">Figure 1 table + two example bars (x → 09-05, y → 64.4, y2 → 87.8; x → 09-06, y → 53.6, y2 → 80.6)</div><pre class="code">${esc(layersOf(ok.result[0].rscript).join("\n"))}\n\n# as tidyverse\n${esc(translate(layersOf(ok.result[0].rscript)[0], COLS.fig1))}</pre>
+      <div class="sysmsg"><span><b>Falx found ${ok.result.length} visualization</b> in ${ok.time_spent.toFixed(1)} s: it rediscovered the pivot from the opening.</span></div>
+      <div class="sysmsg warn"><span>With only the first bar, the released code stops with <code>${esc(bad.error)}</code>.</span></div></div>
+      <div class="center" id="ds-chart"></div></div>`;
+    const c = $("#ds-chart"); drawChart(c, () => ({ spec: prepSpec(ok.result[0].vl_spec, { w: widthOf(c, 60, 180), h: 200 }) }));
+  }
+  function draw(v) { $$("#ds-tabs button").forEach(b => b.classList.toggle("on", b.dataset.v === v)); if (v === "o") opening(); else $("#ds-body").innerHTML = v === "c" ? C : L; }
+  $("#ds-tabs").onclick = e => { if (e.target.dataset.v) draw(e.target.dataset.v); };
+  draw("c");
+})();
+
+/* ---------------- 10 critical ---------------- */
+(() => {
+  function draw(k) {
+    $$("#c1-tabs button").forEach(b => b.classList.toggle("on", b.dataset.k === k));
+    const r = D.falx[k]; const n = r.result.length; const m = $("#c1-msg"); const c = $("#c1-chart");
+    m.classList.toggle("warn", !n);
+    m.innerHTML = n ? `<span><b>Falx found ${n} visualizations</b> in ${r.time_spent.toFixed(1)} s. Candidate #1 is the intended chart.</span>` : `<span><b>Falx found no visualization</b> within the 20 s budget (${r.time_spent.toFixed(1)} s). Nothing tells the user why.</span>`;
+    if (n) drawChart(c, () => ({ spec: prepSpec(r.result[0].vl_spec, { w: widthOf(c, 170, 240), h: 210 }) }));
+    else { c.innerHTML = `<div class="empty">No candidates.<br><span class="small">${k === "ratio" ? "NY ÷ SF needs division; mutate in Falx's grammar supports + and − only." : "0.8 is not NY − SF for any row, and no other program in the grammar produces it."}</span></div>`; charts.delete(c); }
+  }
+  $("#c1-tabs").onclick = e => { if (e.target.dataset.k) draw(e.target.dataset.k); };
+  draw("line_bar");
+  const F = D.falx;
+  const rows = [
+    ["R listing, Section 2.1 pivot", "Produces long table", "Syntax error: <code>cols = (…)</code> needs <code>c()</code>", false],
+    ["R listing, Figure 4a", "Line chart of two cities", "Runs, but maps City to y and Temperature to color", false],
+    ["R listing, Figure 4b", "Floating difference bars", "Runs, but <code>xmin = xmax = Date</code> draws nothing", false],
+    ["Falx: one line, color = New York", "2 candidates, ≈4 s", `${F.line_ny.result.length} candidate, ${F.line_ny.time_spent.toFixed(1)} s`, null],
+    ["Falx: same line, color blank", "(not reported)", `${F.line_nocolor.result.length} candidates, ${F.line_nocolor.time_spent.toFixed(1)} s (matches the paper's two charts)`, true],
+    ["Falx: line + bar", "8 candidates, ≈9 s", `${F.line_bar.result.length} candidates, ${F.line_bar.time_spent.toFixed(1)} s`, null],
+    ["Falx: + second bar", "(not reported)", `${F.line_bar_bar.result.length} candidates, ${F.line_bar_bar.time_spent.toFixed(1)} s`, true],
+    ["Falx: Figure 2, one floating bar", "Floating-bar chart", `Error: ${esc(F.opening_one_bar.error)}`, false],
+    ["Falx: Figure 2, two floating bars", "Floating-bar chart", `${F.opening_two_bars.result.length} candidate (pivot_wider), ${F.opening_two_bars.time_spent.toFixed(1)} s`, true],
+    ["Falx install", "pip install -r requirements.txt", "Fails on current Python; runs with Python 3.8 + pandas 1.1.5", null]
+  ];
+  $("#rp-table").innerHTML = `<thead><tr><th>Check</th><th>Paper</th><th>Re-run</th><th></th></tr></thead><tbody>${rows.map(([a, b, c, ok]) => `<tr><td>${a}</td><td>${b}</td><td>${c}</td><td class="${ok === true ? "okc" : ok === false ? "badc" : ""}">${ok === true ? "✓" : ok === false ? "✗" : "≈"}</td></tr>`).join("")}</tbody>`;
+})();
+
+window.addEventListener("resize", (() => { let t; return () => { clearTimeout(t); t = setTimeout(redrawAll, 200); }; })());
+try { if (localStorage.getItem("falx-mode") === "present") setMode(true); } catch (e) {}
+detectLive();
+</script>
