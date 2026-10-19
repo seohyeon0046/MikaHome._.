@@ -896,14 +896,16 @@ function setCur(i) {
   $$("#progress i").forEach((el, j) => { el.classList.toggle("on", j === curScene); el.classList.toggle("done", j < curScene); });
   const tab = scenes[curScene].dataset.tab;
   $$("#tabs a").forEach(a => a.classList.toggle("on", a.dataset.tab === tab));
-  const on = $("#tabs a.on"); if (on) on.scrollIntoView({ block: "nearest", inline: "nearest" });
+  const on = $("#tabs a.on"), bar = $("#tabs");
+  // scroll only the tab strip; scrollIntoView here would also move the page and fight the reader's scrolling
+  if (on && (on.offsetLeft < bar.scrollLeft || on.offsetLeft + on.offsetWidth > bar.scrollLeft + bar.clientWidth)) bar.scrollLeft = Math.max(0, on.offsetLeft - 24);
   scenes.forEach((s, j) => s.classList.toggle("cur", j === curScene));
   $("#pn-info").textContent = (curScene + 1) + " / " + scenes.length;
 }
 const io = new IntersectionObserver(es => {
   if (document.body.classList.contains("present")) return;
   const vis = es.filter(e => e.isIntersecting).sort((a, b) => a.boundingClientRect.top - b.boundingClientRect.top)[0];
-  if (vis) setCur(scenes.indexOf(vis.target));
+  if (vis && scenes.indexOf(vis.target) !== curScene) setCur(scenes.indexOf(vis.target));
 }, { rootMargin: "-35% 0px -60% 0px" });
 scenes.forEach(s => io.observe(s));
 function go(i) {
