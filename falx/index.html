@@ -784,7 +784,7 @@ body.present .presnav { display: flex }
 </section>
 </main>
 
-<div class="presnav"><button class="btn sm" id="pn-prev" aria-label="Previous scene">←</button><span id="pn-info"></span><button class="btn sm" id="pn-next" aria-label="Next scene">→</button></div>
+<div class="presnav"><button class="btn sm" id="pn-prev" aria-label="Previous scene">←</button><span id="pn-info"></span><button class="btn sm" id="pn-next" aria-label="Next scene">→</button><button class="btn sm" id="pn-story">Back to Story (scroll)</button></div>
 
 <script src="https://cdn.jsdelivr.net/npm/vega@5.30.0/build/vega.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/vega-lite@5.21.0/build/vega-lite.min.js"></script>
@@ -928,7 +928,6 @@ document.addEventListener("click", e => {
 function setMode(p) {
   document.body.classList.toggle("present", p);
   $("#m-story").classList.toggle("on", !p); $("#m-present").classList.toggle("on", p);
-  try { localStorage.setItem("falx-mode", p ? "present" : "story"); } catch (e) {}
   if (p) { setCur(curScene); scrollTo(0, 0); } else scenes[curScene].scrollIntoView();
   setTimeout(redrawAll, 50);
 }
@@ -936,6 +935,7 @@ $("#m-story").onclick = () => setMode(false);
 $("#m-present").onclick = () => setMode(true);
 $("#pn-prev").onclick = () => go(curScene - 1);
 $("#pn-next").onclick = () => go(curScene + 1);
+$("#pn-story").onclick = () => setMode(false);
 document.addEventListener("keydown", e => {
   if (!document.body.classList.contains("present")) return;
   if (/INPUT|TEXTAREA|SELECT/.test(document.activeElement.tagName)) return;
@@ -1419,7 +1419,7 @@ const FX = (() => {
 })();
 
 window.addEventListener("resize", (() => { let t; return () => { clearTimeout(t); t = setTimeout(redrawAll, 200); }; })());
-try { if (localStorage.getItem("falx-mode") === "present") setMode(true); } catch (e) {}
+try { localStorage.removeItem("falx-mode"); } catch (e) {}
 detectLive();
 </script>
 
