@@ -424,12 +424,9 @@ body.present .presnav { display: flex }
       <p class="eyebrow">03) Usage scenario</p>
       <h2>Eunice builds the chart in R.</h2>
       <p class="lead">The target is the paper's Figure 3: New York and San Francisco temperatures as step lines, with a bar per day colored by the difference.</p>
-      <p>Section 2.1 walks an experienced analyst through tidyverse and ggplot2. Each step on the right is the paper's code, <b>run in real R</b> against the same 83-row weather table that ships with Falx.</p>
+      <p>Section 2.1 walks an experienced analyst through tidyverse and ggplot2. Each step on the right is that workflow, <b>run in real R</b> against the same 83-row weather table that ships with Falx.</p>
       <p class="key">Four steps, two layouts, and a vocabulary she has to recall: pivot_longer, names_to, geom_line, group, geom_rect, mutate.</p>
-      <div class="thoughts"><h4><span>My thoughts</span></h4>
-        <p>Three of the printed listings do not produce the figures next to them. <code>cols = (…)</code> is a syntax error, Figure 4a's listing maps City to y and Temperature to color, and Figure 4b's <code>xmin = Date, xmax = Date</code> draws zero-width bars. The figures were clearly made with corrected code. The slip matters for one reason: it shows how much exact API knowledge this path assumes.</p>
-        <p class="status">Checked by running each listing in R 4.3 with tidyr 1.3 and ggplot2 3.4.</p>
-      </div>
+      <div class="note"><b>Where novices stall.</b> The paper notes that a less experienced analyst struggles to pick between geom_path, geom_line, geom_bar and geom_rect. The last tab shows what the first two guesses produce.</div>
       <a class="next" href="#s-falx">Next: Amelia shows examples instead. →</a>
     </div>
     <div class="card" id="rw">
@@ -1012,13 +1009,13 @@ const PB = (() => {
 const RW = (() => {
   const S = D.r;
   const steps = [
-    { k: "s1", t: "1 · Reshape", v: [["pivot_printed", "As printed"], ["pivot_fixed", "Runs as intended"]] },
-    { k: "s2", t: "2 · Line layer", v: [["line_printed", "As printed"], ["line_fixed", "Runs as intended"]] },
-    { k: "s3", t: "3 · Difference bars", v: [["rect_printed", "As printed"], ["rect_fixed", "Runs as intended"]] },
+    { k: "s1", t: "1 · Reshape", v: [["pivot_fixed", "pivot_longer"]] },
+    { k: "s2", t: "2 · Line layer", v: [["line_fixed", "geom_line"]] },
+    { k: "s3", t: "3 · Difference bars", v: [["rect_fixed", "geom_rect"]] },
     { k: "s4", t: "4 · Combine (Figure 3)", v: [["final", "Final script"]] },
     { k: "s5", t: "Novice detours", v: [["trap_bar", "geom_bar"], ["trap_col", "geom_col"]] }
   ];
-  let step = 0, vid = "pivot_printed";
+  let step = 0, vid = "pivot_fixed";
   function show(res) {
     const con = $("#rw-console"); const txt = (res.stdout || "") + (res.stderr ? (res.stdout ? "\n" : "") + res.stderr : "");
     con.textContent = txt.trim() || (res.svg ? "(plot drawn below)" : "(no console output)");
