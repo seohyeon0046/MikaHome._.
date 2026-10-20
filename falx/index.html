@@ -348,13 +348,13 @@ body.present .presnav { display: flex }
       <p class="eyebrow">01) Problem</p>
       <h2>Same data. A new chart needs a new table.</h2>
       <p class="lead">With a grammar of graphics, a chart is a mark plus a mapping from columns to channels. That works only while the table already has the right columns.</p>
-      <p>The four rows on the right are the paper's Figure 1 data. A scatter plot maps <b>Date → x</b>, <b>Temp → y</b>, <b>Type → color</b> directly. A floating bar per day needs <b>Low → y<sub>min</sub></b> and <b>High → y<sub>max</sub></b>, but Low and High are values inside the Type column, not columns.</p>
+      <p>The four rows on the right are the paper's opening example. A scatter plot maps <b>Date → x</b>, <b>Temp → y</b>, <b>Type → color</b> directly. A floating bar per day needs <b>Low → y<sub>min</sub></b> and <b>High → y<sub>max</sub></b>, but Low and High are values inside the Type column, not columns.</p>
       <p class="key">The chart changed a little. The data layout had to change completely.</p>
       <a class="next" href="#s-rules">Next: Analysts spend their effort on layout, not on the chart. →</a>
     </div>
     <div class="card">
       <div class="card-head"><h3>One dataset, two designs</h3><button class="btn sm" id="pb-reset">Reset demo</button></div>
-      <div class="pills" id="pb-design"><button data-d="scatter" class="on">Scatter (Figure 1)</button><button data-d="float">Floating bars (Figure 2)</button></div>
+      <div class="pills" id="pb-design"><button data-d="scatter" class="on">Scatter</button><button data-d="float">Floating bars</button></div>
       <div class="two">
         <div style="display:grid;gap:8px;min-width:0">
           <div class="small" id="pb-tcap">Input table, as it arrives</div>
@@ -422,11 +422,15 @@ body.present .presnav { display: flex }
   <div class="wrap grid">
     <div class="copy">
       <p class="eyebrow">03) Usage scenario</p>
-      <h2>Eunice builds the chart in R.</h2>
-      <p class="lead">The target is the paper's Figure 3: New York and San Francisco temperatures as step lines, with a bar per day colored by the difference.</p>
-      <p>Section 2.1 walks an experienced analyst through tidyverse and ggplot2. Each step on the right is that workflow, <b>run in real R</b> against the same 83-row weather table that ships with Falx.</p>
-      <p class="key">Four steps, two layouts, and a vocabulary she has to recall: pivot_longer, names_to, geom_line, group, geom_rect, mutate.</p>
-      <div class="note"><b>Where novices stall.</b> The paper notes that a less experienced analyst struggles to pick between geom_path, geom_line, geom_bar and geom_rect. The last tab shows what the first two guesses produce.</div>
+      <h2>Eunice can write it in R. Amelia gets stuck.</h2>
+      <p class="lead">The paper follows two analysts building the same chart: Eunice, fluent in R, and Amelia, who has less experience.</p>
+      <p>The chart compares New York and San Francisco over a year: one line per city, and a bar per day that runs from the San Francisco temperature to the New York temperature, colored by the difference.</p>
+      <p>On the right, Eunice's workflow runs step by step <b>in real R</b> on the 83-row weather table that ships with Falx: reshape for the lines, compute a difference for the bars, then combine.</p>
+      <p class="key">Four steps, two table layouts, and a vocabulary to recall: pivot_longer, names_to, geom_line, group, geom_rect, mutate.</p>
+      <div class="box"><h4>Where Amelia struggles</h4>
+        <p><b>Finding the function.</b> geom_path or geom_line, geom_bar or geom_rect, and how to stack layers. The last tab shows her first two guesses.</p>
+        <p><b>Picturing the layout.</b> Each function and each layer expects a different table shape.</p>
+        <p><b>Writing the transform.</b> Unfamiliar with tidyverse, she spends most of her time finding and wiring operators.</p></div>
       <a class="next" href="#s-falx">Next: Amelia shows examples instead. →</a>
     </div>
     <div class="card" id="rw">
@@ -447,11 +451,11 @@ body.present .presnav { display: flex }
     <div class="copy">
       <p class="eyebrow">04) Falx</p>
       <h2>Amelia shows one line. Falx finds the chart.</h2>
-      <p class="lead">She adds a line example, copies four values and a label from the table, and presses Synthesize. Falx returns charts that contain her example.</p>
-      <p>Click a field, then click a table cell to copy its value, as in the paper's Figure 6. Start from the presets to follow the paper exactly.</p>
+      <p class="lead">Amelia adds a line example, copies four values and a label from the table, and presses Synthesize. Falx returns charts that contain her example.</p>
+      <p>Click a field, then click a table cell to copy its value, the way Amelia does in the paper. Start from the presets to follow the paper exactly.</p>
       <div class="side" style="display:grid;gap:12px">
         <div class="note"><b>What runs here.</b> Every result comes from the authors' Falx code (github.com/Mestway/falx). With the local server running, Synthesize calls Falx live on any demonstration. Without it, the page replays runs recorded on the same code, and says so.</div>
-        <details><summary>Original interface (Figure 5)</summary><div><figure><img id="img-fig5" alt="Falx interface with input, exploration and post-processing panels"><figcaption>Figure 5 · Wang et al., CHI 2021</figcaption></figure></div></details>
+        <details><summary>The original Falx interface</summary><div><figure><img id="img-fig5" alt="Falx interface with input, exploration and post-processing panels"><figcaption>Figure 5 · Wang et al., CHI 2021</figcaption></figure></div></details>
       </div>
     </div>
     <div class="card">
@@ -555,7 +559,7 @@ body.present .presnav { display: flex }
       <details><summary>Optimizations reported in the paper</summary><div>
         <ul><li>Memoize abstract-interpretation results of partial programs.</li><li>Aim for many diverse programs: threads start from different sketches.</li><li>Two threads in parallel: one with a 5 s timeout, one with 20 s.</li><li>Remove duplicate charts, then rank by program complexity.</li></ul>
       </div></details>
-      <details><summary>Figure 8 from the paper</summary><div><figure><img id="img-fig8" alt="Falx architecture: decompilation, data transformation synthesis, program generation"><figcaption>Figure 8 · Wang et al., CHI 2021</figcaption></figure></div></details>
+      <details><summary>Architecture diagram from the paper</summary><div><figure><img id="img-fig8" alt="Falx architecture: decompilation, data transformation synthesis, program generation"><figcaption>Figure 8 · Wang et al., CHI 2021</figcaption></figure></div></details>
       <a class="next" href="#s-study">Next: 33 analysts, two tools, four tasks. →</a>
     </div>
     <div class="card">
@@ -716,7 +720,7 @@ body.present .presnav { display: flex }
       <a class="next" href="#s-crit3">Next: Re-running the paper. →</a>
     </div>
     <div class="card">
-      <div class="card-head"><h3>What Falx can and cannot express</h3><span class="tag">Figure 9 operators</span></div>
+      <div class="card-head"><h3>What Falx can and cannot express</h3><span class="tag">Falx's operators</span></div>
       <div class="scroll-x"><table class="t">
         <thead><tr><th>Type</th><th>Operators in Falx</th><th>Example that falls outside</th></tr></thead>
         <tbody>
@@ -747,7 +751,7 @@ body.present .presnav { display: flex }
         <ul>
           <li>The Falx repository runs today only with 2020-era dependencies (Python 3.8, pandas 1.1). With current Python it fails on import. Pinning the environment in the repository would keep the artifact alive.</li>
           <li>Candidate counts and times are close to the paper but not equal. The paper does not list the solver settings behind its numbers, so exact replication is not possible.</li>
-          <li>The Figure 2 demonstration with a single bar crashes the released code; two bars work. A small bug, but exactly the kind of silent failure users would meet.</li>
+          <li>The opening floating-bar demonstration with a single bar crashes the released code; two bars work. A small bug, but exactly the kind of silent failure users would meet.</li>
         </ul>
       </div>
       <a class="next" href="#s-ext">Next: Extensions. →</a>
@@ -1012,7 +1016,7 @@ const RW = (() => {
     { k: "s1", t: "1 · Reshape", v: [["pivot_fixed", "pivot_longer"]] },
     { k: "s2", t: "2 · Line layer", v: [["line_fixed", "geom_line"]] },
     { k: "s3", t: "3 · Difference bars", v: [["rect_fixed", "geom_rect"]] },
-    { k: "s4", t: "4 · Combine (Figure 3)", v: [["final", "Final script"]] },
+    { k: "s4", t: "4 · Combine", v: [["final", "Final script"]] },
     { k: "s5", t: "Novice detours", v: [["trap_bar", "geom_bar"], ["trap_col", "geom_col"]] }
   ];
   let step = 0, vid = "pivot_fixed";
@@ -1319,7 +1323,7 @@ const FX = (() => {
       el.innerHTML = done.map(([t, rn, rp, fn, fp, sig]) => `<div class="hb-task"><div class="tt"><span>${t}</span><span class="sig ${sig ? "yes" : "no"}">${sig ? "significant · p &lt; 0.05" : "ns · no significant difference"}</span></div>
         <div class="hb-row" title="R: ${rn} of 17"><span>R</span><div class="hb-track"><div class="hb-fill" style="width:${rp}%;background:var(--ny)"></div></div><span>${rp}% · ${rn}/17</span></div>
         <div class="hb-row" title="Falx: ${fn} of 16"><span>Falx</span><div class="hb-track"><div class="hb-fill" style="width:${fp}%;background:var(--sf)"></div></div><span>${fp}% · ${fn}/16</span></div></div>`).join("");
-      $("#rs-note").textContent = "Figure 11. Failures: Falx 9 tasks (7 wrong, 2 quit); R 20 tasks (9 wrong, 11 quit).";
+      $("#rs-note").textContent = "Paper, Section 4.3. Failures: Falx 9 tasks (7 wrong, 2 quit); R 20 tasks (9 wrong, 11 quit).";
     } else {
       $("#rs-title").textContent = "Mean time per task (± SD)";
       const max = 2300, pct = s => (s / max * 100).toFixed(1);
@@ -1373,12 +1377,12 @@ const FX = (() => {
 (() => {
   const C = `<div class="cards3"><div class="box"><h4>Interaction model</h4><p>Specify charts by mapping example values to channels, with no transformation code.</p></div><div class="box"><h4>Synthesis</h4><p>Decompile examples into a chart program plus an example table, then synthesize the table program with deduction.</p></div><div class="box"><h4>Evidence</h4><p>A 33-person study: Falx users solved tasks they could not solve in R, faster on the two hardest.</p></div></div>
     <div class="small" style="margin-top:6px">Implications named by the authors</div><ul style="margin:0;padding-left:18px;color:var(--muted)"><li>Augment empirical work with ML-style exploration of design spaces</li><li>Combine with design exploration tools (Voyager, GraphScape) without layout constraints</li><li>Help novices learn visualization APIs by reading synthesized programs</li><li>Bootstrap complex analyses for experienced analysts</li></ul>`;
-  const L = `<div class="cards3"><div class="box"><h4>Scope</h4><p>Standard charts and the operators in Figure 9. No dirty or non-relational data.</p></div><div class="box"><h4>Polish</h4><p>Participants wanting "very high standard visualizations" still need extensive customization.</p></div><div class="box"><h4>Integration</h4><p>No deep link to databases, notebooks or data-cleaning tools.</p></div></div>
+  const L = `<div class="cards3"><div class="box"><h4>Scope</h4><p>Standard charts and the operators Falx supports. No dirty or non-relational data.</p></div><div class="box"><h4>Polish</h4><p>Participants wanting "very high standard visualizations" still need extensive customization.</p></div><div class="box"><h4>Integration</h4><p>No deep link to databases, notebooks or data-cleaning tools.</p></div></div>
     <details open><summary>Open questions from the authors</summary><div><ul><li><b>Explain differences</b> among candidates instead of making users compare them.</li><li><b>Show traces</b> of how each mark's properties derive from the input.</li><li><b>Mixed-initiative</b> interfaces for new users.</li><li><b>Accept richer input</b> than examples, such as formulas.</li></ul></div></details>`;
   function opening() {
     const ok = D.falx.opening_two_bars, bad = D.falx.opening_one_bar;
     const el = $("#ds-body");
-    el.innerHTML = `<div class="two"><div style="display:grid;gap:8px"><div class="small">Figure 1 table + two example bars (x → 09-05, y → 64.4, y2 → 87.8; x → 09-06, y → 53.6, y2 → 80.6)</div><pre class="code">${esc(layersOf(ok.result[0].rscript).join("\n"))}\n\n# as tidyverse\n${esc(translate(layersOf(ok.result[0].rscript)[0], COLS.fig1))}</pre>
+    el.innerHTML = `<div class="two"><div style="display:grid;gap:8px"><div class="small">Opening table + two example bars (x → 09-05, y → 64.4, y2 → 87.8; x → 09-06, y → 53.6, y2 → 80.6)</div><pre class="code">${esc(layersOf(ok.result[0].rscript).join("\n"))}\n\n# as tidyverse\n${esc(translate(layersOf(ok.result[0].rscript)[0], COLS.fig1))}</pre>
       <div class="sysmsg"><span><b>Falx found ${ok.result.length} visualization</b> in ${ok.time_spent.toFixed(1)} s: it rediscovered the pivot from the opening.</span></div>
       <div class="sysmsg warn"><span>With only the first bar, the released code stops with <code>${esc(bad.error)}</code>.</span></div></div>
       <div class="center" id="ds-chart"></div></div>`;
@@ -1410,8 +1414,8 @@ const FX = (() => {
     ["Falx: same line, color blank", "(not reported)", `${F.line_nocolor.result.length} candidates, ${F.line_nocolor.time_spent.toFixed(1)} s (matches the paper's two charts)`, true],
     ["Falx: line + bar", "8 candidates, ≈9 s", `${F.line_bar.result.length} candidates, ${F.line_bar.time_spent.toFixed(1)} s`, null],
     ["Falx: + second bar", "(not reported)", `${F.line_bar_bar.result.length} candidates, ${F.line_bar_bar.time_spent.toFixed(1)} s`, true],
-    ["Falx: Figure 2, one floating bar", "Floating-bar chart", `Error: ${esc(F.opening_one_bar.error)}`, false],
-    ["Falx: Figure 2, two floating bars", "Floating-bar chart", `${F.opening_two_bars.result.length} candidate (pivot_wider), ${F.opening_two_bars.time_spent.toFixed(1)} s`, true],
+    ["Falx: opening example, one floating bar", "Floating-bar chart", `Error: ${esc(F.opening_one_bar.error)}`, false],
+    ["Falx: opening example, two floating bars", "Floating-bar chart", `${F.opening_two_bars.result.length} candidate (pivot_wider), ${F.opening_two_bars.time_spent.toFixed(1)} s`, true],
     ["Falx install", "pip install -r requirements.txt", "Fails on current Python; runs with Python 3.8 + pandas 1.1.5", null]
   ];
   $("#rp-table").innerHTML = `<thead><tr><th>Check</th><th>Paper</th><th>Re-run</th><th></th></tr></thead><tbody>${rows.map(([a, b, c, ok]) => `<tr><td>${a}</td><td>${b}</td><td>${c}</td><td class="${ok === true ? "okc" : ok === false ? "badc" : ""}">${ok === true ? "✓" : ok === false ? "✗" : "≈"}</td></tr>`).join("")}</tbody>`;
