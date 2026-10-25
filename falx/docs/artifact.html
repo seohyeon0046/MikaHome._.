@@ -768,34 +768,7 @@ body.present .presnav { display: flex }
         </ol></div>
       </div>
     </div>
-    <div class="copy"><a class="next" href="#s-crit1">Next: My critical reflections. →</a></div>
-  </div>
-</section>
-
-<!-- 10 CRITICAL -->
-<section class="scene" id="s-crit1" data-tab="Critical reflections">
-  <div class="wrap grid">
-    <div class="copy">
-      <p class="eyebrow">My critical reflections</p>
-      <h2>An example still carries one row of the answer.</h2>
-      <p class="lead">Amelia's bar color, 0.7, is New York minus San Francisco on 2011-10-01. She had to compute it herself before Falx could generalize it.</p>
-      <p>Change that one number. A typo or a ratio is a different program, and Falx reports nothing useful when no program fits.</p>
-      <div class="thoughts"><h4><span>My thoughts</span></h4>
-        <ul>
-          <li>The demonstration hides arithmetic, but does not remove it: for derived values the user still computes one instance by hand. That may be why the waterfall task, which needs running totals, was the Falx group's lowest (68.8%).</li>
-          <li>A miss is silent. Falx could search with a tolerance and report "closest program: NY − SF = 0.7, you typed 0.8", turning a dead end into a correction.</li>
-          <li>Ratios fall outside the grammar (mutate supports only + and −). The paper's own participant F16 wanted to type expressions; accepting a formula for one field would cover both cases.</li>
-        </ul>
-        <p class="status">Hypotheses from the recorded runs, not tested with users.</p>
-      </div>
-      <a class="next" href="#s-crit2">Next: Revisiting the study design. →</a>
-    </div>
-    <div class="card">
-      <div class="card-head"><h3>Change the bar's color value</h3><span class="tag" id="c1-src">Recorded runs</span></div>
-      <div class="pills" id="c1-tabs"><button data-k="line_bar" class="on">0.7 · NY − SF</button><button data-k="wrong_diff">0.8 · typo</button><button data-k="ratio">1.011 · NY ÷ SF</button></div>
-      <div class="sysmsg" id="c1-msg"></div>
-      <div class="center" id="c1-chart"></div>
-    </div>
+    <div class="copy"><a class="next" href="#s-crit2">Next: My critical reflections. →</a></div>
   </div>
 </section>
 
@@ -1509,16 +1482,6 @@ const FX = (() => {
 
 /* ---------------- 10 critical ---------------- */
 (() => {
-  function draw(k) {
-    $$("#c1-tabs button").forEach(b => b.classList.toggle("on", b.dataset.k === k));
-    const r = D.falx[k]; const n = r.result.length; const m = $("#c1-msg"); const c = $("#c1-chart");
-    m.classList.toggle("warn", !n);
-    m.innerHTML = n ? `<span><b>Falx found ${n} visualizations</b> in ${r.time_spent.toFixed(1)} s. Candidate #1 is the intended chart.</span>` : `<span><b>Falx found no visualization</b> within the 20 s budget (${r.time_spent.toFixed(1)} s). Nothing tells the user why.</span>`;
-    if (n) drawChart(c, () => ({ spec: prepSpec(r.result[0].vl_spec, { w: widthOf(c, 170, 240), h: 210 }) }));
-    else { c.innerHTML = `<div class="empty">No candidates.<br><span class="small">${k === "ratio" ? "NY ÷ SF needs division; mutate in Falx's grammar supports + and − only." : "0.8 is not NY − SF for any row, and no other program in the grammar produces it."}</span></div>`; charts.delete(c); }
-  }
-  $("#c1-tabs").onclick = e => { if (e.target.dataset.k) draw(e.target.dataset.k); };
-  draw("line_bar");
   const F = D.falx;
   const rows = [
     ["Falx: one line, color = New York", "2 candidates, ≈4 s", `${F.line_ny.result.length} candidate, ${F.line_ny.time_spent.toFixed(1)} s`, null],
