@@ -29,7 +29,7 @@ print("index.html", round(os.path.getsize(P("index.html")) / 1e6, 2), "MB")
 # Second look ("annotated paper"): same deck, extra stylesheet and a small script layered on top
 FONTS_OLD = "family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500"
 assert FONTS_OLD in page
-paper = page.replace(FONTS_OLD, FONTS_OLD + "&family=Source+Serif+4:opsz,wght@8..60,600;8..60,700", 1)
+paper = page.replace("<title>Falx Interactive Paper</title>", "<title>Falx Paper Look</title>", 1).replace(FONTS_OLD, FONTS_OLD + "&family=Source+Serif+4:opsz,wght@8..60,600;8..60,700", 1)
 i = paper.index("</style>") + len("</style>")
 paper = paper[:i] + "\n<style>\n" + open(P("src", "look_paper.css")).read() + "</style>" + paper[i:]
 paper += "\n<script>\n" + open(P("src", "look_paper.js")).read() + "</script>\n"
