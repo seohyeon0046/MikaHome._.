@@ -320,7 +320,7 @@ body.present .presnav { display: flex }
 </header>
 
 <main>
-<section class="hero scene-like" id="s-hero" data-tab="Problem">
+<section class="hero scene-like" id="s-hero" data-tab="Introduction">
   <div class="wrap">
     <div>
       <div class="venue">CHI 2021 · Yokohama</div>
@@ -328,29 +328,29 @@ body.present .presnav { display: flex }
       <p class="cite"><b>Falx: Synthesis-Powered Visualization Authoring.</b> Chenglong Wang, Yu Feng, Rastislav Bodik, Isil Dillig, Alvin Cheung, Amy J. Ko.<br><b>Falx</b>: users demonstrate how a few concrete values map to visual channels, and a program synthesizer infers both the chart and the data transformation.</p>
     </div>
     <div>
-      <h3 class="steps6-h">The argument in six steps</h3>
+      <h3 class="steps6-h">How the paper unfolds</h3>
       <ol class="steps6" id="steps6">
-        <li data-go="s-problem"><span>1</span>Grammars of graphics expect the table to match the chart</li>
-        <li data-go="s-rules"><span>2</span>New designs often need reshaping and derived columns</li>
-        <li data-go="s-falx"><span>3</span>Users demonstrate a few marks with concrete values</li>
-        <li data-go="s-arch"><span>4</span>Falx decompiles the examples into a chart program and an example table</li>
-        <li data-go="s-arch"><span>5</span>A deductive search synthesizes the table transformation</li>
-        <li data-go="s-study"><span>6</span>Users pick among candidates; a study compares Falx with R</li>
+        <li data-go="s-problem"><span>1</span>Introduction: grammars of graphics expect the table to match the chart</li>
+        <li data-go="s-r"><span>2</span>Usage scenario: Eunice writes R, Amelia demonstrates in Falx</li>
+        <li data-go="s-arch"><span>3</span>System architecture: decompile, synthesize, compile</li>
+        <li data-go="s-study"><span>4</span>User study: 33 analysts, Falx versus R</li>
+        <li data-go="s-related"><span>5</span>Related work: covered with the introduction</li>
+        <li data-go="s-disc"><span>6</span>Discussion: where example-driven authoring goes next</li>
       </ol>
     </div>
   </div>
 </section>
 
 <!-- 01 PROBLEM -->
-<section class="scene" id="s-problem" data-tab="Problem">
+<section class="scene" id="s-problem" data-tab="Introduction">
   <div class="wrap grid">
     <div class="copy">
-      <p class="eyebrow">01) Problem</p>
+      <p class="eyebrow">1) Introduction</p>
       <h2>Same data. A new chart needs a new table.</h2>
       <p class="lead">With a grammar of graphics, a chart is a mark plus a mapping from columns to channels. That works only while the table already has the right columns.</p>
       <p>The four rows on the right are the paper's opening example. A scatter plot maps <b>Date → x</b>, <b>Temp → y</b>, <b>Type → color</b> directly. A floating bar per day needs <b>Low → y<sub>min</sub></b> and <b>High → y<sub>max</sub></b>, but Low and High are values inside the Type column, not columns.</p>
       <p class="key">The chart changed a little. The data layout had to change completely.</p>
-      <a class="next" href="#s-rules">Next: Analysts spend their effort on layout, not on the chart. →</a>
+      <a class="next" href="#s-rules">Next: Show examples. Let a synthesizer handle the data. →</a>
     </div>
     <div class="card">
       <div class="card-head"><h3>One dataset, two designs</h3><button class="btn sm" id="pb-reset">Reset demo</button></div>
@@ -368,18 +368,18 @@ body.present .presnav { display: flex }
   </div>
 </section>
 
-<section class="scene" id="s-rules" data-tab="Problem">
+<section class="scene" id="s-rules" data-tab="Introduction">
   <div class="wrap grid">
     <div class="copy">
-      <p class="eyebrow">01) Problem</p>
-      <h2>Analysts spend their effort on layout, not on the chart.</h2>
+      <p class="eyebrow">1) Introduction</p>
+      <h2>Show examples. Let a synthesizer handle the data.</h2>
       <p class="lead">Tools such as ggplot2, Vega-Lite and Tableau assume a layout in which each row is one mark and each variable is one column.</p>
       <p>The paper lists three everyday reasons the layout and the design disagree. In each case the analyst first has to picture the expected table, then find the transformation operators, then write them.</p>
-      <p class="key">Research question: can users specify the visualization by example, and leave the data transformation to a synthesizer?</p>
+      <p class="key">Falx's proposal: users demonstrate how a few concrete values map to visual channels; Falx synthesizes the chart and the data transformation, shows the candidates, and lets the user polish the chosen one.</p>
       <details><summary>Why examples, and why values instead of columns?</summary><div>
         <p>Programming-by-example tools such as FlashFill and Wrex let end users show what they want instead of writing code. Falx brings that to charts: an example says "this bar starts at 62.7 and ends at 63.4", which is a statement about values. The user never names a column that does not exist yet.</p>
       </div></details>
-      <a class="next" href="#s-related">Next: Where does Falx sit among existing tools? →</a>
+      <a class="next" href="#s-related">Next: How this differs from existing tools. →</a>
     </div>
     <div class="card">
       <div class="card-head"><h3>Why layout and design disagree</h3><span class="tag">Paper, Section 1</span></div>
@@ -392,22 +392,26 @@ body.present .presnav { display: flex }
         <div class="row" style="gap:6px;font-size:13px"><span class="chip">picture the target table</span>→<span class="chip">recall pivot_longer / mutate</span>→<span class="chip">write the transform</span>→<span class="chip">map columns to channels</span></div>
         <p class="small">Falx aims to remove the first three boxes.</p>
       </div>
+      <div class="box"><h4>The Falx loop</h4>
+        <div class="row" style="gap:6px;font-size:13px"><span class="chip">demonstrate a few marks</span>→<span class="chip">synthesize</span>→<span class="chip">explore candidates</span>→<span class="chip">post-process</span></div>
+        <p class="small">Contributions claimed: the interaction model, the synthesis algorithm, and a study with 33 analysts.</p>
+      </div>
     </div>
   </div>
 </section>
 
 <!-- 02 RELATED -->
-<section class="scene" id="s-related" data-tab="Related work">
+<section class="scene" id="s-related" data-tab="Introduction">
   <div class="wrap grid">
     <div class="copy">
-      <p class="eyebrow">02) Related work</p>
+      <p class="eyebrow">1) Introduction · related work (paper §5)</p>
       <h2>Where does Falx sit?</h2>
       <p class="lead">Earlier tools either help you transform data or help you specify charts. Falx joins the two, and it is specified from the chart side.</p>
       <p>I compare the families by one question: <b>who does the data-layout work, and what does the user have to write down?</b> Select a box.</p>
       <details><summary>Exploration tools versus implementation tools</summary><div>
         <p>The paper separates synthesizers that help users <b>explore</b> a space from weak constraints (Scout, Draco-style recommendation) from those that help users <b>implement</b> a design they already have in mind (Wrex, FlashProg, Regae). Falx is an implementation tool, but it borrows the exploration interface to disambiguate results.</p>
       </div></details>
-      <a class="next" href="#s-r">Next: Two analysts, one target chart. →</a>
+      <a class="next" href="#s-r">Next: 2) Usage scenario. →</a>
     </div>
     <div class="card">
       <div class="card-head"><h3>Who does the layout work?</h3><span class="tag">Paper, Section 5</span></div>
@@ -418,10 +422,10 @@ body.present .presnav { display: flex }
 </section>
 
 <!-- 03 SCENARIO: R -->
-<section class="scene" id="s-r" data-tab="Scenario">
+<section class="scene" id="s-r" data-tab="Usage scenario">
   <div class="wrap grid">
     <div class="copy">
-      <p class="eyebrow">03) Usage scenario</p>
+      <p class="eyebrow">2.1) Usage scenario · Eunice and Amelia</p>
       <h2>Eunice can write it in R. Amelia gets stuck.</h2>
       <p class="lead">The paper follows two analysts building the same chart: Eunice, fluent in R, and Amelia, who has less experience.</p>
       <p>The chart compares New York and San Francisco over a year: one line per city, and a bar per day that runs from the San Francisco temperature to the New York temperature, colored by the difference.</p>
@@ -446,10 +450,10 @@ body.present .presnav { display: flex }
 </section>
 
 <!-- 04 FALX DEMO -->
-<section class="scene wide" id="s-falx" data-tab="Falx">
+<section class="scene wide" id="s-falx" data-tab="Usage scenario">
   <div class="wrap grid">
     <div class="copy">
-      <p class="eyebrow">04) Falx</p>
+      <p class="eyebrow">2.2) Usage scenario · Falx</p>
       <h2>Amelia shows one line. Falx finds the chart.</h2>
       <p class="lead">Amelia adds a line example, copies four values and a label from the table, and presses Synthesize. Falx returns charts that contain her example.</p>
       <p>Click a field, then click a table cell to copy its value, the way Amelia does in the paper. Start from the presets to follow the paper exactly.</p>
@@ -499,20 +503,16 @@ body.present .presnav { display: flex }
   </div>
 </section>
 
-<section class="scene" id="s-ambig" data-tab="Falx">
+<section class="scene" id="s-ambig" data-tab="Usage scenario">
   <div class="wrap grid">
     <div class="copy">
-      <p class="eyebrow">04) Falx</p>
+      <p class="eyebrow">2.2) Usage scenario · Falx</p>
       <h2>Ambiguity is resolved by looking, not by coding.</h2>
-      <p class="lead">One line and one bar admit many programs. Falx shows all of them as charts, and the user either picks one or adds another example.</p>
+      <p class="lead">One line and one bar admit many programs. As the paper describes, Amelia can either add another example or compare the candidates in the exploration panel.</p>
       <p>The paper reports 8 candidates in about 9 seconds for this demonstration. Running the released code gives <b id="am-n12">12</b>. Adding a second bar on 2011-10-05 cuts the list to <b id="am-n7">7</b>, and every survivor keeps the right line layer.</p>
       <p class="key">Why so many? The example bar sits on the first date, where a cumulative sum equals the raw value. Falx cannot tell <code>NY</code> from <code>cumsum(NY)</code> from that row alone.</p>
       <p>The six that survive the second bar use a <i>grouped</i> cumulative sum. They differ from the intended chart on only 3 to 24 of 83 days, wherever a temperature value repeats, which makes them hard to tell apart by eye.</p>
-      <div class="thoughts"><h4><span>My thoughts</span></h4>
-        <p>The choice of example row changes the search. A first-row example is the worst case for any running aggregate. A short hint in the interface ("examples on the first row cannot rule out cumulative sums") would cost little and save a round of exploration.</p>
-        <p class="status">Inference from the recorded candidate programs, not a claim from the paper.</p>
-      </div>
-      <a class="next" href="#s-compare">Next: Same chart, two paths. →</a>
+      <a class="next" href="#s-arch">Next: 3) System architecture. →</a>
     </div>
     <div class="card">
       <div class="card-head"><h3>Candidates for each demonstration</h3><span class="tag" id="am-src">Recorded runs</span></div>
@@ -523,44 +523,22 @@ body.present .presnav { display: flex }
   </div>
 </section>
 
-<section class="scene" id="s-compare" data-tab="Falx">
-  <div class="wrap grid">
-    <div class="copy">
-      <p class="eyebrow">04) Falx</p>
-      <h2>Same chart, two paths.</h2>
-      <p class="lead">Eunice writes <span id="cmp-lines">10</span> lines with <span id="cmp-fns">9</span> functions. Amelia enters nine values in two examples, runs the synthesizer and picks one chart.</p>
-      <p>Falx also exports an R script. I ran that export in R: it reproduces the layered chart, with the date axis left as raw text, which the post-processing panel is meant to fix.</p>
-      <details><summary>How the counts were made</summary><div>
-        <p>R: non-empty, non-comment lines and distinct function names in the Step 4 script on the R workbench, counted by this page. Falx: fields filled in the two examples (line: x1, y1, x2, y2, color; bar: x, y, y2, color).</p>
-      </div></details>
-      <a class="next" href="#s-arch">Next: Decompile, search, compile. →</a>
-    </div>
-    <div class="card">
-      <div class="card-head"><h3>Effort and output</h3></div>
-      <div class="two">
-        <div class="box"><h4>R (Eunice)</h4><div class="counter" id="cmp-r"></div></div>
-        <div class="box"><h4>Falx (Amelia)</h4><div class="counter"><div><b>2</b><span>examples</span></div><div><b>9</b><span>values entered</span></div><div><b>1</b><span>of <span id="cmp-n">12</span> picked</span></div></div></div>
-      </div>
-      <div class="pills" id="cmp-tabs"><button data-v="r" class="on">R by hand</button><button data-v="falx">Falx candidate</button><button data-v="export">Falx export run in R</button></div>
-      <div id="cmp-view"></div>
-    </div>
-  </div>
-</section>
+
 
 <!-- 05 ARCHITECTURE -->
 <section class="scene" id="s-arch" data-tab="Architecture">
   <div class="wrap grid">
     <div class="copy">
-      <p class="eyebrow">05) Architecture</p>
+      <p class="eyebrow">3) System architecture</p>
       <h2>Decompile, search, compile.</h2>
-      <p class="lead">Each solver thread turns the examples into a chart program plus an example table, searches for a table transformation that produces that table, and compiles the pair into Vega-Lite or R.</p>
+      <p class="lead">Falx brings programming by example, the synthesis of programs from input–output examples, to visualization. Each solver thread decompiles the examples, synthesizes a table transformation, and compiles the result into Vega-Lite or R.</p>
       <p>The key reduction: once the chart is fixed as <code>Bar(x→C1, y→C2, y2→C3, color→C4)</code>, the visualization problem becomes a <b>table</b> problem: find <i>P</i> with <i>T</i> ⊆ <i>P</i>(<i>T</i><sub>in</sub>).</p>
       <p class="key">Why deduction? Each partial program stands for dozens of concrete ones. Abstract interpretation rules out a whole branch, for example <code>cumsum(I, □)</code> can never yield the four columns the bar needs.</p>
       <details><summary>Optimizations reported in the paper</summary><div>
         <ul><li>Memoize abstract-interpretation results of partial programs.</li><li>Aim for many diverse programs: threads start from different sketches.</li><li>Two threads in parallel: one with a 5 s timeout, one with 20 s.</li><li>Remove duplicate charts, then rank by program complexity.</li></ul>
       </div></details>
       <details><summary>Architecture diagram from the paper</summary><div><figure><img id="img-fig8" alt="Falx architecture: decompilation, data transformation synthesis, program generation"><figcaption>Figure 8 · Wang et al., CHI 2021</figcaption></figure></div></details>
-      <a class="next" href="#s-study">Next: 33 analysts, two tools, four tasks. →</a>
+      <a class="next" href="#s-study">Next: 4) User study. →</a>
     </div>
     <div class="card">
       <div class="card-head"><h3>Inside one synthesis run</h3><span class="tag">Line + bar demonstration</span></div>
@@ -572,24 +550,17 @@ body.present .presnav { display: flex }
 </section>
 
 <!-- 06 STUDY -->
-<section class="scene" id="s-study" data-tab="Study">
+<section class="scene" id="s-study" data-tab="User study">
   <div class="wrap grid">
     <div class="copy">
-      <p class="eyebrow">06) User study</p>
+      <p class="eyebrow">4.1–4.2) User study</p>
       <h2>33 analysts, two tools, four tasks.</h2>
       <p class="lead">A between-subjects study: 16 people used Falx, 17 used R with tidyverse and ggplot2. Each solved the same four tasks that need data transformation.</p>
       <p>Designs were described in text, so the task was implementation, not design. A task counted as solved when the chart's meaning matched the reference, regardless of styling. Participants could quit after 20 minutes.</p>
       <details><summary>Procedure details</summary><div>
         <ul><li>Falx group: 20-minute tutorial and a warm-up task with a sample solution.</li><li>R group: screened for ggplot2 and tidyverse experience; same warm-up with a solution.</li><li>Internet allowed for both groups. Task order counterbalanced with a Latin square. Session under 2 hours.</li><li>Analysis: Wilcoxon rank-sum tests with Holm correction. The paper also says mixed-effect models were used.</li></ul>
       </div></details>
-      <div class="thoughts"><h4><span>My thoughts</span></h4>
-        <ul>
-          <li>The two groups were recruited differently: R users had to know R, while the Falx group included two people who had never made a chart. That makes the groups hard to compare in either direction.</li>
-          <li>All four tasks were written by the tool's authors and fit inside Falx's operator set. No task tests what happens when the needed transformation is outside the grammar.</li>
-          <li>Giving the design in text removes the step where analysts decide what to draw, which is where many real sessions start.</li>
-        </ul>
-      </div>
-      <a class="next" href="#s-results">Next: Falx helped most where transformation was hardest. →</a>
+      <a class="next" href="#s-results">Next: 4.3–4.4) Results. →</a>
     </div>
     <div class="card">
       <div class="card-head"><h3>Tasks and participants</h3><span class="tag">Paper, Section 4</span></div>
@@ -606,25 +577,18 @@ body.present .presnav { display: flex }
 </section>
 
 <!-- 07 RESULTS -->
-<section class="scene" id="s-results" data-tab="Results">
+<section class="scene" id="s-results" data-tab="User study">
   <div class="wrap grid">
     <div class="copy">
-      <p class="eyebrow">07) Results</p>
+      <p class="eyebrow">4.3–4.4) Results</p>
       <h2>Falx helped most where transformation was hardest.</h2>
       <p class="lead">Falx users completed more tasks in every case, but only the car-sales waterfall shows a significant difference in completion. Time was significantly shorter for car sales and electric usage.</p>
       <p><span class="hl">Read the gap with its baseline.</span> Car sales: 11 of 16 Falx users versus 5 of 17 R users finished (68.8% vs 29.4%), and Falx users took about half the time (715 s vs 1473 s on average).</p>
       <p>Qualitatively, R users struggled to find the right function name (14 of 17 mentioned it), and both groups described data transformation as the main barrier in daily work.</p>
-      <div class="thoughts"><h4><span>My thoughts</span></h4>
-        <ul>
-          <li>The paper says it used mixed-effect models with participant as a random effect, but reports only Wilcoxon tests. The model estimates, including the tool effect, are not shown.</li>
-          <li>Quitting at 20 minutes caps the time. The paper does not say whether quit or wrong attempts are inside the time plots, which matters most for car sales, where 12 of 17 R users did not finish.</li>
-          <li>With 16 and 17 people, a 2-of-4 significant result is a reasonable signal for the hardest tasks, not evidence about tasks in general.</li>
-        </ul>
-      </div>
-      <a class="next" href="#s-strat">Next: How analysts actually used Falx. →</a>
+      <a class="next" href="#s-strat">Next: 4.5–4.6) Using Falx. →</a>
     </div>
     <div class="card">
-      <div class="card-head"><h3 id="rs-title">Completion rate per task</h3><div class="pills" id="rs-tabs"><button data-v="done" class="on">Completion</button><button data-v="time">Time</button></div></div>
+      <div class="card-head"><h3 id="rs-title">Completion rate per task</h3><div class="pills" id="rs-tabs"><button data-v="done" class="on">Completion</button><button data-v="time">Time</button><button data-v="talk">Interviews</button></div></div>
       <div class="legend"><span><i style="background:var(--ny)"></i>R (N = 17)</span><span><i style="background:var(--sf)"></i>Falx (N = 16)</span></div>
       <div class="hbars" id="rs-bars"></div>
       <p class="small" id="rs-note"></p>
@@ -633,10 +597,10 @@ body.present .presnav { display: flex }
 </section>
 
 <!-- 08 STRATEGIES -->
-<section class="scene" id="s-strat" data-tab="Strategies">
+<section class="scene" id="s-strat" data-tab="User study">
   <div class="wrap grid">
     <div class="copy">
-      <p class="eyebrow">08) How analysts used Falx</p>
+      <p class="eyebrow">4.5–4.6) Using Falx</p>
       <h2>People check candidates coarse to fine.</h2>
       <p class="lead">Interviews showed a shared four-step routine for picking the right chart among synthesized candidates.</p>
       <p>Step through it on the 12 real candidates from the line-and-bar run. Each check is computed by this page from the candidate's own data.</p>
@@ -649,7 +613,9 @@ body.present .presnav { display: flex }
         </ul>
         <p>"It's easy to add multiple elements to the demonstration. A small number of elements make it easier to go back and fix." (F11)</p>
       </div></details>
-      <a class="next" href="#s-disc">Next: What Falx contributes, and what remains open. →</a>
+      <div class="box"><h4>Where Falx would fit (4.6)</h4>
+        <p>Useful for presentation charts, fast prototyping, helping new users, and changing a teammate's chart. Not for "very high standard visualizations", dirty data, or work that needs deep integration with other tools.</p></div>
+      <a class="next" href="#s-disc">Next: 6) Discussion. →</a>
     </div>
     <div class="card">
       <div class="card-head"><h3>Four checks on 12 candidates</h3><span class="tag">Section 4.5.2</span></div>
@@ -664,14 +630,14 @@ body.present .presnav { display: flex }
 <section class="scene" id="s-disc" data-tab="Discussion">
   <div class="wrap grid">
     <div class="copy">
-      <p class="eyebrow">09) Discussion</p>
-      <h2>What Falx contributes, and what remains open.</h2>
-      <p class="lead">The authors show that example-driven synthesis lets analysts build charts they otherwise could not, for standard designs over tidy-able tables.</p>
+      <p class="eyebrow">6) Discussion</p>
+      <h2>Where example-driven authoring goes next.</h2>
+      <p class="lead">The authors close with three directions: combining Falx with design-exploration tools, helping people learn visualization by reading synthesized programs, and bootstrapping complex analyses for experienced analysts.</p>
       <p class="key">Back to the opening: the floating-bar chart that needed a pivot is one demonstration away.</p>
-      <a class="next" href="#s-crit1">Next: An example still carries one row of the answer. →</a>
+      <a class="next" href="#s-crit1">Next: My critical reflections. →</a>
     </div>
     <div class="card">
-      <div class="card-head"><h3>A balanced reading</h3><div class="pills" id="ds-tabs"><button data-v="c" class="on">Contributions</button><button data-v="l">Limits</button><button data-v="o">Back to the opening</button></div></div>
+      <div class="card-head"><h3>A balanced reading</h3><div class="pills" id="ds-tabs"><button data-v="c" class="on">Implications</button><button data-v="l">Limits</button><button data-v="o">Back to the opening</button></div></div>
       <div id="ds-body"></div>
     </div>
   </div>
@@ -681,7 +647,7 @@ body.present .presnav { display: flex }
 <section class="scene" id="s-crit1" data-tab="Critical reflections">
   <div class="wrap grid">
     <div class="copy">
-      <p class="eyebrow">10) Critical reflections</p>
+      <p class="eyebrow">My critical reflections</p>
       <h2>An example still carries one row of the answer.</h2>
       <p class="lead">Amelia's bar color, 0.7, is New York minus San Francisco on 2011-10-01. She had to compute it herself before Falx could generalize it.</p>
       <p>Change that one number. A typo or a ratio is a different program, and Falx reports nothing useful when no program fits.</p>
@@ -693,7 +659,7 @@ body.present .presnav { display: flex }
         </ul>
         <p class="status">Hypotheses from the recorded runs, not tested with users.</p>
       </div>
-      <a class="next" href="#s-crit2">Next: The baseline measures API recall under a fixed target. →</a>
+      <a class="next" href="#s-crit2">Next: Revisiting the study design. →</a>
     </div>
     <div class="card">
       <div class="card-head"><h3>Change the bar's color value</h3><span class="tag" id="c1-src">Recorded runs</span></div>
@@ -707,14 +673,15 @@ body.present .presnav { display: flex }
 <section class="scene" id="s-crit2" data-tab="Critical reflections">
   <div class="wrap grid">
     <div class="copy">
-      <p class="eyebrow">10) Critical reflections</p>
-      <h2>The baseline measures API recall under a fixed target.</h2>
-      <p class="lead">The study compares Falx with R as it was used in 2020: searching documentation for the right function, with the design already decided.</p>
+      <p class="eyebrow">My critical reflections</p>
+      <h2>Revisiting the study design.</h2>
+      <p class="lead">The study compares Falx with R as it was used in 2020: searching documentation for the right function, with the design already decided in text.</p>
       <div class="thoughts"><h4><span>My thoughts</span></h4>
         <ul>
           <li>The R group's main failure was naming the function (geom_rect for a waterfall). That is a real barrier, but it is a different one from conceptualizing the layout, which is Falx's stated target.</li>
           <li>Tasks inside the grammar make the comparison favorable by construction. One task per group that needs an unsupported operator would show how each tool fails.</li>
-          <li>A within-subjects design, or groups matched on experience, would separate the tool effect from the recruitment difference.</li>
+          <li>The groups were recruited differently: R users had to know R, while two Falx users had never made a chart. A within-subjects design would separate the tool effect from that difference.</li>
+          <li>The paper mentions mixed-effect models but reports only Wilcoxon tests, so the size of the tool effect is not shown. With 16 and 17 people, the results read best as a signal for the hardest tasks.</li>
         </ul>
       </div>
       <a class="next" href="#s-crit3">Next: Re-running the paper. →</a>
@@ -744,9 +711,9 @@ body.present .presnav { display: flex }
 <section class="scene" id="s-crit3" data-tab="Critical reflections">
   <div class="wrap grid">
     <div class="copy">
-      <p class="eyebrow">10) Critical reflections</p>
+      <p class="eyebrow">My critical reflections</p>
       <h2>Re-running the paper.</h2>
-      <p class="lead">I ran both sides of the paper: its R listings and the released Falx code. Both mostly reproduce, with differences worth reporting.</p>
+      <p class="lead">I ran the released Falx code on the paper's own examples. It reproduces the behavior, with differences worth reporting.</p>
       <div class="thoughts"><h4><span>My thoughts</span></h4>
         <ul>
           <li>The Falx repository runs today only with 2020-era dependencies (Python 3.8, pandas 1.1). With current Python it fails on import. Pinning the environment in the repository would keep the artifact alive.</li>
@@ -757,7 +724,7 @@ body.present .presnav { display: flex }
       <a class="next" href="#s-ext">Next: Extensions. →</a>
     </div>
     <div class="card">
-      <div class="card-head"><h3>Paper versus re-run</h3><span class="tag">Falx commit fcae5e5 · R 4.3</span></div>
+      <div class="card-head"><h3>Paper versus re-run</h3><span class="tag">Falx commit fcae5e5</span></div>
       <div class="scroll-x"><table class="t" id="rp-table"></table></div>
       <p class="small">Times are wall-clock on a cloud container, one run each, heavy solver mode (20 s budget).</p>
     </div>
@@ -768,7 +735,7 @@ body.present .presnav { display: flex }
 <section class="scene" id="s-ext" data-tab="Extensions">
   <div class="wrap grid">
     <div class="copy">
-      <p class="eyebrow">11) Extensions</p>
+      <p class="eyebrow">Extensions</p>
       <h2>Connections to the course and to my work.</h2>
       <p class="lead">This section will link Falx to course concepts, related papers and my own project.</p>
     </div>
@@ -1234,25 +1201,6 @@ const FX = (() => {
   draw("line_bar");
 })();
 
-/* ---------------- 04c comparison ---------------- */
-(() => {
-  const code = D.r.final.code.split("\n").filter(l => l.trim() && !l.trim().startsWith("#"));
-  const fns = new Set([...D.r.final.code.matchAll(/([A-Za-z_][A-Za-z0-9_.]*)\(/g)].map(m => m[1]));
-  $("#cmp-r").innerHTML = `<div><b>${code.length}</b><span>lines</span></div><div><b>${fns.size}</b><span>functions</span></div><div><b>2</b><span>table layouts</span></div>`;
-  $("#cmp-n").textContent = D.falx.line_bar.result.length; $("#cmp-lines").textContent = code.length; $("#cmp-fns").textContent = fns.size;
-  function draw(v) {
-    $$("#cmp-tabs button").forEach(b => b.classList.toggle("on", b.dataset.v === v));
-    const el = $("#cmp-view");
-    if (v === "r") { el.innerHTML = `<div class="rplot">${D.r.final.svg}</div><p class="small">Real R output of the Step 4 script.</p>`; }
-    else if (v === "export") { el.innerHTML = `<div class="rplot">${D.r.falx_export.svg}</div><p class="small">Falx's ggplot2 export with its table program written as tidyverse, run in R 4.3.</p>`; }
-    else { el.innerHTML = '<div class="center"></div><p class="small">Candidate #1 from the recorded line + bar run, rendered from Falx\'s Vega-Lite spec with the line set to step in post-processing.</p>';
-      const c = $(".center", el); drawChart(c, () => ({ spec: prepSpec(D.falx.line_bar.result[0].vl_spec, { w: widthOf(c, 170, 240), h: 220, post: { step: true, xt: "Date", yt: "Temperature" } }) })); }
-    $$("svg", el).forEach(s => { s.removeAttribute("width"); s.removeAttribute("height"); });
-  }
-  $("#cmp-tabs").onclick = e => { if (e.target.dataset.v) draw(e.target.dataset.v); };
-  draw("r");
-})();
-
 /* ---------------- 05 architecture ---------------- */
 (() => {
   const S = D.search; let step = 0;
@@ -1318,6 +1266,16 @@ const FX = (() => {
   function draw(v) {
     $$("#rs-tabs button").forEach(b => b.classList.toggle("on", b.dataset.v === v));
     const el = $("#rs-bars");
+    $(".legend", el.parentNode).hidden = v === "talk";
+    if (v === "talk") {
+      $("#rs-title").textContent = "What made the tasks hard (Section 4.4)";
+      el.innerHTML = `<div class="cards3">
+        <div class="box"><h4>Finding the function</h4><p>14 of 17 R users named it. "I wasn't aware that geom_rect() would be more helpful than geom_bar()." (R14)</p></div>
+        <div class="box"><h4>Transforming the data</h4><p>"The vocabulary of the tidyverse is critical for trying to do what you want to do." (R9) Falx users: "I didn't think about data format at all." (F15)</p></div>
+        <div class="box"><h4>Learning the tool</h4><p>Existing tools felt steep. Falx users found the ramp-up short, with time needed to get used to the "paradigm shift" (F6).</p></div></div>`;
+      $("#rs-note").textContent = "Qualitative content analysis of semi-structured interviews with both groups.";
+      return;
+    }
     if (v === "done") {
       $("#rs-title").textContent = "Tasks completed correctly";
       el.innerHTML = done.map(([t, rn, rp, fn, fp, sig]) => `<div class="hb-task"><div class="tt"><span>${t}</span><span class="sig ${sig ? "yes" : "no"}">${sig ? "significant · p &lt; 0.05" : "ns · no significant difference"}</span></div>
@@ -1375,8 +1333,8 @@ const FX = (() => {
 
 /* ---------------- 09 discussion ---------------- */
 (() => {
-  const C = `<div class="cards3"><div class="box"><h4>Interaction model</h4><p>Specify charts by mapping example values to channels, with no transformation code.</p></div><div class="box"><h4>Synthesis</h4><p>Decompile examples into a chart program plus an example table, then synthesize the table program with deduction.</p></div><div class="box"><h4>Evidence</h4><p>A 33-person study: Falx users solved tasks they could not solve in R, faster on the two hardest.</p></div></div>
-    <div class="small" style="margin-top:6px">Implications named by the authors</div><ul style="margin:0;padding-left:18px;color:var(--muted)"><li>Augment empirical work with ML-style exploration of design spaces</li><li>Combine with design exploration tools (Voyager, GraphScape) without layout constraints</li><li>Help novices learn visualization APIs by reading synthesized programs</li><li>Bootstrap complex analyses for experienced analysts</li></ul>`;
+  const C = `<div class="cards3"><div class="box"><h4>Layout-flexible exploration</h4><p>Pair Falx with Voyager or GraphScape so users explore new designs without being held to the current data layout.</p></div><div class="box"><h4>Visualization learning</h4><p>Show readable synthesized programs, as Wrex does, so novices learn the APIs from their own examples.</p></div><div class="box"><h4>Bootstrapping analysis</h4><p>Let experienced analysts start from a synthesized chart and keep editing the program, which needs more transparency and notebook integration.</p></div></div>
+    <div class="small" style="margin-top:6px">Contributions the paper claims</div><ul style="margin:0;padding-left:18px;color:var(--muted)"><li>Specifying charts by mapping example values to channels</li><li>Decompiling examples, then synthesizing the table program with deduction</li><li>A 33-person study comparing Falx with R</li></ul>`;
   const L = `<div class="cards3"><div class="box"><h4>Scope</h4><p>Standard charts and the operators Falx supports. No dirty or non-relational data.</p></div><div class="box"><h4>Polish</h4><p>Participants wanting "very high standard visualizations" still need extensive customization.</p></div><div class="box"><h4>Integration</h4><p>No deep link to databases, notebooks or data-cleaning tools.</p></div></div>
     <details open><summary>Open questions from the authors</summary><div><ul><li><b>Explain differences</b> among candidates instead of making users compare them.</li><li><b>Show traces</b> of how each mark's properties derive from the input.</li><li><b>Mixed-initiative</b> interfaces for new users.</li><li><b>Accept richer input</b> than examples, such as formulas.</li></ul></div></details>`;
   function opening() {
@@ -1407,9 +1365,6 @@ const FX = (() => {
   draw("line_bar");
   const F = D.falx;
   const rows = [
-    ["R listing, Section 2.1 pivot", "Produces long table", "Syntax error: <code>cols = (…)</code> needs <code>c()</code>", false],
-    ["R listing, Figure 4a", "Line chart of two cities", "Runs, but maps City to y and Temperature to color", false],
-    ["R listing, Figure 4b", "Floating difference bars", "Runs, but <code>xmin = xmax = Date</code> draws nothing", false],
     ["Falx: one line, color = New York", "2 candidates, ≈4 s", `${F.line_ny.result.length} candidate, ${F.line_ny.time_spent.toFixed(1)} s`, null],
     ["Falx: same line, color blank", "(not reported)", `${F.line_nocolor.result.length} candidates, ${F.line_nocolor.time_spent.toFixed(1)} s (matches the paper's two charts)`, true],
     ["Falx: line + bar", "8 candidates, ≈9 s", `${F.line_bar.result.length} candidates, ${F.line_bar.time_spent.toFixed(1)} s`, null],
