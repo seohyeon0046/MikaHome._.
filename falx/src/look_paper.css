@@ -109,6 +109,7 @@ body::before { background: var(--hero) }
   .seg button.on { background: var(--btn); color: var(--btn-fg) }
   .modes a { color: var(--eyebrow) }
   body.present .scene { min-height: 100vh; padding-block: 56px 36px }
+  body.present .hero.cur { min-height: 100vh }
 }
 @media (max-width: 900px) {
   .scene > .wrap[data-num]::before { font-size: 150px; top: -36px }

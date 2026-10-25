@@ -308,7 +308,8 @@ tr.hit td { background: var(--ok-soft); font-weight: 650 }
 body.present .scene { display: none; min-height: calc(100vh - 92px); padding-block: 36px }
 body.present .scene.cur { display: block }
 body.present .hero { display: none }
-body.present .hero.cur { display: block }
+body.present .hero.cur { display: flex; align-items: center; min-height: calc(100vh - 75px) }
+body.present .hero.cur > .wrap { width: 100% }
 body.present .end, body.present footer { display: none }
 .presnav { position: fixed; right: max(16px, env(safe-area-inset-right, 0px)); bottom: max(16px, env(safe-area-inset-bottom, 0px)); z-index: 30; display: none; gap: 6px; align-items: center; background: var(--surface); border: 1px solid var(--line); border-radius: 12px; padding: 6px 8px; font-size: 12.5px; color: var(--muted) }
 body.present .presnav { display: flex }
@@ -444,6 +445,7 @@ body::before { background: var(--hero) }
   .seg button.on { background: var(--btn); color: var(--btn-fg) }
   .modes a { color: var(--eyebrow) }
   body.present .scene { min-height: 100vh; padding-block: 56px 36px }
+  body.present .hero.cur { min-height: 100vh }
 }
 @media (max-width: 900px) {
   .scene > .wrap[data-num]::before { font-size: 150px; top: -36px }
