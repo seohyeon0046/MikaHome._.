@@ -2,7 +2,7 @@
    big outlined section numerals and marker highlights. Layered on top of deck.html's base styles. */
 :root {
   --hero: #1F3A32; --hero-fg: #EEEDE6; --hero-muted: #a9bdb4; --ink: #1F3A32;
-  --accent: #D6AE52; --accent-ink: #2a2210; --accent-soft: #f1e2b4; --sage: #A7C4B5;
+  --accent: #D6AE52; --accent-ink: #2a2210; --accent-soft: #f1e2b4; --sage: #A7C4B5; --rail-on: #f0c46a; --rail-on-ink: #3b2a0c;
   --bg: #F4F1EA; --surface: #fbfaf6; --surface-2: #f1ede4; --soft: #ebe7dd;
   --fg: #26302c; --muted: #55605b; --faint: #868b84; --eyebrow: #3E6B5C;
   --line: #e3ddcf; --line-strong: #c9bfa9; --grid: #ebe6da;
@@ -14,7 +14,7 @@
 }
 @media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) {
   --hero: #0f1d19; --hero-fg: #e6e8e3; --hero-muted: #93a69d; --ink: #e3e8e3;
-  --accent: #D6AE52; --accent-ink: #221b0b; --accent-soft: #4b3e1f; --sage: #A7C4B5;
+  --accent: #D6AE52; --accent-ink: #221b0b; --accent-soft: #4b3e1f; --sage: #A7C4B5; --rail-on: #f0c46a; --rail-on-ink: #3b2a0c;
   --bg: #141b18; --surface: #1b231f; --surface-2: #202925; --soft: #25302b;
   --fg: #e3e6e1; --muted: #a6afa9; --faint: #7c857f; --eyebrow: #9cc3b2;
   --line: #2e3833; --line-strong: #46524c; --grid: #28312d;
@@ -23,7 +23,7 @@
   --code-bg: #111714; --code-fg: #e2e5e0 } }
 :root[data-theme="dark"] {
   --hero: #0f1d19; --hero-fg: #e6e8e3; --hero-muted: #93a69d; --ink: #e3e8e3;
-  --accent: #D6AE52; --accent-ink: #221b0b; --accent-soft: #4b3e1f; --sage: #A7C4B5;
+  --accent: #D6AE52; --accent-ink: #221b0b; --accent-soft: #4b3e1f; --sage: #A7C4B5; --rail-on: #f0c46a; --rail-on-ink: #3b2a0c;
   --bg: #141b18; --surface: #1b231f; --surface-2: #202925; --soft: #25302b;
   --fg: #e3e6e1; --muted: #a6afa9; --faint: #7c857f; --eyebrow: #9cc3b2;
   --line: #2e3833; --line-strong: #46524c; --grid: #28312d;
@@ -77,7 +77,7 @@ body::before { background: var(--bg) }
 
 /* top bar on narrow screens keeps the classic layout, recoloured */
 .tabs a .n, .tabs a .s, .tabs a .i { display: none }
-.tabs a.on { background: var(--accent); color: var(--accent-ink) }
+.tabs a.on { background: var(--rail-on); color: var(--rail-on-ink) }
 .seg button.on { background: var(--accent); color: var(--accent-ink) }
 .progress i.done { background: var(--sage) }
 .progress i.on { background: var(--accent) }
@@ -97,7 +97,7 @@ body::before { background: var(--bg) }
   .tabs a svg { width: 19px; height: 19px; fill: none; stroke: currentColor; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round }
   .tabs a:hover { color: var(--hero-fg); background: color-mix(in srgb, var(--hero-fg) 8%, transparent) }
   .tabs a.done { color: color-mix(in srgb, var(--hero-fg) 85%, transparent) }
-  .tabs a.on { background: var(--accent); color: var(--accent-ink) }
+  .tabs a.on { background: var(--rail-on); color: var(--rail-on-ink) }
   .tabs a .t, .tabs a .n { display: none }
   .tabs a .s, .tabs a .i { display: block }
   .modes { position: fixed; top: 12px; right: max(16px, env(safe-area-inset-right, 0px)); z-index: 21; gap: 6px; background: color-mix(in srgb, var(--bg) 88%, transparent); border: 1px solid var(--line); border-radius: 999px; padding: 3px 4px 3px 6px }
