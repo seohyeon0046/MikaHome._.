@@ -52,6 +52,7 @@ figcaption { font-family: var(--mono); font-size: 11px }
 .thoughts { border-radius: 4px; border-left: 3px solid var(--plum) }
 .thoughts h4 span { background: linear-gradient(transparent 50%, var(--accent-soft) 50%) }
 .persona { border-radius: 6px }
+.lcol li { border-radius: 4px }
 figure img, .fig2x2 > div, .rplot { border-radius: 4px }
 
 /* hero becomes a light title page */

@@ -289,6 +289,15 @@ tr.hit td { background: var(--ok-soft); font-weight: 650 }
 .legend { display: flex; gap: 14px; font-size: 12px; color: var(--muted); flex-wrap: wrap }
 .legend i { display: inline-block; width: 10px; height: 10px; border-radius: 3px; margin-right: 5px; vertical-align: -1px }
 
+.ledger { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 16px; align-items: start }
+.lcol { border-top: 3px solid var(--lc); padding-top: 10px; display: grid; gap: 8px; min-width: 0 }
+.lcol h4 { font-size: 13.5px; font-weight: 700; color: var(--lc) }
+.lcol ol { list-style: none; margin: 0; padding: 0; display: grid; gap: 7px }
+.lcol li { display: grid; gap: 2px; padding: 8px 11px; background: var(--surface-2); border: 1px solid var(--line); border-radius: 8px }
+.lcol li b { font-size: 13.5px; color: var(--fg) }
+.lcol li span { font-size: 12.5px; line-height: 1.45; color: var(--muted) }
+.lcol li i { font-style: normal; font-family: var(--mono); font-size: 11px; color: var(--faint) }
+@media (max-width: 700px) { .ledger { grid-template-columns: minmax(0, 1fr) } }
 .cards3 { display: grid; grid-template-columns: repeat(3, minmax(0,1fr)); gap: 10px }
 .cards3 .box { align-content: start }
 .end { padding-block: 48px 72px; display: grid; gap: 10px }
@@ -378,6 +387,7 @@ figcaption { font-family: var(--mono); font-size: 11px }
 .thoughts { border-radius: 4px; border-left: 3px solid var(--plum) }
 .thoughts h4 span { background: linear-gradient(transparent 50%, var(--accent-soft) 50%) }
 .persona { border-radius: 6px }
+.lcol li { border-radius: 4px }
 figure img, .fig2x2 > div, .rplot { border-radius: 4px }
 
 /* hero becomes a light title page */
@@ -816,11 +826,43 @@ body::before { background: var(--bg) }
       <h2>Where example-driven authoring goes next.</h2>
       <p class="lead">The authors close with three directions: combining Falx with design-exploration tools, helping people learn visualization by reading synthesized programs, and bootstrapping complex analyses for experienced analysts.</p>
       <p class="key">Back to the opening: the floating-bar chart that needed a pivot is one demonstration away.</p>
+      <a class="next" href="#s-claims">Next: Contributions and limitations. →</a>
+    </div>
+    <div class="card">
+      <div class="card-head"><h3>Where the authors go next</h3><div class="pills" id="ds-tabs"><button data-v="c" class="on">Implications</button><button data-v="o">Back to the opening</button></div></div>
+      <div id="ds-body"></div>
+    </div>
+  </div>
+</section>
+
+<!-- 09b CONTRIBUTIONS AND LIMITATIONS -->
+<section class="scene" id="s-claims" data-tab="Discussion">
+  <div class="wrap grid">
+    <div class="copy">
+      <p class="eyebrow">6) Discussion · the paper's own ledger</p>
+      <h2>What the paper claims, and what it concedes.</h2>
+      <p class="lead">Before my critique, the paper's own account: four contributions, and the limits the authors state themselves.</p>
+      <p>Each item points to the section where the paper makes it, so the critique that follows can be checked against the paper rather than against my summary.</p>
+      <p class="key">My critique starts where these stated limits stop.</p>
       <a class="next" href="#s-crit1">Next: My critical reflections. →</a>
     </div>
     <div class="card">
-      <div class="card-head"><h3>A balanced reading</h3><div class="pills" id="ds-tabs"><button data-v="c" class="on">Implications</button><button data-v="l">Limits</button><button data-v="o">Back to the opening</button></div></div>
-      <div id="ds-body"></div>
+      <div class="card-head"><h3>Contributions and limitations, in the paper's words</h3><span class="tag">Paper, Sections 1–6</span></div>
+      <div class="ledger">
+        <div class="lcol" style="--lc:var(--ok)"><h4>Claimed contributions</h4><ol>
+          <li><b>Values, not columns</b><span>Users map concrete values to visual channels. The same examples work for tables with different layouts.</span><i>§1 · §2.2</i></li>
+          <li><b>Transformation handed to a synthesizer</b><span>Falx infers the table program and the chart together. Each run takes 3 to 20 seconds.</span><i>§2.2 · §3</i></li>
+          <li><b>Choosing by looking</b><span>An exploration panel lets users pick among candidates in the chart space instead of reading programs: from expression to recognition.</span><i>§1 · §4.5</i></li>
+          <li><b>Evidence from 33 analysts</b><span>Higher completion on car sales (68.8% vs 29.4%), faster on car sales and electric usage, and no interaction with experience level.</span><i>§4.3</i></li>
+        </ol></div>
+        <div class="lcol" style="--lc:var(--bad)"><h4>Limits the authors acknowledge</h4><ol>
+          <li><b>A new way to specify</b><span>Unfamiliar terms, and when to use values versus headers. Poor examples mean ambiguity, long runs and many candidates.</span><i>§4.5.1</i></li>
+          <li><b>Many candidates to compare</b><span>Users must tell close candidates apart. The authors propose summarizing differences and showing derivation traces.</span><i>§4.5.2</i></li>
+          <li><b>Limited polish</b><span>Not suited to "very high standard visualizations" that need extensive customization.</span><i>§4.6</i></li>
+          <li><b>Clean, relational data only</b><span>No dirty or non-relational data, and no deep integration with databases or cleaning tools.</span><i>§4.6 · §5</i></li>
+          <li><b>Only what examples can say</b><span>Some users wanted to type formulas. Experienced analysts would need visible, steerable programs inside their editor.</span><i>§4.5.1 · §6</i></li>
+        </ol></div>
+      </div>
     </div>
   </div>
 </section>
@@ -1530,8 +1572,7 @@ const FX = (() => {
 
 /* ---------------- 09 discussion ---------------- */
 (() => {
-  const C = `<div class="cards3"><div class="box"><h4>Layout-flexible exploration</h4><p>Pair Falx with Voyager or GraphScape so users explore new designs without being held to the current data layout.</p></div><div class="box"><h4>Visualization learning</h4><p>Show readable synthesized programs, as Wrex does, so novices learn the APIs from their own examples.</p></div><div class="box"><h4>Bootstrapping analysis</h4><p>Let experienced analysts start from a synthesized chart and keep editing the program, which needs more transparency and notebook integration.</p></div></div>
-    <div class="small" style="margin-top:6px">Contributions the paper claims</div><ul style="margin:0;padding-left:18px;color:var(--muted)"><li>Specifying charts by mapping example values to channels</li><li>Decompiling examples, then synthesizing the table program with deduction</li><li>A 33-person study comparing Falx with R</li></ul>`;
+  const C = `<div class="cards3"><div class="box"><h4>Layout-flexible exploration</h4><p>Pair Falx with Voyager or GraphScape so users explore new designs without being held to the current data layout.</p></div><div class="box"><h4>Visualization learning</h4><p>Show readable synthesized programs, as Wrex does, so novices learn the APIs from their own examples.</p></div><div class="box"><h4>Bootstrapping analysis</h4><p>Let experienced analysts start from a synthesized chart and keep editing the program, which needs more transparency and notebook integration.</p></div></div>`;
   const L = `<div class="cards3"><div class="box"><h4>Scope</h4><p>Standard charts and the operators Falx supports. No dirty or non-relational data.</p></div><div class="box"><h4>Polish</h4><p>Participants wanting "very high standard visualizations" still need extensive customization.</p></div><div class="box"><h4>Integration</h4><p>No deep link to databases, notebooks or data-cleaning tools.</p></div></div>
     <details open><summary>Open questions from the authors</summary><div><ul><li><b>Explain differences</b> among candidates instead of making users compare them.</li><li><b>Show traces</b> of how each mark's properties derive from the input.</li><li><b>Mixed-initiative</b> interfaces for new users.</li><li><b>Accept richer input</b> than examples, such as formulas.</li></ul></div></details>`;
   function opening() {
