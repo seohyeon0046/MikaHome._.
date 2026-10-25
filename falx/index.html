@@ -94,10 +94,8 @@ code, pre, .mono { font-family: var(--mono); font-size: 12.5px }
 .hero .cite { color: var(--hero-muted); font-size: 14px; max-width: 60ch }
 .hero .cite b { color: var(--hero-fg); font-weight: 600 }
 .closing h1 { font-size: clamp(48px, 7vw, 92px) }
-.thanks-who { display: flex; align-items: center; gap: 8px; margin-top: 22px; color: var(--hero-muted); font-size: 13.5px }
-.thanks-who img { width: 42px; height: 42px; border-radius: 50%; box-shadow: 0 0 0 2px var(--hero) }
-.thanks-who img + img { margin-left: -14px }
-.thanks-who span { margin-left: 6px }
+.closing .wrap { grid-template-columns: minmax(0, 1fr) }
+.closing .cite { max-width: 60ch }
 .steps6 { list-style: none; margin: 0; padding: 0; display: grid; gap: 4px }
 .steps6-h { font-size: 13px; color: var(--hero-muted); font-weight: 500; margin-bottom: 8px }
 .steps6 li { display: grid; grid-template-columns: 22px 1fr; gap: 8px; padding: 7px 0; font-size: 15px; border-bottom: 1px solid rgba(255,255,255,.07); cursor: pointer }
@@ -863,15 +861,6 @@ body.present .presnav { display: flex }
       <div class="venue">Falx · CHI 2021</div>
       <h1>Thank you.</h1>
       <p class="cite">Questions and comments are welcome, especially on the study design, where I read the paper through a psychology lens.</p>
-      <div class="thanks-who"><img data-persona="eunice_av" alt=""><img data-persona="amelia_av" alt=""><span>Eunice and Amelia say thanks too.</span></div>
-    </div>
-    <div>
-      <h3 class="steps6-h">Three things to take away</h3>
-      <ol class="steps6">
-        <li data-go="s-falx"><span>1</span>Falx lets analysts show a few values on the chart instead of reshaping the table first.</li>
-        <li data-go="s-results"><span>2</span>The gain was largest on the hardest transformation task.</li>
-        <li data-go="s-crit2"><span>3</span>Whether it helps novices most is still an open question.</li>
-      </ol>
     </div>
   </div>
 </section>
