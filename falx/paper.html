@@ -337,7 +337,7 @@ body.present .presnav { display: flex }
    big outlined section numerals and marker highlights. Layered on top of deck.html's base styles. */
 :root {
   --hero: #1F3A32; --hero-fg: #EEEDE6; --hero-muted: #a9bdb4; --ink: #1F3A32;
-  --accent: #A7C4B5; --accent-ink: #16302a; --accent-soft: #d3e3da;
+  --accent: #D6AE52; --accent-ink: #2a2210; --accent-soft: #f1e2b4; --sage: #A7C4B5;
   --bg: #F4F1EA; --surface: #fbfaf6; --surface-2: #f1ede4; --soft: #ebe7dd;
   --fg: #26302c; --muted: #55605b; --faint: #868b84; --eyebrow: #3E6B5C;
   --line: #e3ddcf; --line-strong: #c9bfa9; --grid: #ebe6da;
@@ -349,7 +349,7 @@ body.present .presnav { display: flex }
 }
 @media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) {
   --hero: #0f1d19; --hero-fg: #e6e8e3; --hero-muted: #93a69d; --ink: #e3e8e3;
-  --accent: #A7C4B5; --accent-ink: #13261f; --accent-soft: #2c3d35;
+  --accent: #D6AE52; --accent-ink: #221b0b; --accent-soft: #4b3e1f; --sage: #A7C4B5;
   --bg: #141b18; --surface: #1b231f; --surface-2: #202925; --soft: #25302b;
   --fg: #e3e6e1; --muted: #a6afa9; --faint: #7c857f; --eyebrow: #9cc3b2;
   --line: #2e3833; --line-strong: #46524c; --grid: #28312d;
@@ -358,7 +358,7 @@ body.present .presnav { display: flex }
   --code-bg: #111714; --code-fg: #e2e5e0 } }
 :root[data-theme="dark"] {
   --hero: #0f1d19; --hero-fg: #e6e8e3; --hero-muted: #93a69d; --ink: #e3e8e3;
-  --accent: #A7C4B5; --accent-ink: #13261f; --accent-soft: #2c3d35;
+  --accent: #D6AE52; --accent-ink: #221b0b; --accent-soft: #4b3e1f; --sage: #A7C4B5;
   --bg: #141b18; --surface: #1b231f; --surface-2: #202925; --soft: #25302b;
   --fg: #e3e6e1; --muted: #a6afa9; --faint: #7c857f; --eyebrow: #9cc3b2;
   --line: #2e3833; --line-strong: #46524c; --grid: #28312d;
@@ -371,7 +371,8 @@ body.present .presnav { display: flex }
 .copy h2 { line-height: 1.08 }
 .eyebrow { font-family: var(--mono); font-size: 12px; font-weight: 500; letter-spacing: .05em; text-transform: uppercase }
 .key { color: var(--ink) !important; font-weight: 600; border-left: 3px solid var(--accent); padding-left: 12px }
-.next { color: var(--ink); text-decoration: none; border-bottom: 2px solid var(--accent); align-self: flex-start; padding-bottom: 1px }
+.key .mk, .hl { background: linear-gradient(transparent 58%, var(--accent-soft) 58%); -webkit-box-decoration-break: clone; box-decoration-break: clone; padding: 0 2px }
+.next { color: var(--ink); text-decoration: none; border-bottom: 2px solid var(--sage); align-self: flex-start; padding-bottom: 1px }
 .next:hover { text-decoration: none; border-bottom-color: var(--eyebrow) }
 .tag { font-family: var(--mono); font-weight: 500; font-size: 11px; letter-spacing: 0 }
 .card-head h3 { font-weight: 600; color: var(--ink) }
@@ -413,7 +414,7 @@ body::before { background: var(--bg) }
 .tabs a .n, .tabs a .s, .tabs a .i { display: none }
 .tabs a.on { background: var(--accent); color: var(--accent-ink) }
 .seg button.on { background: var(--accent); color: var(--accent-ink) }
-.progress i.done { background: #6f9584 }
+.progress i.done { background: var(--sage) }
 .progress i.on { background: var(--accent) }
 
 /* slim numbered rail on wide screens */
@@ -853,7 +854,7 @@ body::before { background: var(--bg) }
           <li><b>Values, not columns</b><span>Users map concrete values to visual channels. The same examples work for tables with different layouts.</span><i>§1 · §2.2</i></li>
           <li><b>Transformation handed to a synthesizer</b><span>Falx infers the table program and the chart together. Each run takes 3 to 20 seconds.</span><i>§2.2 · §3</i></li>
           <li><b>Choosing by looking</b><span>An exploration panel lets users pick among candidates in the chart space instead of reading programs: from expression to recognition.</span><i>§1 · §4.5</i></li>
-          <li><b>Evidence from 33 analysts</b><span>Higher completion on car sales (68.8% vs 29.4%), faster on car sales and electric usage, and no interaction with experience level.</span><i>§4.3</i></li>
+          <li><b>Evidence from 33 analysts</b><span>Higher completion on car sales (<span class="hl">68.8% vs 29.4%</span>), faster on car sales and electric usage, and no interaction with experience level.</span><i>§4.3</i></li>
         </ol></div>
         <div class="lcol" style="--lc:var(--bad)"><h4>Limits the authors acknowledge</h4><ol>
           <li><b>A new way to specify</b><span>Unfamiliar terms, and when to use values versus headers. Poor examples mean ambiguity, long runs and many candidates.</span><i>§4.5.1</i></li>
@@ -1650,6 +1651,8 @@ detectLive();
     const tn = [...e.childNodes].find(n => n.nodeType === 3 && n.textContent.trim());
     if (tn) tn.textContent = tn.textContent.replace(/^\s*([\d.–]+)\)\s*/, "§$1 · ");
   });
+  // each scene's key sentence gets a mustard marker
+  $$(".key").forEach(k => { k.innerHTML = `<span class="mk">${k.innerHTML}</span>`; });
   // mark finished sections in the rail
   const base = setCur;
   setCur = function (i) {

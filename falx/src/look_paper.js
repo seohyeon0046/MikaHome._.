@@ -28,6 +28,8 @@
     const tn = [...e.childNodes].find(n => n.nodeType === 3 && n.textContent.trim());
     if (tn) tn.textContent = tn.textContent.replace(/^\s*([\d.–]+)\)\s*/, "§$1 · ");
   });
+  // each scene's key sentence gets a mustard marker
+  $$(".key").forEach(k => { k.innerHTML = `<span class="mk">${k.innerHTML}</span>`; });
   // mark finished sections in the rail
   const base = setCur;
   setCur = function (i) {
