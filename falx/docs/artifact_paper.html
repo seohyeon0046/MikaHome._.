@@ -941,7 +941,7 @@ body::before { background: var(--hero) }
           <li>Every task fit inside Falx's operators, so no task showed how each tool fails.</li>
         </ul>
       </div>
-      <a class="next" href="#s-crit3">Next: Re-running the paper. →</a>
+      <a class="next" href="#s-thanks">Next: Closing. →</a>
     </div>
     <div class="card">
       <div class="card-head"><h3>Three issues with the user study</h3><span class="tag">Paper, Sections 1, 4.1–4.3</span></div>
@@ -964,29 +964,6 @@ body::before { background: var(--hero) }
             <li><span class="badc">not tested</span> A table synthesizer given an output-table example, to isolate Falx's idea of examples drawn on the chart</li></ul>
           <p class="sd-fix">Instead: add a point-and-click arm and a table-synthesizer arm.</p></div>
       </div>
-    </div>
-  </div>
-</section>
-
-<section class="scene" id="s-crit3" data-tab="Critical reflections">
-  <div class="wrap grid">
-    <div class="copy">
-      <p class="eyebrow">My critical reflections</p>
-      <h2>Re-running the paper.</h2>
-      <p class="lead">I ran the released Falx code on the paper's own examples. It reproduces the behavior, with differences worth reporting.</p>
-      <div class="thoughts"><h4><span>My thoughts</span></h4>
-        <ul>
-          <li>The Falx repository runs today only with 2020-era dependencies (Python 3.8, pandas 1.1). With current Python it fails on import. Pinning the environment in the repository would keep the artifact alive.</li>
-          <li>Candidate counts and times are close to the paper but not equal. The paper does not list the solver settings behind its numbers, so exact replication is not possible.</li>
-          <li>The opening floating-bar demonstration with a single bar crashes the released code; two bars work. A small bug, but exactly the kind of silent failure users would meet.</li>
-        </ul>
-      </div>
-      <a class="next" href="#s-thanks">Next: Closing. →</a>
-    </div>
-    <div class="card">
-      <div class="card-head"><h3>Paper versus re-run</h3><span class="tag">Falx commit fcae5e5</span></div>
-      <div class="scroll-x"><table class="t" id="rp-table"></table></div>
-      <p class="small">Times are wall-clock on a cloud container, one run each, heavy solver mode (20 s budget).</p>
     </div>
   </div>
 </section>
@@ -1638,20 +1615,6 @@ const FX = (() => {
   draw("c");
 })();
 
-/* ---------------- 10 critical ---------------- */
-(() => {
-  const F = D.falx;
-  const rows = [
-    ["Falx: one line, color = New York", "2 candidates, ≈4 s", `${F.line_ny.result.length} candidate, ${F.line_ny.time_spent.toFixed(1)} s`, null],
-    ["Falx: same line, color blank", "(not reported)", `${F.line_nocolor.result.length} candidates, ${F.line_nocolor.time_spent.toFixed(1)} s (matches the paper's two charts)`, true],
-    ["Falx: line + bar", "8 candidates, ≈9 s", `${F.line_bar.result.length} candidates, ${F.line_bar.time_spent.toFixed(1)} s`, null],
-    ["Falx: + second bar", "(not reported)", `${F.line_bar_bar.result.length} candidates, ${F.line_bar_bar.time_spent.toFixed(1)} s`, true],
-    ["Falx: opening example, one floating bar", "Floating-bar chart", `Error: ${esc(F.opening_one_bar.error)}`, false],
-    ["Falx: opening example, two floating bars", "Floating-bar chart", `${F.opening_two_bars.result.length} candidate (pivot_wider), ${F.opening_two_bars.time_spent.toFixed(1)} s`, true],
-    ["Falx install", "pip install -r requirements.txt", "Fails on current Python; runs with Python 3.8 + pandas 1.1.5", null]
-  ];
-  $("#rp-table").innerHTML = `<thead><tr><th>Check</th><th>Paper</th><th>Re-run</th><th></th></tr></thead><tbody>${rows.map(([a, b, c, ok]) => `<tr><td>${a}</td><td>${b}</td><td>${c}</td><td class="${ok === true ? "okc" : ok === false ? "badc" : ""}">${ok === true ? "✓" : ok === false ? "✗" : "≈"}</td></tr>`).join("")}</tbody>`;
-})();
 
 window.addEventListener("resize", (() => { let t; return () => { clearTimeout(t); t = setTimeout(redrawAll, 200); }; })());
 try { localStorage.removeItem("falx-mode"); } catch (e) {}
