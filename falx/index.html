@@ -163,9 +163,10 @@ pre.console.err { border-color: var(--bad); color: var(--bad); background: var(-
 .chart svg { max-width: 100% }
 figure { margin: 0; display: grid; gap: 6px }
 figure img { border-radius: 10px; border: 1px solid var(--line); background: #fff }
-.fig2x2 { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 10px }
+.fig2x2 { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 10px; width: 80%; margin: 0 auto }
+@media (max-width: 700px) { .fig2x2 { width: 100% } }
 .fig2x2 > div { background: #fff; border: 1px solid var(--line); border-radius: 10px; padding: 8px; display: flex; align-items: center; justify-content: center; min-width: 0 }
-.fig2x2 img { border: 0; border-radius: 0; background: none; width: auto; max-width: 100%; max-height: clamp(170px, 27vh, 290px); display: block }
+.fig2x2 img { border: 0; border-radius: 0; background: none; width: auto; max-width: 100%; max-height: clamp(136px, 21.6vh, 232px); display: block }
 figcaption { font-size: 12px; color: var(--faint) }
 table.t { border-collapse: collapse; width: 100%; font-size: 13px; font-variant-numeric: tabular-nums }
 table.t th, table.t td { border-bottom: 1px solid var(--line); padding: 6px 8px; text-align: left; vertical-align: top }
