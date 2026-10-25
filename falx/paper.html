@@ -483,7 +483,7 @@ body::before { background: var(--bg) }
         <li data-go="s-persona"><span>2</span>Usage scenario: Eunice writes R, Amelia demonstrates in Falx</li>
         <li data-go="s-arch"><span>3</span>System architecture: decompile, synthesize, compile</li>
         <li data-go="s-study"><span>4</span>User study: 33 analysts, Falx versus R</li>
-        <li data-go="s-related"><span>5</span>Related work: covered with the introduction</li>
+        <li data-go="s-related"><span>5</span>Related work: where Falx sits among earlier tools</li>
         <li data-go="s-disc"><span>6</span>Discussion: where example-driven authoring goes next</li>
       </ol>
     </div>
@@ -528,7 +528,7 @@ body::before { background: var(--bg) }
       <details><summary>Why examples, and why values instead of columns?</summary><div>
         <p>Programming-by-example tools such as FlashFill and Wrex let end users show what they want instead of writing code. Falx brings that to charts: an example says "this bar starts at 62.7 and ends at 63.4", which is a statement about values. The user never names a column that does not exist yet.</p>
       </div></details>
-      <a class="next" href="#s-related">Next: How this differs from existing tools. →</a>
+      <a class="next" href="#s-persona">Next: 2) Usage scenario: meet the two analysts. →</a>
     </div>
     <div class="card">
       <div class="card-head"><h3>Why layout and design disagree</h3><span class="tag">Paper, Section 1</span></div>
@@ -539,33 +539,12 @@ body::before { background: var(--bg) }
       </div>
       <div class="box" style="background:var(--surface-2)"><h4>What the analyst must do today</h4>
         <div class="row" style="gap:6px;font-size:13px"><span class="chip">picture the target table</span>→<span class="chip">recall pivot_longer / mutate</span>→<span class="chip">write the transform</span>→<span class="chip">map columns to channels</span></div>
-        <p class="small">Falx aims to remove the first three boxes.</p>
+        <p class="small">The first three steps happen in transformation tools such as tidyverse or Trifacta; the last in a grammar-of-graphics tool such as ggplot2, Vega-Lite or Tableau. Falx aims to remove the first three.</p>
       </div>
       <div class="box"><h4>The Falx loop</h4>
         <div class="row" style="gap:6px;font-size:13px"><span class="chip">demonstrate a few marks</span>→<span class="chip">synthesize</span>→<span class="chip">explore candidates</span>→<span class="chip">post-process</span></div>
-        <p class="small">Contributions claimed: the interaction model, the synthesis algorithm, and a study with 33 analysts.</p>
+        <p class="small">Borrowed from programming-by-example tools such as FlashFill and Wrex: show what you want instead of writing the program.</p>
       </div>
-    </div>
-  </div>
-</section>
-
-<!-- 02 RELATED -->
-<section class="scene" id="s-related" data-tab="Introduction">
-  <div class="wrap grid">
-    <div class="copy">
-      <p class="eyebrow">1) Introduction · related work (paper §5)</p>
-      <h2>Where does Falx sit?</h2>
-      <p class="lead">Earlier tools either help you transform data or help you specify charts. Falx joins the two, and it is specified from the chart side.</p>
-      <p>I compare the families by one question: <b>who does the data-layout work, and what does the user have to write down?</b> Select a box.</p>
-      <details><summary>Exploration tools versus implementation tools</summary><div>
-        <p>The paper separates synthesizers that help users <b>explore</b> a space from weak constraints (Scout, Draco-style recommendation) from those that help users <b>implement</b> a design they already have in mind (Wrex, FlashProg, Regae). Falx is an implementation tool, but it borrows the exploration interface to disambiguate results.</p>
-      </div></details>
-      <a class="next" href="#s-persona">Next: 2) Usage scenario: meet the two analysts. →</a>
-    </div>
-    <div class="card">
-      <div class="card-head"><h3>Who does the layout work?</h3><span class="tag">Paper, Section 5</span></div>
-      <div class="flow" id="rw-flow"></div>
-      <div class="box" id="rw-detail"></div>
     </div>
   </div>
 </section>
@@ -814,13 +793,34 @@ body::before { background: var(--bg) }
       </div></details>
       <div class="box"><h4>Where Falx would fit (4.6)</h4>
         <p>Useful for presentation charts, fast prototyping, helping new users, and changing a teammate's chart. Not for "very high standard visualizations", dirty data, or work that needs deep integration with other tools.</p></div>
-      <a class="next" href="#s-disc">Next: 6) Discussion. →</a>
+      <a class="next" href="#s-related">Next: 5) Related work. →</a>
     </div>
     <div class="card">
       <div class="card-head"><h3>Four checks on 12 candidates</h3><span class="tag">Section 4.5.2</span></div>
       <div class="pills" id="st-tabs"></div>
       <div class="box" id="st-box"></div>
       <div class="grid-thumbs" id="st-grid"></div>
+    </div>
+  </div>
+</section>
+
+<!-- 02 RELATED -->
+<section class="scene" id="s-related" data-tab="Related work">
+  <div class="wrap grid">
+    <div class="copy">
+      <p class="eyebrow">5) Related work</p>
+      <h2>Where does Falx sit?</h2>
+      <p class="lead">Earlier tools either help you transform data or help you specify charts. Falx joins the two, and it is specified from the chart side.</p>
+      <p>I compare the families by one question: <b>who does the data-layout work, and what does the user have to write down?</b> Select a box.</p>
+      <details><summary>Exploration tools versus implementation tools</summary><div>
+        <p>The paper separates synthesizers that help users <b>explore</b> a space from weak constraints (Scout, Draco-style recommendation) from those that help users <b>implement</b> a design they already have in mind (Wrex, FlashProg, Regae). Falx is an implementation tool, but it borrows the exploration interface to disambiguate results.</p>
+      </div></details>
+      <a class="next" href="#s-disc">Next: 6) Discussion. →</a>
+    </div>
+    <div class="card">
+      <div class="card-head"><h3>Who does the layout work?</h3><span class="tag">Paper, Section 5</span></div>
+      <div class="flow" id="rw-flow"></div>
+      <div class="box" id="rw-detail"></div>
     </div>
   </div>
 </section>
@@ -1628,7 +1628,7 @@ detectLive();
 (() => {
   const SEC = {
     "Introduction": ["1", "Intro", "book"], "Usage scenario": ["2", "Scenario", "users"], "Architecture": ["3", "System", "sitemap"],
-    "User study": ["4", "Study", "chart"], "Discussion": ["6", "Discuss", "message"], "Critical reflections": ["†", "Critique", "pencil"], "Extensions": ["+", "Extend", "plus"]
+    "User study": ["4", "Study", "chart"], "Related work": ["5", "Related", "link"], "Discussion": ["6", "Discuss", "message"], "Critical reflections": ["†", "Critique", "pencil"], "Extensions": ["+", "Extend", "plus"]
   };
   // outline icons (paths from Tabler Icons, MIT)
   const ICON = {
@@ -1638,6 +1638,7 @@ detectLive();
     chart: '<path d="M3 13a1 1 0 0 1 1 -1h4a1 1 0 0 1 1 1v6a1 1 0 0 1 -1 1h-4a1 1 0 0 1 -1 -1z"/><path d="M15 9a1 1 0 0 1 1 -1h4a1 1 0 0 1 1 1v10a1 1 0 0 1 -1 1h-4a1 1 0 0 1 -1 -1z"/><path d="M9 5a1 1 0 0 1 1 -1h4a1 1 0 0 1 1 1v14a1 1 0 0 1 -1 1h-4a1 1 0 0 1 -1 -1z"/><path d="M4 20h14"/>',
     message: '<path d="M3 20l1.3 -3.9c-2.324 -3.437 -1.426 -7.872 2.1 -10.374c3.526 -2.501 8.59 -2.296 11.845 .48c3.255 2.777 3.695 7.266 1.029 10.501c-2.666 3.235 -7.615 4.215 -11.574 2.293l-4.7 1"/>',
     pencil: '<path d="M4 20h4l10.5 -10.5a2.828 2.828 0 1 0 -4 -4l-10.5 10.5v4"/><path d="M13.5 6.5l4 4"/>',
+    link: '<path d="M9 15l6 -6"/><path d="M11 6l.463 -.536a5 5 0 0 1 7.071 7.072l-.534 .464"/><path d="M13 18l-.397 .534a5.068 5.068 0 0 1 -7.127 0a4.972 4.972 0 0 1 0 -7.071l.524 -.463"/>',
     plus: '<path d="M12 5v14"/><path d="M5 12h14"/>'
   };
   const sec = t => SEC[t] || ["", t];
