@@ -159,6 +159,7 @@ figure { margin: 0; display: grid; gap: 6px }
 figure img { border-radius: 10px; border: 1px solid var(--line); background: #fff }
 .fig2x2 { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 10px; width: 80%; margin: 0 auto }
 @media (max-width: 700px) { .fig2x2 { width: 100% } }
+.fig12 img { display: block; width: 100%; max-height: clamp(220px, 42vh, 400px); object-fit: contain }
 .fig2x2 > div { background: #fff; border: 1px solid var(--line); border-radius: 10px; padding: 8px; display: flex; align-items: center; justify-content: center; min-width: 0 }
 .fig2x2 img { border: 0; border-radius: 0; background: none; width: auto; max-width: 100%; max-height: clamp(136px, 21.6vh, 232px); display: block }
 figcaption { font-size: 12px; color: var(--faint) }
@@ -639,13 +640,13 @@ body.present .presnav { display: flex }
     <div class="copy">
       <p class="eyebrow">4.3–4.4) Results</p>
       <h2>Falx helped most where transformation was hardest.</h2>
-      <p class="lead">Falx users completed more tasks in every case, but only the car-sales waterfall shows a significant difference in completion. Time was significantly shorter for car sales and electric usage.</p>
+      <p class="lead">Falx users completed more tasks in three of the four, but only the car-sales waterfall shows a significant difference in completion. Time was significantly shorter for car sales and electric usage.</p>
       <p><span class="hl">Read the gap with its baseline.</span> Car sales: 11 of 16 Falx users versus 5 of 17 R users finished (68.8% vs 29.4%), and Falx users took about half the time (715 s vs 1473 s on average).</p>
       <p>Qualitatively, R users struggled to find the right function name (14 of 17 mentioned it), and both groups described data transformation as the main barrier in daily work.</p>
       <a class="next" href="#s-strat">Next: 4.5–4.6) Using Falx. →</a>
     </div>
     <div class="card">
-      <div class="card-head"><h3 id="rs-title">Completion rate per task</h3><div class="pills" id="rs-tabs"><button data-v="done" class="on">Completion</button><button data-v="time">Time</button><button data-v="talk">Interviews</button></div></div>
+      <div class="card-head"><h3 id="rs-title">Completion rate per task</h3><div class="pills" id="rs-tabs"><button data-v="done" class="on">Completion</button><button data-v="time">Time</button><button data-v="dist">Distribution</button><button data-v="talk">Interviews</button></div></div>
       <div class="legend"><span><i style="background:var(--ny)"></i>R (N = 17)</span><span><i style="background:var(--sf)"></i>Falx (N = 16)</span></div>
       <div class="hbars" id="rs-bars"></div>
       <p class="small" id="rs-note"></p>
@@ -1388,7 +1389,13 @@ const FX = (() => {
   function draw(v) {
     $$("#rs-tabs button").forEach(b => b.classList.toggle("on", b.dataset.v === v));
     const el = $("#rs-bars");
-    $(".legend", el.parentNode).hidden = v === "talk";
+    $(".legend", el.parentNode).hidden = v === "talk" || v === "dist";
+    if (v === "dist") {
+      $("#rs-title").textContent = "Time per task, as plotted in the paper";
+      el.innerHTML = `<figure class="fig12"><img src="${D.figs.fig12}" alt="Violin and box plots of task time for Falx and R across the four tasks; R spreads widest on car sales"><figcaption>Figure 12 · Violin plots with box plots of time per task. In this figure Falx is red and R is teal.</figcaption></figure>`;
+      $("#rs-note").textContent = "R's car-sales times spread from minutes to over an hour; Falx's times stay tightly grouped on every task.";
+      return;
+    }
     if (v === "talk") {
       $("#rs-title").textContent = "What made the tasks hard (Section 4.4)";
       el.innerHTML = `<div class="cards3">
@@ -1403,7 +1410,7 @@ const FX = (() => {
       el.innerHTML = done.map(([t, rn, rp, fn, fp, sig]) => `<div class="hb-task"><div class="tt"><span>${t}</span><span class="sig ${sig ? "yes" : "no"}">${sig ? "significant · p &lt; 0.05" : "ns · no significant difference"}</span></div>
         <div class="hb-row" title="R: ${rn} of 17"><span>R</span><div class="hb-track"><div class="hb-fill" style="width:${rp}%;background:var(--ny)"></div></div><span>${rp}% · ${rn}/17</span></div>
         <div class="hb-row" title="Falx: ${fn} of 16"><span>Falx</span><div class="hb-track"><div class="hb-fill" style="width:${fp}%;background:var(--sf)"></div></div><span>${fp}% · ${fn}/16</span></div></div>`).join("");
-      $("#rs-note").textContent = "Paper, Section 4.3. Failures: Falx 9 tasks (7 wrong, 2 quit); R 20 tasks (9 wrong, 11 quit).";
+      $("#rs-note").textContent = "Paper, Section 4.3. Failures: Falx 9 tasks (7 wrong, 2 quit); R 20 tasks (9 wrong, 11 quit). The text says Falx was higher on every task, but its own table shows R ahead on disaster impact.";
     } else {
       $("#rs-title").textContent = "Mean time per task (± SD)";
       const max = 2300, pct = s => (s / max * 100).toFixed(1);
