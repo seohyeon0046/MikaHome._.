@@ -299,6 +299,22 @@ tr.hit td { background: var(--ok-soft); font-weight: 650 }
 .lcol li span { font-size: 12.5px; line-height: 1.45; color: var(--muted) }
 .lcol li i { font-style: normal; font-family: var(--mono); font-size: 11px; color: var(--faint) }
 @media (max-width: 700px) { .ledger { grid-template-columns: minmax(0, 1fr) } }
+.sd { display: grid; gap: 10px }
+.sd-item { background: var(--surface-2); border: 1px solid var(--line); border-radius: 10px; padding: 10px 13px; display: grid; gap: 6px }
+.sd-item h4 { font-size: 14px; font-weight: 700; display: flex; align-items: center; gap: 8px }
+.sd-item h4 b { display: inline-grid; place-items: center; width: 20px; height: 20px; border-radius: 50%; background: var(--btn); color: var(--btn-fg); font-size: 11.5px }
+.sd-item p { font-size: 13px; color: var(--muted); margin: 0; line-height: 1.5 }
+.sd-item p.sd-fix { color: var(--fg); font-weight: 600 }
+.sd-t { font-size: 12.5px } .sd-t td, .sd-t th { padding: 3px 8px }
+.cells { display: grid; grid-template-columns: auto 1fr 1fr; gap: 4px; font-size: 12.5px; align-items: stretch }
+.cells .ch { font-weight: 700; text-align: center; color: var(--muted) }
+.cells .rh { color: var(--muted); padding-right: 8px; display: flex; align-items: center }
+.cells .c { background: var(--surface); border: 1px solid var(--line); border-radius: 6px; padding: 5px 8px; text-align: center; line-height: 1.3 }
+.cells .c small { color: var(--faint); font-size: 11px }
+.cells .c.miss { border: 1.5px dashed var(--bad); color: var(--bad); font-weight: 650 }
+.sd-list { list-style: none; margin: 0; padding: 0; display: grid; gap: 4px; font-size: 13px; color: var(--fg) }
+.sd-list li { display: grid; grid-template-columns: 84px 1fr; align-items: baseline }
+.sd-list span { font-size: 11.5px; font-family: var(--mono) }
 .cards3 { display: grid; grid-template-columns: repeat(3, minmax(0,1fr)); gap: 10px }
 .cards3 .box { align-content: start }
 .end { padding-block: 48px 72px; display: grid; gap: 10px }
@@ -783,34 +799,36 @@ body.present .presnav { display: flex }
     <div class="copy">
       <p class="eyebrow">My critical reflections</p>
       <h2>Revisiting the study design.</h2>
-      <p class="lead">The study compares Falx with R as it was used in 2020: searching documentation for the right function, with the design already decided in text.</p>
-      <div class="thoughts"><h4><span>My thoughts</span></h4>
+      <p class="lead">The scenario starts from a novice, Amelia. As run, the study cannot show whether Falx helps novices more than R does.</p>
+      <p class="key">Who was compared, how experience was used, and what Falx was compared against all need another look.</p>
+      <div class="thoughts"><h4><span>Two smaller points</span></h4>
         <ul>
-          <li>The R group's main failure was naming the function (geom_rect for a waterfall). That is a real barrier, but it is a different one from conceptualizing the layout, which is Falx's stated target.</li>
-          <li>Tasks inside the grammar make the comparison favorable by construction. One task per group that needs an unsupported operator would show how each tool fails.</li>
-          <li>The groups were recruited differently: R users had to know R, while two Falx users had never made a chart. A within-subjects design would separate the tool effect from that difference.</li>
-          <li>The paper mentions mixed-effect models but reports only Wilcoxon tests, so the size of the tool effect is not shown. With 16 and 17 people, the results read best as a signal for the hardest tasks.</li>
+          <li>R users mostly failed on naming the function (geom_rect), not on picturing the layout, which is Falx's stated target.</li>
+          <li>Every task fit inside Falx's operators, so no task showed how each tool fails.</li>
         </ul>
       </div>
       <a class="next" href="#s-crit3">Next: Re-running the paper. →</a>
     </div>
     <div class="card">
-      <div class="card-head"><h3>What Falx can and cannot express</h3><span class="tag">Falx's operators</span></div>
-      <div class="scroll-x"><table class="t">
-        <thead><tr><th>Type</th><th>Operators in Falx</th><th>Example that falls outside</th></tr></thead>
-        <tbody>
-          <tr><td>Reshaping</td><td><span class="chip">pivot_longer</span> <span class="chip">pivot_wider</span></td><td>Nested or non-relational data</td></tr>
-          <tr><td>Filtering</td><td><span class="chip">select</span> <span class="chip">filter</span></td><td>Cleaning nulls and dirty values</td></tr>
-          <tr><td>Aggregation</td><td><span class="chip">group</span> <span class="chip">summarise</span> <span class="chip">cumsum</span></td><td>Rolling averages, ranks</td></tr>
-          <tr><td>Computation</td><td><span class="chip">mutate (+, −)</span> <span class="chip">separate</span> <span class="chip">unite</span></td><td>Ratios, percent change, log scales</td></tr>
-        </tbody></table></div>
-      <div class="box"><h4>A study design I would add</h4>
-        <div class="scroll-x"><table class="t"><thead><tr><th>Change</th><th>What it isolates</th></tr></thead><tbody>
-          <tr><td>Within-subjects, tool order counterbalanced</td><td>Tool effect, independent of who was recruited</td></tr>
-          <tr><td>One out-of-grammar task</td><td>How each tool fails, and whether users notice</td></tr>
-          <tr><td>R with a code assistant as a third arm</td><td>Whether recall, the R group's main failure, is still the bottleneck</td></tr>
-          <tr><td>Report the mixed-model estimates</td><td>Effect sizes with participant variance accounted for</td></tr>
-        </tbody></table></div>
+      <div class="card-head"><h3>Three issues with the user study</h3><span class="tag">Paper, Sections 1, 4.1–4.3</span></div>
+      <div class="sd">
+        <div class="sd-item"><h4><b>1</b>The two groups started from different places</h4>
+          <div class="scroll-x"><table class="t sd-t"><thead><tr><th></th><th class="num">&gt;10 charts</th><th class="num">1–10</th><th class="num">none</th><th>Required</th></tr></thead><tbody>
+            <tr><td><b>Falx</b> (16)</td><td class="num">6</td><td class="num">8</td><td class="num"><span class="hl">2</span></td><td>nothing</td></tr>
+            <tr><td><b>R</b> (17)</td><td class="num">8</td><td class="num">9</td><td class="num"><span class="hl">0</span></td><td>R experience</td></tr></tbody></table></div>
+          <p>"Experience" is one count: charts made in the past six months, split at 10. Five years of R with eight recent charts counts as less experienced than eleven charts made this term.</p>
+          <p class="sd-fix">Instead: ask years, frequency and tool skill, then match the groups or let each person use both tools.</p></div>
+        <div class="sd-item"><h4><b>2</b>"Helps novices" was never tested</h4>
+          <div class="cells"><span></span><span class="ch">Falx</span><span class="ch">R</span>
+            <span class="rh">Never made a chart</span><span class="c">2 people<br><small>not reported</small></span><span class="c miss">nobody<br><small>R users had to know R</small></span>
+            <span class="rh">Made charts before</span><span class="c">14</span><span class="c">17</span></div>
+          <p>The paper reports one line: within each tool, time did not differ by experience (p = 1). The scenario's question, whether Falx's gain is bigger for novices, needs all four cells.</p>
+          <p class="sd-fix">Instead: recruit novices for both tools and report the four cells.</p></div>
+        <div class="sd-item"><h4><b>3</b>R was the only comparison</h4>
+          <ul class="sd-list"><li><span class="okc">tested</span> R, a coding tool, used by people who already code</li>
+            <li><span class="badc">not tested</span> A point-and-click tool like Tableau, which Falx's target users would reach for</li>
+            <li><span class="badc">not tested</span> A table synthesizer given an output-table example, to isolate Falx's idea of examples drawn on the chart</li></ul>
+          <p class="sd-fix">Instead: add a point-and-click arm and a table-synthesizer arm.</p></div>
       </div>
     </div>
   </div>
