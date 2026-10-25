@@ -25,3 +25,14 @@ open(P("index.html"), "w").write(head + page + "\n</html>\n")
 os.makedirs(P("docs"), exist_ok=True)
 open(P("docs", "artifact.html"), "w").write(page)
 print("index.html", round(os.path.getsize(P("index.html")) / 1e6, 2), "MB")
+
+# Second look ("annotated paper"): same deck, extra stylesheet and a small script layered on top
+FONTS_OLD = "family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500"
+assert FONTS_OLD in page
+paper = page.replace(FONTS_OLD, FONTS_OLD + "&family=Source+Serif+4:opsz,wght@8..60,600;8..60,700", 1)
+i = paper.index("</style>") + len("</style>")
+paper = paper[:i] + "\n<style>\n" + open(P("src", "look_paper.css")).read() + "</style>" + paper[i:]
+paper += "\n<script>\n" + open(P("src", "look_paper.js")).read() + "</script>\n"
+open(P("paper.html"), "w").write(head + paper + "\n</html>\n")
+open(P("docs", "artifact_paper.html"), "w").write(paper)
+print("paper.html", round(os.path.getsize(P("paper.html")) / 1e6, 2), "MB")

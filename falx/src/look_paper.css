@@ -1,0 +1,112 @@
+/* "Annotated paper" look: forest-and-linen palette, slim numbered section rail, serif headings,
+   big outlined section numerals and marker highlights. Layered on top of deck.html's base styles. */
+:root {
+  --hero: #1F3A32; --hero-fg: #EEEDE6; --hero-muted: #a9bdb4; --ink: #1F3A32;
+  --accent: #A7C4B5; --accent-ink: #16302a; --accent-soft: #d3e3da;
+  --bg: #F4F1EA; --surface: #fbfaf6; --surface-2: #f1ede4; --soft: #ebe7dd;
+  --fg: #26302c; --muted: #55605b; --faint: #868b84; --eyebrow: #3E6B5C;
+  --line: #e3ddcf; --line-strong: #c9bfa9; --grid: #ebe6da;
+  --btn: #1F3A32; --btn-fg: #EEEDE6; --btn-soft: #dfe9e2; --btn-soft-fg: #1F3A32;
+  --thought: #f5eff3; --thought-line: #dccfd9; --plum: #6E4F6B;
+  --code-bg: #efebe2; --code-fg: #2a2f2c;
+  --serif: "Source Serif 4", Georgia, "Times New Roman", serif;
+  --r-card: 6px; --r-ctl: 6px; --rail: 50px;
+}
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) {
+  --hero: #0f1d19; --hero-fg: #e6e8e3; --hero-muted: #93a69d; --ink: #e3e8e3;
+  --accent: #A7C4B5; --accent-ink: #13261f; --accent-soft: #2c3d35;
+  --bg: #141b18; --surface: #1b231f; --surface-2: #202925; --soft: #25302b;
+  --fg: #e3e6e1; --muted: #a6afa9; --faint: #7c857f; --eyebrow: #9cc3b2;
+  --line: #2e3833; --line-strong: #46524c; --grid: #28312d;
+  --btn: #dfe9e2; --btn-fg: #13261f; --btn-soft: #2a3a33; --btn-soft-fg: #d6e6dc;
+  --thought: #261f25; --thought-line: #4a3c47; --plum: #c7a3c2;
+  --code-bg: #111714; --code-fg: #e2e5e0 } }
+:root[data-theme="dark"] {
+  --hero: #0f1d19; --hero-fg: #e6e8e3; --hero-muted: #93a69d; --ink: #e3e8e3;
+  --accent: #A7C4B5; --accent-ink: #13261f; --accent-soft: #2c3d35;
+  --bg: #141b18; --surface: #1b231f; --surface-2: #202925; --soft: #25302b;
+  --fg: #e3e6e1; --muted: #a6afa9; --faint: #7c857f; --eyebrow: #9cc3b2;
+  --line: #2e3833; --line-strong: #46524c; --grid: #28312d;
+  --btn: #dfe9e2; --btn-fg: #13261f; --btn-soft: #2a3a33; --btn-soft-fg: #d6e6dc;
+  --thought: #261f25; --thought-line: #4a3c47; --plum: #c7a3c2;
+  --code-bg: #111714; --code-fg: #e2e5e0 }
+
+/* type */
+.copy h2, .hero h1 { font-family: var(--serif); font-weight: 700; letter-spacing: -.012em; color: var(--ink) }
+.copy h2 { line-height: 1.08 }
+.eyebrow { font-family: var(--mono); font-size: 12px; font-weight: 500; letter-spacing: .05em; text-transform: uppercase }
+.key { color: var(--ink) !important; font-weight: 600; border-left: 3px solid var(--accent); padding-left: 12px }
+.next { color: var(--ink); text-decoration: none; border-bottom: 2px solid var(--accent); align-self: flex-start; padding-bottom: 1px }
+.next:hover { text-decoration: none; border-bottom-color: var(--eyebrow) }
+.tag { font-family: var(--mono); font-weight: 500; font-size: 11px; letter-spacing: 0 }
+.card-head h3 { font-weight: 600; color: var(--ink) }
+figcaption { font-family: var(--mono); font-size: 11px }
+.persona figcaption { font-family: var(--font) }
+.persona figcaption b { font-family: var(--serif); font-weight: 700; letter-spacing: 0 }
+
+/* surfaces */
+.card { border-color: var(--line); box-shadow: none }
+.box, .note { border-radius: 4px }
+.pills { border-radius: 6px }
+.pills button { border-radius: 4px }
+.thoughts { border-radius: 4px; border-left: 3px solid var(--plum) }
+.thoughts h4 span { background: linear-gradient(transparent 50%, var(--accent-soft) 50%) }
+.persona { border-radius: 6px }
+figure img, .fig2x2 > div, .rplot { border-radius: 4px }
+
+/* hero becomes a light title page */
+.hero { background: var(--bg); color: var(--fg); border-bottom: 1px solid var(--line) }
+.hero .venue { color: var(--eyebrow); font-family: var(--mono); font-size: 12px; text-transform: uppercase }
+.hero h1 em { color: inherit; background: linear-gradient(transparent 62%, var(--accent-soft) 62%) }
+.hero .cite { color: var(--muted) }
+.hero .cite b { color: var(--fg) }
+.steps6-h { color: var(--muted); font-family: var(--mono); font-size: 12px; text-transform: uppercase; letter-spacing: .05em }
+.steps6 li { border-bottom-color: var(--line) }
+.steps6 li span { color: var(--eyebrow); font-family: var(--serif); font-weight: 700 }
+.steps6 li:hover { color: var(--ink) }
+body::before { background: var(--bg) }
+
+/* big outlined section numeral behind each scene */
+.scene > .wrap { position: relative }
+.scene > .wrap > * { position: relative; z-index: 1 }
+.scene > .wrap[data-num]::before { content: attr(data-num); position: absolute; z-index: 0; left: -34px; top: -66px; font: 700 210px/1 var(--serif); color: transparent; -webkit-text-stroke: 1.5px color-mix(in srgb, var(--line-strong) 55%, transparent); pointer-events: none }
+
+.scene.wide .copy > .side { align-content: start }
+
+/* top bar on narrow screens keeps the classic layout, recoloured */
+.tabs a .n, .tabs a .s, .tabs a .i { display: none }
+.tabs a.on { background: var(--accent); color: var(--accent-ink) }
+.seg button.on { background: var(--accent); color: var(--accent-ink) }
+.progress i.done { background: #6f9584 }
+.progress i.on { background: var(--accent) }
+
+/* slim numbered rail on wide screens */
+@media (min-width: 901px) {
+  html { scroll-padding-top: 24px }
+  body { padding-left: var(--rail) }
+  .topbar { position: fixed; top: 0; left: 0; bottom: 0; width: var(--rail); border: 0; background: var(--hero) }
+  .topbar > .wrap:first-child { flex-direction: column; align-items: center; gap: 0; padding: 14px 0; max-width: none; height: 100% }
+  .topbar > .wrap:last-child { display: none }
+  .logo { font-size: 0; margin-bottom: 20px }
+  .logo::before { content: "F"; font: 700 19px/1 var(--serif); color: var(--hero-fg) }
+  .logo sup { display: none }
+  .tabs { flex: none; flex-direction: column; align-items: center; gap: 4px; overflow: visible; padding: 0 }
+  .tabs a { position: relative; width: 44px; padding: 7px 0 6px; border-radius: 8px; display: flex; flex-direction: column; align-items: center; gap: 3px; color: var(--hero-muted); font-size: 9.5px; font-weight: 600; letter-spacing: .01em; line-height: 1.1; white-space: nowrap }
+  .tabs a svg { width: 19px; height: 19px; fill: none; stroke: currentColor; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round }
+  .tabs a:hover { color: var(--hero-fg); background: color-mix(in srgb, var(--hero-fg) 8%, transparent) }
+  .tabs a.done { color: color-mix(in srgb, var(--hero-fg) 85%, transparent) }
+  .tabs a.on { background: var(--accent); color: var(--accent-ink) }
+  .tabs a .t, .tabs a .n { display: none }
+  .tabs a .s, .tabs a .i { display: block }
+  .modes { position: fixed; top: 12px; right: max(16px, env(safe-area-inset-right, 0px)); z-index: 21; gap: 6px; background: color-mix(in srgb, var(--bg) 88%, transparent); border: 1px solid var(--line); border-radius: 999px; padding: 3px 4px 3px 6px }
+  .livebadge { background: none; color: var(--muted); border: 0 }
+  .livebadge.on { background: #2c7a52; color: #eafff2 }
+  .seg { background: var(--surface-2); border-radius: 999px }
+  .seg button { color: var(--muted); border-radius: 999px }
+  .seg button.on { background: var(--btn); color: var(--btn-fg) }
+  .modes a { color: var(--eyebrow) }
+  body.present .scene { min-height: 100vh; padding-block: 56px 36px }
+}
+@media (max-width: 900px) {
+  .scene > .wrap[data-num]::before { font-size: 150px; top: -36px }
+}

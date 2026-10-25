@@ -2,6 +2,8 @@
 
 **▶ 발표 자료 열기 / Open the deck: https://seohyeon0046.github.io/MikaHome._./falx/**
 
+**▶ 새 디자인 (annotated paper): https://seohyeon0046.github.io/MikaHome._./falx/paper.html**
+
 An interactive presentation of **Falx: Synthesis-Powered Visualization Authoring** (Wang et al., CHI 2021).
 The slides are one scrollable web page. Every Falx demo runs the authors' own synthesizer, and the paper's R workflow runs in real R.
 
@@ -31,6 +33,8 @@ docker build -t falx-deck . && docker run --rm -p 5050:5050 falx-deck
 Open `index.html` directly, or host it on GitHub Pages (in this repository: `/falx/`). Without the server the page replays runs recorded with the same code (`data/recorded_falx.json`, `data/recorded_r.json`) and labels them as recorded. Demonstrations that were not recorded show a message asking for the local server.
 
 ## Presenting
+
+- Two looks of the same deck: `index.html` (classic) and `paper.html` (annotated paper, forest and linen). With the server: `http://127.0.0.1:5050/` and `http://127.0.0.1:5050/paper`.
 
 - **Story** mode scrolls; **Present** mode shows one scene at a time (← / → or PageUp / PageDown).
 - The Korean script with timings and click cues is in [`docs/script_ko.md`](docs/script_ko.md).

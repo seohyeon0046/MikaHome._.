@@ -36,6 +36,11 @@ def index():
     return send_from_directory(ROOT, "index.html")
 
 
+@app.route("/paper")
+def paper():
+    return send_from_directory(ROOT, "paper.html")
+
+
 @app.route("/health")
 def health():
     return jsonify({"falx": FALX_OK, "falx_error": FALX_ERR, "r": bool(RSCRIPT)})
