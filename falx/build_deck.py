@@ -1,5 +1,5 @@
 """Inline the recorded data into src/deck.html and write index.html (single self-contained file)."""
-import json, os
+import base64, json, os
 HERE = os.path.dirname(os.path.abspath(__file__))
 P = lambda *a: os.path.join(HERE, *a)
 cases = json.load(open(P("precompute", "falx_cases.json")))
@@ -10,6 +10,9 @@ data = {
     "r": json.load(open(P("data", "recorded_r.json"))),
     "search": json.load(open(P("data", "search_log.json"))),
     "figs": json.load(open(P("data", "figs.json"))),
+    # Fictional persona illustrations (generated for this deck, backgrounds removed)
+    "personas": {n: "data:image/webp;base64," + base64.b64encode(open(P("data", "personas", n + ".webp"), "rb").read()).decode()
+                 for n in ("eunice", "amelia", "eunice_av", "amelia_av")},
 }
 blob = json.dumps(data, separators=(",", ":")).replace("</", "<\\/")
 src = open(P("src", "deck.html")).read()

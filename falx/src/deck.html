@@ -16,6 +16,7 @@
   --ok: #2c7a52; --ok-soft: #dff0e6; --bad: #b0473b; --bad-soft: #f7e1dd;
   --code-bg: #f4f1ec; --code-fg: #2a2629;
   --ny: #3d74b8; --sf: #c8752c;
+  --p-eunice: #7a4632; --p-amelia: #dba23a; --p-tile: #f4ecdf; --p-eunice-ink: #7a4632; --p-amelia-ink: #9a6a0e;
   --font: "Inter", system-ui, -apple-system, "Segoe UI", sans-serif;
   --mono: "JetBrains Mono", ui-monospace, "SFMono-Regular", Menlo, monospace;
   --r-card: 14px; --r-ctl: 9px;
@@ -30,7 +31,7 @@
   --thought: #2c2618; --thought-line: #5a4a24;
   --ok: #6cc596; --ok-soft: #1d3428; --bad: #ec8a7d; --bad-soft: #3a2320;
   --code-bg: #1a1c20; --code-fg: #e6e3de;
-  --ny: #5b8fd0; --sf: #c97f35; color-scheme: dark } }
+  --ny: #5b8fd0; --sf: #c97f35; --p-eunice: #d39a7c; --p-amelia: #e9bb5e; --p-tile: #e8dfd1; --p-eunice-ink: #e0ab8e; --p-amelia-ink: #f0c46a; color-scheme: dark } }
 :root[data-theme="dark"] {
   --hero: #231a1e; --hero-fg: #f3ebe1; --hero-muted: #b3a597;
   --accent: #f0c46a; --accent-ink: #2b1f08; --accent-soft: #3a3020;
@@ -41,7 +42,7 @@
   --thought: #2c2618; --thought-line: #5a4a24;
   --ok: #6cc596; --ok-soft: #1d3428; --bad: #ec8a7d; --bad-soft: #3a2320;
   --code-bg: #1a1c20; --code-fg: #e6e3de;
-  --ny: #5b8fd0; --sf: #c97f35; color-scheme: dark }
+  --ny: #5b8fd0; --sf: #c97f35; --p-eunice: #d39a7c; --p-amelia: #e9bb5e; --p-tile: #e8dfd1; --p-eunice-ink: #e0ab8e; --p-amelia-ink: #f0c46a; color-scheme: dark }
 
 * { box-sizing: border-box }
 html { scroll-behavior: smooth; scroll-padding-top: 96px }
@@ -190,6 +191,19 @@ table.t td.num, table.t th.num { text-align: right }
 
 /* ---------- R workbench ---------- */
 .rw-tabs { display: flex; gap: 6px; flex-wrap: wrap }
+.personas { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 14px }
+.persona { margin: 0; border: 1px solid var(--line); border-radius: 14px; overflow: hidden; background: var(--surface); display: flex; flex-direction: column }
+.persona .ph { background: var(--p-tile); border-bottom: 5px solid var(--pc); display: flex; justify-content: center; align-items: flex-end; padding: 14px 10px 0; height: clamp(190px, 24vw, 320px) }
+.persona .ph img { height: 100%; width: auto; max-width: 100%; object-fit: contain; object-position: bottom; display: block; border: 0; border-radius: 0; background: none }
+.persona figcaption { padding: 12px 14px 14px; display: grid; gap: 2px }
+.persona figcaption b { font-size: 22px; font-weight: 800; letter-spacing: -.02em; color: var(--pi) }
+.persona figcaption span { font-size: 13px; color: var(--muted) }
+.goal h4 { margin-bottom: 6px }
+.goal .rplot svg { max-height: clamp(160px, 24vh, 240px) }
+.eyebrow.who { display: inline-flex; align-items: center; gap: 10px }
+.eyebrow.who img { width: 46px; height: 46px; border-radius: 50%; flex: none; box-shadow: 0 0 0 2px var(--surface), 0 0 0 3px var(--line-strong) }
+.walls { display: grid; gap: 10px; max-width: 62ch }
+.walls .box p { margin: 0 }
 .counter { display: flex; gap: 18px; flex-wrap: wrap }
 .counter div { display: grid }
 .counter b { font-size: 22px; font-weight: 800; font-variant-numeric: tabular-nums }
@@ -325,7 +339,7 @@ body.present .presnav { display: flex }
       <h3 class="steps6-h">How the paper unfolds</h3>
       <ol class="steps6" id="steps6">
         <li data-go="s-problem"><span>1</span>Introduction: grammars of graphics expect the table to match the chart</li>
-        <li data-go="s-r"><span>2</span>Usage scenario: Eunice writes R, Amelia demonstrates in Falx</li>
+        <li data-go="s-persona"><span>2</span>Usage scenario: Eunice writes R, Amelia demonstrates in Falx</li>
         <li data-go="s-arch"><span>3</span>System architecture: decompile, synthesize, compile</li>
         <li data-go="s-study"><span>4</span>User study: 33 analysts, Falx versus R</li>
         <li data-go="s-related"><span>5</span>Related work: covered with the introduction</li>
@@ -405,7 +419,7 @@ body.present .presnav { display: flex }
       <details><summary>Exploration tools versus implementation tools</summary><div>
         <p>The paper separates synthesizers that help users <b>explore</b> a space from weak constraints (Scout, Draco-style recommendation) from those that help users <b>implement</b> a design they already have in mind (Wrex, FlashProg, Regae). Falx is an implementation tool, but it borrows the exploration interface to disambiguate results.</p>
       </div></details>
-      <a class="next" href="#s-r">Next: 2) Usage scenario. →</a>
+      <a class="next" href="#s-persona">Next: 2) Usage scenario: meet the two analysts. →</a>
     </div>
     <div class="card">
       <div class="card-head"><h3>Who does the layout work?</h3><span class="tag">Paper, Section 5</span></div>
@@ -415,30 +429,75 @@ body.present .presnav { display: flex }
   </div>
 </section>
 
-<!-- 03 SCENARIO: R -->
+<!-- 03 SCENARIO: PERSONAS -->
+<section class="scene" id="s-persona" data-tab="Usage scenario">
+  <div class="wrap grid">
+    <div class="copy">
+      <p class="eyebrow">2.1) Usage scenario · two analysts</p>
+      <h2>Meet Eunice and Amelia.</h2>
+      <p class="lead">The paper tells its scenario through two analysts who want the same chart from the same table.</p>
+      <p>The table holds daily temperatures for New York and San Francisco. The chart they picture has one line per city, plus a bar for each day that runs from the San Francisco temperature to the New York temperature, colored by the difference.</p>
+      <p><b>Eunice</b> is an experienced analyst who writes R every day. <b>Amelia</b> has less experience: she can picture the chart, but not the code that draws it.</p>
+      <p class="key">Same data, same goal. We follow Eunice first, then Amelia.</p>
+      <a class="next" href="#s-r">Next: follow Eunice in R. →</a>
+    </div>
+    <div class="card">
+      <div class="personas">
+        <figure class="persona" style="--pc:var(--p-eunice);--pi:var(--p-eunice-ink)"><div class="ph"><img data-persona="eunice" alt="Illustration of Eunice, an experienced analyst in a brown turtleneck, arms crossed, next to a chart"></div>
+          <figcaption><b>Eunice</b><span>Experienced analyst · fluent in R</span></figcaption></figure>
+        <figure class="persona" style="--pc:var(--p-amelia);--pi:var(--p-amelia-ink)"><div class="ph"><img data-persona="amelia" alt="Illustration of Amelia, a less experienced analyst in a mustard sweater, puzzled, holding a chart sketch"></div>
+          <figcaption><b>Amelia</b><span>Less experienced analyst · new to tidyverse</span></figcaption></figure>
+      </div>
+      <div class="box goal"><h4>The chart they both want</h4><div class="rplot" id="persona-goal"></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- 04 SCENARIO: EUNICE IN R -->
 <section class="scene" id="s-r" data-tab="Usage scenario">
   <div class="wrap grid">
     <div class="copy">
-      <p class="eyebrow">2.1) Usage scenario · Eunice and Amelia</p>
-      <h2>Eunice can write it in R. Amelia gets stuck.</h2>
-      <p class="lead">The paper follows two analysts building the same chart: Eunice, fluent in R, and Amelia, who has less experience.</p>
-      <p>The chart compares New York and San Francisco over a year: one line per city, and a bar per day that runs from the San Francisco temperature to the New York temperature, colored by the difference.</p>
-      <p>On the right, Eunice's workflow runs step by step <b>in real R</b> on the 83-row weather table that ships with Falx: reshape for the lines, compute a difference for the bars, then combine.</p>
+      <p class="eyebrow who"><img data-persona="eunice_av" alt="">2.1) Usage scenario · following Eunice</p>
+      <h2>Eunice: reshape, draw, combine.</h2>
+      <p class="lead">Eunice knows exactly which table each layer needs, so she writes the transformations herself.</p>
+      <p>On the right, her workflow runs step by step <b>in real R</b> on the 83-row weather table that ships with Falx: reshape the table so each city becomes a row for the lines, compute a difference column for the bars, then stack the two layers.</p>
       <p class="key">Four steps, two table layouts, and a vocabulary to recall: pivot_longer, names_to, geom_line, group, geom_rect, mutate.</p>
-      <div class="box"><h4>Where Amelia struggles</h4>
-        <p><b>Finding the function.</b> geom_path or geom_line, geom_bar or geom_rect, and how to stack layers. The last tab shows her first two guesses.</p>
-        <p><b>Picturing the layout.</b> Each function and each layer expects a different table shape.</p>
-        <p><b>Writing the transform.</b> Unfamiliar with tidyverse, she spends most of her time finding and wiring operators.</p></div>
-      <a class="next" href="#s-falx">Next: Amelia shows examples instead. →</a>
+      <a class="next" href="#s-amelia">Next: Amelia tries the same chart. →</a>
     </div>
-    <div class="card" id="rw">
-      <div class="card-head"><h3>R workbench</h3><span class="tag" id="rw-mode">Recorded R output</span></div>
-      <div class="rw-tabs pills" id="rw-steps"></div>
-      <div class="row" id="rw-variant"></div>
-      <textarea class="code" id="rw-code" spellcheck="false" aria-label="R code"></textarea>
-      <div class="row"><button class="btn dark sm" id="rw-run">Show output</button><button class="btn sm" id="rw-revert">Restore listing</button><span class="small" id="rw-hint"></span></div>
-      <pre class="console" id="rw-console"></pre>
-      <div class="rplot" id="rw-plot" hidden></div>
+    <div class="card rw" data-rw="eunice">
+      <div class="card-head"><h3>Eunice's R session</h3><span class="tag" data-r="mode">Recorded R output</span></div>
+      <div class="rw-tabs pills" data-r="steps"></div>
+      <div class="row" data-r="variant"></div>
+      <textarea class="code" data-r="code" spellcheck="false" aria-label="R code"></textarea>
+      <div class="row"><button class="btn dark sm" data-r="run">Show output</button><button class="btn sm" data-r="revert">Restore listing</button><span class="small" data-r="hint"></span></div>
+      <pre class="console" data-r="console"></pre>
+      <div class="rplot" data-r="plot" hidden></div>
+    </div>
+  </div>
+</section>
+
+<!-- 05 SCENARIO: AMELIA IN R -->
+<section class="scene" id="s-amelia" data-tab="Usage scenario">
+  <div class="wrap grid">
+    <div class="copy">
+      <p class="eyebrow who"><img data-persona="amelia_av" alt="">2.1) Usage scenario · following Amelia</p>
+      <h2>Amelia: same chart, three walls.</h2>
+      <p class="lead">Amelia knows what the chart should look like. Getting R to draw it is where she gets stuck.</p>
+      <div class="walls">
+        <div class="box"><h4>1 · Finding the function</h4><p>geom_path or geom_line? geom_bar or geom_rect? And how do two layers stack?</p></div>
+        <div class="box"><h4>2 · Picturing the layout</h4><p>Each function, and each layer, expects a different table shape.</p></div>
+        <div class="box"><h4>3 · Writing the transform</h4><p>New to tidyverse, she spends most of her time finding operators and wiring them together.</p></div>
+      </div>
+      <a class="next" href="#s-falx">Next: Amelia shows examples in Falx instead. →</a>
+    </div>
+    <div class="card rw" data-rw="amelia">
+      <div class="card-head"><h3>Amelia's first guesses</h3><span class="tag" data-r="mode">Recorded R output</span></div>
+      <div class="rw-tabs pills" data-r="steps"></div>
+      <div class="row" data-r="variant"></div>
+      <textarea class="code" data-r="code" spellcheck="false" aria-label="R code"></textarea>
+      <div class="row"><button class="btn dark sm" data-r="run">Show output</button><button class="btn sm" data-r="revert">Restore listing</button><span class="small" data-r="hint"></span></div>
+      <pre class="console" data-r="console"></pre>
+      <div class="rplot" data-r="plot" hidden></div>
     </div>
   </div>
 </section>
@@ -447,7 +506,7 @@ body.present .presnav { display: flex }
 <section class="scene wide" id="s-falx" data-tab="Usage scenario">
   <div class="wrap grid">
     <div class="copy">
-      <p class="eyebrow">2.2) Usage scenario · Falx</p>
+      <p class="eyebrow who"><img data-persona="amelia_av" alt="">2.2) Usage scenario · Amelia in Falx</p>
       <h2>Amelia shows one line. Falx finds the chart.</h2>
       <p class="lead">Amelia adds a line example, copies four values and a label from the table, and presses Synthesize. Falx returns charts that contain her example.</p>
       <p>Click a field, then click a table cell to copy its value, the way Amelia does in the paper. Start from the presets to follow the paper exactly.</p>
@@ -500,7 +559,7 @@ body.present .presnav { display: flex }
 <section class="scene" id="s-ambig" data-tab="Usage scenario">
   <div class="wrap grid">
     <div class="copy">
-      <p class="eyebrow">2.2) Usage scenario · Falx</p>
+      <p class="eyebrow who"><img data-persona="amelia_av" alt="">2.2) Usage scenario · Amelia in Falx</p>
       <h2>Ambiguity is resolved by looking, not by coding.</h2>
       <p class="lead">One line and one bar admit many programs. As the paper describes, Amelia can either add another example or compare the candidates in the exploration panel.</p>
       <p>The paper reports 8 candidates in about 9 seconds for this demonstration. Running the released code gives <b id="am-n12">12</b>. Adding a second bar on 2011-10-05 cuts the list to <b id="am-n7">7</b>, and every survivor keeps the right line layer.</p>
@@ -970,48 +1029,63 @@ const PB = (() => {
   pick("falx");
 })();
 
-/* ---------------- 03 R workbench ---------------- */
-const RW = (() => {
-  const S = D.r;
-  const steps = [
-    { k: "s1", t: "1 · Reshape", v: [["pivot_fixed", "pivot_longer"]] },
-    { k: "s2", t: "2 · Line layer", v: [["line_fixed", "geom_line"]] },
-    { k: "s3", t: "3 · Difference bars", v: [["rect_fixed", "geom_rect"]] },
-    { k: "s4", t: "4 · Combine", v: [["final", "Final script"]] },
-    { k: "s5", t: "Novice detours", v: [["trap_bar", "geom_bar"], ["trap_col", "geom_col"]] }
-  ];
-  let step = 0, vid = "pivot_fixed";
+/* ---------------- 03 Personas ---------------- */
+$$("img[data-persona]").forEach(img => { img.src = D.personas[img.dataset.persona]; });
+(() => {
+  const g = $("#persona-goal"); g.innerHTML = D.r.final.svg || "";
+  const sv = g.querySelector("svg"); if (sv) { sv.removeAttribute("width"); sv.removeAttribute("height"); }
+})();
+
+/* ---------------- 03 R workbenches (Eunice, Amelia) ---------------- */
+function makeWorkbench(root, steps) {
+  const S = D.r, q = r => root.querySelector(`[data-r="${r}"]`);
+  let step = 0, vid = steps[0].v[0][0];
   function show(res) {
-    const con = $("#rw-console"); const txt = (res.stdout || "") + (res.stderr ? (res.stdout ? "\n" : "") + res.stderr : "");
+    const con = q("console"); const txt = (res.stdout || "") + (res.stderr ? (res.stdout ? "\n" : "") + res.stderr : "");
     con.textContent = txt.trim() || (res.svg ? "(plot drawn below)" : "(no console output)");
     con.classList.toggle("err", !res.ok);
-    const p = $("#rw-plot"); p.hidden = !res.svg; p.innerHTML = res.svg || "";
+    const p = q("plot"); p.hidden = !res.svg; p.innerHTML = res.svg || "";
     if (res.svg) { const s = p.querySelector("svg"); if (s) { s.removeAttribute("width"); s.removeAttribute("height"); } }
   }
   function load() {
-    $$("#rw-steps button").forEach((b, i) => b.classList.toggle("on", i === step));
-    $("#rw-variant").innerHTML = steps[step].v.map(([id, t]) => `<button class="btn sm ${id === vid ? "dark" : ""}" data-v="${id}">${t}</button>`).join("");
-    $("#rw-code").value = S[vid].code; show(S[vid]);
+    q("steps").querySelectorAll("button").forEach((b, i) => b.classList.toggle("on", i === step));
+    q("variant").innerHTML = steps[step].v.length > 1 ? steps[step].v.map(([id, t]) => `<button class="btn sm ${id === vid ? "dark" : ""}" data-v="${id}">${t}</button>`).join("") : "";
+    q("code").value = S[vid].code; show(S[vid]);
   }
-  $("#rw-steps").innerHTML = steps.map((s, i) => `<button data-i="${i}">${s.t}</button>`).join("");
-  $("#rw-steps").onclick = e => { if (e.target.dataset.i) { step = +e.target.dataset.i; vid = steps[step].v[0][0]; load(); } };
-  $("#rw-variant").onclick = e => { if (e.target.dataset.v) { vid = e.target.dataset.v; load(); } };
-  $("#rw-revert").onclick = () => { $("#rw-code").value = S[vid].code; show(S[vid]); };
-  $("#rw-run").onclick = async () => {
-    const code = $("#rw-code").value;
+  q("steps").innerHTML = steps.map((s, i) => `<button data-i="${i}">${s.t}</button>`).join("");
+  q("steps").onclick = e => { if (e.target.dataset.i) { step = +e.target.dataset.i; vid = steps[step].v[0][0]; load(); } };
+  q("variant").onclick = e => { if (e.target.dataset.v) { vid = e.target.dataset.v; load(); } };
+  q("revert").onclick = () => { q("code").value = S[vid].code; show(S[vid]); };
+  q("run").onclick = async () => {
+    const code = q("code").value;
     if (!LIVE.r) { show(S[vid]); return; }
-    $("#rw-console").textContent = "Running in R…"; $("#rw-console").classList.remove("err");
+    q("console").textContent = "Running in R…"; q("console").classList.remove("err");
     try { const r = await fetch("r", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ code }) }); show(await r.json()); }
-    catch (e) { $("#rw-console").textContent = "Could not reach the local R server: " + e.message; $("#rw-console").classList.add("err"); }
+    catch (e) { q("console").textContent = "Could not reach the local R server: " + e.message; q("console").classList.add("err"); }
   };
   function refreshMode() {
-    $("#rw-mode").textContent = LIVE.r ? "Live R on this machine" : "Recorded R output";
-    $("#rw-run").textContent = LIVE.r ? "Run in R" : "Show recorded output";
-    $("#rw-code").readOnly = !LIVE.r;
-    $("#rw-hint").textContent = LIVE.r ? "Edit the code freely; df holds the 83-row weather table." : "Start the local server to edit and run the code live.";
+    q("mode").textContent = LIVE.r ? "Live R on this machine" : "Recorded R output";
+    q("run").textContent = LIVE.r ? "Run in R" : "Show recorded output";
+    q("code").readOnly = !LIVE.r;
+    q("hint").textContent = LIVE.r ? "Edit the code freely; df holds the 83-row weather table." : "Start the local server to edit and run the code live.";
   }
   load(); refreshMode();
   return { refreshMode };
+}
+const RW = (() => {
+  const wbs = [
+    makeWorkbench($('[data-rw="eunice"]'), [
+      { t: "1 · Reshape", v: [["pivot_fixed", "pivot_longer"]] },
+      { t: "2 · Line layer", v: [["line_fixed", "geom_line"]] },
+      { t: "3 · Difference bars", v: [["rect_fixed", "geom_rect"]] },
+      { t: "4 · Combine", v: [["final", "Final script"]] }
+    ]),
+    makeWorkbench($('[data-rw="amelia"]'), [
+      { t: "Guess 1 · geom_bar", v: [["trap_bar", "geom_bar"]] },
+      { t: "Guess 2 · geom_col", v: [["trap_col", "geom_col"]] }
+    ])
+  ];
+  return { refreshMode: () => wbs.forEach(w => w.refreshMode()) };
 })();
 
 /* ---------------- 04 Falx replica ---------------- */
