@@ -2,7 +2,7 @@
 (() => {
   const SEC = {
     "Introduction": ["1", "Intro", "book"], "Usage scenario": ["2", "Scenario", "users"], "Architecture": ["3", "System", "sitemap"],
-    "User study": ["4", "Study", "chart"], "Related work": ["5", "Related", "link"], "Discussion": ["6", "Discuss", "message"], "Critical reflections": ["†", "Critique", "pencil"], "Extensions": ["+", "Extend", "plus"]
+    "User study": ["4", "Study", "chart"], "Related work": ["5", "Related", "link"], "Discussion": ["6", "Discuss", "message"], "Critical reflections": ["†", "Critique", "pencil"], "Extensions": ["+", "Extend", "plus"], "Closing": ["", "Thanks", "heart"]
   };
   // outline icons (paths from Tabler Icons, MIT)
   const ICON = {
@@ -13,6 +13,7 @@
     message: '<path d="M3 20l1.3 -3.9c-2.324 -3.437 -1.426 -7.872 2.1 -10.374c3.526 -2.501 8.59 -2.296 11.845 .48c3.255 2.777 3.695 7.266 1.029 10.501c-2.666 3.235 -7.615 4.215 -11.574 2.293l-4.7 1"/>',
     pencil: '<path d="M4 20h4l10.5 -10.5a2.828 2.828 0 1 0 -4 -4l-10.5 10.5v4"/><path d="M13.5 6.5l4 4"/>',
     link: '<path d="M9 15l6 -6"/><path d="M11 6l.463 -.536a5 5 0 0 1 7.071 7.072l-.534 .464"/><path d="M13 18l-.397 .534a5.068 5.068 0 0 1 -7.127 0a4.972 4.972 0 0 1 0 -7.071l.524 -.463"/>',
+    heart: '<path d="M19.5 12.572l-7.5 7.428l-7.5 -7.428a5 5 0 1 1 7.5 -6.566a5 5 0 1 1 7.5 6.572"/>',
     plus: '<path d="M12 5v14"/><path d="M5 12h14"/>'
   };
   const sec = t => SEC[t] || ["", t];

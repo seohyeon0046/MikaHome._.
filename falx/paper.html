@@ -93,6 +93,11 @@ code, pre, .mono { font-family: var(--mono); font-size: 12.5px }
 .hero h1 em { font-style: normal; color: var(--accent) }
 .hero .cite { color: var(--hero-muted); font-size: 14px; max-width: 60ch }
 .hero .cite b { color: var(--hero-fg); font-weight: 600 }
+.closing h1 { font-size: clamp(48px, 7vw, 92px) }
+.thanks-who { display: flex; align-items: center; gap: 8px; margin-top: 22px; color: var(--hero-muted); font-size: 13.5px }
+.thanks-who img { width: 42px; height: 42px; border-radius: 50%; box-shadow: 0 0 0 2px var(--hero) }
+.thanks-who img + img { margin-left: -14px }
+.thanks-who span { margin-left: 6px }
 .steps6 { list-style: none; margin: 0; padding: 0; display: grid; gap: 4px }
 .steps6-h { font-size: 13px; color: var(--hero-muted); font-weight: 500; margin-bottom: 8px }
 .steps6 li { display: grid; grid-template-columns: 22px 1fr; gap: 8px; padding: 7px 0; font-size: 15px; border-bottom: 1px solid rgba(255,255,255,.07); cursor: pointer }
@@ -971,12 +976,32 @@ body::before { background: var(--hero) }
           <li>The opening floating-bar demonstration with a single bar crashes the released code; two bars work. A small bug, but exactly the kind of silent failure users would meet.</li>
         </ul>
       </div>
-      <a class="next" href="#top">Back to the start ↑</a>
+      <a class="next" href="#s-thanks">Next: Closing. →</a>
     </div>
     <div class="card">
       <div class="card-head"><h3>Paper versus re-run</h3><span class="tag">Falx commit fcae5e5</span></div>
       <div class="scroll-x"><table class="t" id="rp-table"></table></div>
       <p class="small">Times are wall-clock on a cloud container, one run each, heavy solver mode (20 s budget).</p>
+    </div>
+  </div>
+</section>
+
+<!-- 12 CLOSING -->
+<section class="hero scene-like closing" id="s-thanks" data-tab="Closing">
+  <div class="wrap">
+    <div>
+      <div class="venue">Falx · CHI 2021</div>
+      <h1>Thank you.</h1>
+      <p class="cite">Questions and comments are welcome, especially on the study design, where I read the paper through a psychology lens.</p>
+      <div class="thanks-who"><img data-persona="eunice_av" alt=""><img data-persona="amelia_av" alt=""><span>Eunice and Amelia say thanks too.</span></div>
+    </div>
+    <div>
+      <h3 class="steps6-h">Three things to take away</h3>
+      <ol class="steps6">
+        <li data-go="s-falx"><span>1</span>Falx lets analysts show a few values on the chart instead of reshaping the table first.</li>
+        <li data-go="s-results"><span>2</span>The gain was largest on the hardest transformation task.</li>
+        <li data-go="s-crit2"><span>3</span>Whether it helps novices most is still an open question.</li>
+      </ol>
     </div>
   </div>
 </section>
@@ -1641,7 +1666,7 @@ detectLive();
 (() => {
   const SEC = {
     "Introduction": ["1", "Intro", "book"], "Usage scenario": ["2", "Scenario", "users"], "Architecture": ["3", "System", "sitemap"],
-    "User study": ["4", "Study", "chart"], "Related work": ["5", "Related", "link"], "Discussion": ["6", "Discuss", "message"], "Critical reflections": ["†", "Critique", "pencil"], "Extensions": ["+", "Extend", "plus"]
+    "User study": ["4", "Study", "chart"], "Related work": ["5", "Related", "link"], "Discussion": ["6", "Discuss", "message"], "Critical reflections": ["†", "Critique", "pencil"], "Extensions": ["+", "Extend", "plus"], "Closing": ["", "Thanks", "heart"]
   };
   // outline icons (paths from Tabler Icons, MIT)
   const ICON = {
@@ -1652,6 +1677,7 @@ detectLive();
     message: '<path d="M3 20l1.3 -3.9c-2.324 -3.437 -1.426 -7.872 2.1 -10.374c3.526 -2.501 8.59 -2.296 11.845 .48c3.255 2.777 3.695 7.266 1.029 10.501c-2.666 3.235 -7.615 4.215 -11.574 2.293l-4.7 1"/>',
     pencil: '<path d="M4 20h4l10.5 -10.5a2.828 2.828 0 1 0 -4 -4l-10.5 10.5v4"/><path d="M13.5 6.5l4 4"/>',
     link: '<path d="M9 15l6 -6"/><path d="M11 6l.463 -.536a5 5 0 0 1 7.071 7.072l-.534 .464"/><path d="M13 18l-.397 .534a5.068 5.068 0 0 1 -7.127 0a4.972 4.972 0 0 1 0 -7.071l.524 -.463"/>',
+    heart: '<path d="M19.5 12.572l-7.5 7.428l-7.5 -7.428a5 5 0 1 1 7.5 -6.566a5 5 0 1 1 7.5 6.572"/>',
     plus: '<path d="M12 5v14"/><path d="M5 12h14"/>'
   };
   const sec = t => SEC[t] || ["", t];
