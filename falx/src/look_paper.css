@@ -56,17 +56,18 @@ figcaption { font-family: var(--mono); font-size: 11px }
 .lcol li { border-radius: 4px }
 figure img, .fig2x2 > div, .rplot { border-radius: 4px }
 
-/* hero becomes a light title page */
-.hero { background: var(--bg); color: var(--fg); border-bottom: 1px solid var(--line) }
-.hero .venue { color: var(--eyebrow); font-family: var(--mono); font-size: 12px; text-transform: uppercase }
-.hero h1 em { color: inherit; background: linear-gradient(transparent 62%, var(--accent-soft) 62%) }
-.hero .cite { color: var(--muted) }
-.hero .cite b { color: var(--fg) }
-.steps6-h { color: var(--muted); font-family: var(--mono); font-size: 12px; text-transform: uppercase; letter-spacing: .05em }
-.steps6 li { border-bottom-color: var(--line) }
-.steps6 li span { color: var(--eyebrow); font-family: var(--serif); font-weight: 700 }
-.steps6 li:hover { color: var(--ink) }
-body::before { background: var(--bg) }
+/* hero: forest title page, continuous with the rail */
+.hero { background: var(--hero); color: var(--hero-fg); border-bottom: 0 }
+.hero h1 { color: var(--hero-fg) }
+.hero .venue { color: var(--hero-muted); font-family: var(--mono); font-size: 12px; text-transform: uppercase }
+.hero h1 em { color: inherit; background: linear-gradient(transparent 64%, color-mix(in srgb, var(--rail-on) 45%, transparent) 64%) }
+.hero .cite { color: var(--hero-muted) }
+.hero .cite b { color: var(--hero-fg) }
+.steps6-h { color: var(--hero-muted); font-family: var(--mono); font-size: 12px; text-transform: uppercase; letter-spacing: .05em }
+.steps6 li { border-bottom-color: color-mix(in srgb, var(--hero-fg) 12%, transparent) }
+.steps6 li span { color: var(--rail-on); font-family: var(--serif); font-weight: 700 }
+.steps6 li:hover { color: #fff }
+body::before { background: var(--hero) }
 
 /* big outlined section numeral behind each scene */
 .scene > .wrap { position: relative }
