@@ -349,6 +349,13 @@ body.present .hero.cur > .wrap { width: 100% }
 body.present .end, body.present footer { display: none }
 .presnav { position: fixed; right: max(16px, env(safe-area-inset-right, 0px)); bottom: max(16px, env(safe-area-inset-bottom, 0px)); z-index: 30; display: none; gap: 6px; align-items: center; background: var(--surface); border: 1px solid var(--line); border-radius: 12px; padding: 6px 8px; font-size: 12.5px; color: var(--muted) }
 body.present .presnav { display: flex }
+.ptimer { position: fixed; left: max(16px, env(safe-area-inset-left, 0px)); bottom: max(16px, env(safe-area-inset-bottom, 0px)); z-index: 30; display: none; align-items: baseline; gap: 6px; background: var(--surface); border: 1px solid var(--line); border-radius: 12px; padding: 7px 12px; color: var(--muted); font-variant-numeric: tabular-nums }
+body.present .ptimer { display: flex }
+.ptimer .pt-run { font: 600 20px/1 var(--mono); color: var(--fg); min-width: 3.4ch }
+.ptimer .pt-plan { font-size: 12px }
+.ptimer.low .pt-run { color: #b7791f }
+.ptimer.over { border-color: #c2412d }
+.ptimer.over .pt-run { color: #c2412d }
 
 @media (max-width: 1100px) {
   .fx { grid-template-columns: minmax(0,1fr) minmax(0,1fr) }
@@ -384,7 +391,7 @@ body.present .presnav { display: flex }
 </header>
 
 <main>
-<section class="hero scene-like" id="s-hero" data-tab="Introduction">
+<section class="hero scene-like" id="s-hero" data-time="30" data-tab="Introduction">
   <div class="wrap">
     <div>
       <div class="venue">CHI 2021 · Yokohama</div>
@@ -406,7 +413,7 @@ body.present .presnav { display: flex }
 </section>
 
 <!-- 01 PROBLEM -->
-<section class="scene" id="s-problem" data-tab="Introduction">
+<section class="scene" id="s-problem" data-time="70" data-tab="Introduction">
   <div class="wrap grid">
     <div class="copy">
       <p class="eyebrow">1) Introduction</p>
@@ -443,7 +450,7 @@ body.present .presnav { display: flex }
   </div>
 </section>
 
-<section class="scene" id="s-rules" data-tab="Introduction">
+<section class="scene" id="s-rules" data-time="60" data-tab="Introduction">
   <div class="wrap grid">
     <div class="copy">
       <p class="eyebrow">1) Introduction</p>
@@ -487,7 +494,7 @@ body.present .presnav { display: flex }
 </section>
 
 <!-- 03 SCENARIO: PERSONAS -->
-<section class="scene" id="s-persona" data-tab="Usage scenario">
+<section class="scene" id="s-persona" data-time="30" data-tab="Usage scenario">
   <div class="wrap grid">
     <div class="copy">
       <p class="eyebrow">2.1) Usage scenario · two analysts</p>
@@ -511,7 +518,7 @@ body.present .presnav { display: flex }
 </section>
 
 <!-- 04 SCENARIO: EUNICE IN R -->
-<section class="scene" id="s-r" data-tab="Usage scenario">
+<section class="scene" id="s-r" data-time="50" data-tab="Usage scenario">
   <div class="wrap grid">
     <div class="copy">
       <p class="eyebrow who"><img data-persona="eunice_av" alt="">2.1) Usage scenario · following Eunice</p>
@@ -534,7 +541,7 @@ body.present .presnav { display: flex }
 </section>
 
 <!-- 05 SCENARIO: AMELIA IN R -->
-<section class="scene" id="s-amelia" data-tab="Usage scenario">
+<section class="scene" id="s-amelia" data-time="30" data-tab="Usage scenario">
   <div class="wrap grid">
     <div class="copy">
       <p class="eyebrow who"><img data-persona="amelia_av" alt="">2.1) Usage scenario · following Amelia</p>
@@ -560,7 +567,7 @@ body.present .presnav { display: flex }
 </section>
 
 <!-- 04 FALX DEMO -->
-<section class="scene wide" id="s-falx" data-tab="Usage scenario">
+<section class="scene wide" id="s-falx" data-time="110" data-tab="Usage scenario">
   <div class="wrap grid">
     <div class="copy">
       <p class="eyebrow who"><img data-persona="amelia_av" alt="">2.2) Usage scenario · Amelia in Falx</p>
@@ -613,7 +620,7 @@ body.present .presnav { display: flex }
   </div>
 </section>
 
-<section class="scene" id="s-ambig" data-tab="Usage scenario">
+<section class="scene" id="s-ambig" data-time="70" data-tab="Usage scenario">
   <div class="wrap grid">
     <div class="copy">
       <p class="eyebrow who"><img data-persona="amelia_av" alt="">2.2) Usage scenario · Amelia in Falx</p>
@@ -636,7 +643,7 @@ body.present .presnav { display: flex }
 
 
 <!-- 05 ARCHITECTURE -->
-<section class="scene" id="s-arch" data-tab="Architecture">
+<section class="scene" id="s-arch" data-time="130" data-tab="Architecture">
   <div class="wrap grid">
     <div class="copy">
       <p class="eyebrow">3) System architecture</p>
@@ -660,7 +667,7 @@ body.present .presnav { display: flex }
 </section>
 
 <!-- 06 STUDY -->
-<section class="scene" id="s-study" data-tab="User study">
+<section class="scene" id="s-study" data-time="70" data-tab="User study">
   <div class="wrap grid">
     <div class="copy">
       <p class="eyebrow">4.1–4.2) User study</p>
@@ -692,7 +699,7 @@ body.present .presnav { display: flex }
 </section>
 
 <!-- 07 RESULTS -->
-<section class="scene" id="s-results" data-tab="User study">
+<section class="scene" id="s-results" data-time="90" data-tab="User study">
   <div class="wrap grid">
     <div class="copy">
       <p class="eyebrow">4.3–4.4) Results</p>
@@ -712,7 +719,7 @@ body.present .presnav { display: flex }
 </section>
 
 <!-- 08 STRATEGIES -->
-<section class="scene" id="s-strat" data-tab="User study">
+<section class="scene" id="s-strat" data-time="100" data-tab="User study">
   <div class="wrap grid">
     <div class="copy">
       <p class="eyebrow">4.5–4.6) Using Falx</p>
@@ -742,7 +749,7 @@ body.present .presnav { display: flex }
 </section>
 
 <!-- 02 RELATED -->
-<section class="scene" id="s-related" data-tab="Related work">
+<section class="scene" id="s-related" data-time="60" data-tab="Related work">
   <div class="wrap grid">
     <div class="copy">
       <p class="eyebrow">5) Related work</p>
@@ -763,7 +770,7 @@ body.present .presnav { display: flex }
 </section>
 
 <!-- 09 DISCUSSION -->
-<section class="scene" id="s-disc" data-tab="Discussion">
+<section class="scene" id="s-disc" data-time="0" data-tab="Discussion">
   <div class="wrap grid">
     <div class="copy">
       <p class="eyebrow">6) Discussion</p>
@@ -780,7 +787,7 @@ body.present .presnav { display: flex }
 </section>
 
 <!-- 09b CONTRIBUTIONS AND LIMITATIONS -->
-<section class="scene stack" id="s-claims" data-tab="Discussion">
+<section class="scene stack" id="s-claims" data-time="80" data-tab="Discussion">
   <div class="wrap grid">
     <div class="copy">
       <p class="eyebrow">6) Discussion · the paper's own ledger</p>
@@ -808,7 +815,7 @@ body.present .presnav { display: flex }
   </div>
 </section>
 
-<section class="scene" id="s-crit2" data-tab="Critical reflections">
+<section class="scene" id="s-crit2" data-time="135" data-tab="Critical reflections">
   <div class="wrap grid">
     <div class="copy">
       <p class="eyebrow">My critical reflections</p>
@@ -849,7 +856,7 @@ body.present .presnav { display: flex }
 </section>
 
 <!-- 12 CLOSING -->
-<section class="hero scene-like closing" id="s-thanks" data-tab="Closing">
+<section class="hero scene-like closing" id="s-thanks" data-time="10" data-tab="Closing">
   <div class="wrap">
     <div>
       <div class="venue">Falx · CHI 2021</div>
@@ -865,6 +872,7 @@ body.present .presnav { display: flex }
 </section>
 </main>
 
+<div class="ptimer" id="ptimer" title="Time left for this page (from the script). Counts up with + once it runs out."><span class="pt-run" id="pt-run">0:00</span><span class="pt-plan" id="pt-plan"></span></div>
 <div class="presnav"><button class="btn sm" id="pn-prev" aria-label="Previous scene">←</button><span id="pn-info"></span><button class="btn sm" id="pn-next" aria-label="Next scene">→</button><button class="btn sm" id="pn-story">Back to Story (scroll)</button></div>
 
 <script src="https://cdn.jsdelivr.net/npm/vega@5.30.0/build/vega.min.js"></script>
@@ -978,6 +986,18 @@ const tabNames = [...new Set(scenes.map(s => s.dataset.tab))];
 $("#tabs").innerHTML = tabNames.map(t => `<a href="#${scenes.find(s => s.dataset.tab === t).id}" data-tab="${t}">${t}</a>`).join("");
 $("#progress").innerHTML = scenes.map((s, i) => `<i data-i="${i}" title="${esc(s.querySelector("h1,h2").textContent)}"></i>`).join("");
 let curScene = 0;
+/* per-page timer: counts down the script's time for this page, then up with "+" */
+let tScene = -1, tStart = 0;
+const fmtT = s => Math.floor(s / 60) + ":" + String(s % 60).padStart(2, "0");
+function tickTimer() {
+  if (!document.body.classList.contains("present")) return;
+  const plan = +scenes[curScene].dataset.time || 0, left = plan - Math.floor((Date.now() - tStart) / 1000);
+  $("#pt-run").textContent = left >= 0 ? fmtT(left) : "+" + fmtT(-left);
+  $("#pt-plan").textContent = "of " + fmtT(plan);
+  $("#ptimer").classList.toggle("over", left < 0);
+  $("#ptimer").classList.toggle("low", left >= 0 && left <= 10 && plan > 10);
+}
+setInterval(tickTimer, 250);
 function setCur(i) {
   curScene = Math.max(0, Math.min(scenes.length - 1, i));
   $$("#progress i").forEach((el, j) => { el.classList.toggle("on", j === curScene); el.classList.toggle("done", j < curScene); });
@@ -988,6 +1008,8 @@ function setCur(i) {
   if (on && (on.offsetLeft < bar.scrollLeft || on.offsetLeft + on.offsetWidth > bar.scrollLeft + bar.clientWidth)) bar.scrollLeft = Math.max(0, on.offsetLeft - 24);
   scenes.forEach((s, j) => s.classList.toggle("cur", j === curScene));
   $("#pn-info").textContent = (curScene + 1) + " / " + scenes.length;
+  if (curScene !== tScene) { tScene = curScene; tStart = Date.now(); }
+  tickTimer();
 }
 const io = new IntersectionObserver(es => {
   if (document.body.classList.contains("present")) return;
@@ -1011,7 +1033,7 @@ document.addEventListener("click", e => {
 function setMode(p) {
   document.body.classList.toggle("present", p);
   $("#m-story").classList.toggle("on", !p); $("#m-present").classList.toggle("on", p);
-  if (p) { setCur(curScene); scrollTo(0, 0); } else scenes[curScene].scrollIntoView();
+  if (p) { tScene = -1; setCur(curScene); scrollTo(0, 0); } else scenes[curScene].scrollIntoView();
   setTimeout(redrawAll, 50);
 }
 $("#m-story").onclick = () => setMode(false);

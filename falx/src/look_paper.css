@@ -114,3 +114,7 @@ body::before { background: var(--hero) }
 @media (max-width: 900px) {
   .scene > .wrap[data-num]::before { font-size: 150px; top: -36px }
 }
+/* page timer clears the rail */
+.ptimer { border-radius: 999px; padding: 6px 14px }
+.ptimer .pt-run { font-family: var(--serif); font-weight: 700 }
+@media (min-width: 901px) { .ptimer { left: calc(var(--rail) + 16px) } }
