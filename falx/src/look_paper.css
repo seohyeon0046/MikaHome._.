@@ -114,7 +114,11 @@ body::before { background: var(--hero) }
 @media (max-width: 900px) {
   .scene > .wrap[data-num]::before { font-size: 150px; top: -36px }
 }
-/* page timer clears the rail */
-.ptimer { border-radius: 999px; padding: 6px 14px }
-.ptimer .pt-run { font-family: var(--serif); font-weight: 700 }
-@media (min-width: 901px) { .ptimer { left: calc(var(--rail) + 16px) } }
+/* page timer sits at the foot of the rail */
+.ptimer .pt-run { font-family: var(--mono) }
+@media (min-width: 901px) {
+  .ptimer { left: 0; bottom: 14px; width: var(--rail); justify-content: center; background: none; border: 0; border-radius: 0; padding: 0 }
+  .ptimer .pt-run { font-size: 11px; font-weight: 600; color: var(--hero-muted); letter-spacing: -.02em }
+  .ptimer.low .pt-run { color: var(--rail-on) }
+  .ptimer.over .pt-run { color: #ff9b85 }
+}

@@ -349,10 +349,9 @@ body.present .hero.cur > .wrap { width: 100% }
 body.present .end, body.present footer { display: none }
 .presnav { position: fixed; right: max(16px, env(safe-area-inset-right, 0px)); bottom: max(16px, env(safe-area-inset-bottom, 0px)); z-index: 30; display: none; gap: 6px; align-items: center; background: var(--surface); border: 1px solid var(--line); border-radius: 12px; padding: 6px 8px; font-size: 12.5px; color: var(--muted) }
 body.present .presnav { display: flex }
-.ptimer { position: fixed; left: max(16px, env(safe-area-inset-left, 0px)); bottom: max(16px, env(safe-area-inset-bottom, 0px)); z-index: 30; display: none; align-items: baseline; gap: 6px; background: var(--surface); border: 1px solid var(--line); border-radius: 12px; padding: 7px 12px; color: var(--muted); font-variant-numeric: tabular-nums }
+.ptimer { position: fixed; left: max(16px, env(safe-area-inset-left, 0px)); bottom: max(16px, env(safe-area-inset-bottom, 0px)); z-index: 30; display: none; align-items: baseline; gap: 6px; background: var(--surface); border: 1px solid var(--line); border-radius: 12px; padding: 5px 9px; color: var(--muted); font-variant-numeric: tabular-nums }
 body.present .ptimer { display: flex }
-.ptimer .pt-run { font: 600 20px/1 var(--mono); color: var(--fg); min-width: 3.4ch }
-.ptimer .pt-plan { font-size: 12px }
+.ptimer .pt-run { font: 600 13px/1 var(--mono); color: var(--fg) }
 .ptimer.low .pt-run { color: #b7791f }
 .ptimer.over { border-color: #c2412d }
 .ptimer.over .pt-run { color: #c2412d }
@@ -872,7 +871,7 @@ body.present .ptimer { display: flex }
 </section>
 </main>
 
-<div class="ptimer" id="ptimer" title="Time left for this page (from the script). Counts up with + once it runs out."><span class="pt-run" id="pt-run">0:00</span><span class="pt-plan" id="pt-plan"></span></div>
+<div class="ptimer" id="ptimer" title="Time left for this page. Counts up with + once it runs out."><span class="pt-run" id="pt-run">0:00</span></div>
 <div class="presnav"><button class="btn sm" id="pn-prev" aria-label="Previous scene">←</button><span id="pn-info"></span><button class="btn sm" id="pn-next" aria-label="Next scene">→</button><button class="btn sm" id="pn-story">Back to Story (scroll)</button></div>
 
 <script src="https://cdn.jsdelivr.net/npm/vega@5.30.0/build/vega.min.js"></script>
@@ -993,7 +992,6 @@ function tickTimer() {
   if (!document.body.classList.contains("present")) return;
   const plan = +scenes[curScene].dataset.time || 0, left = plan - Math.floor((Date.now() - tStart) / 1000);
   $("#pt-run").textContent = left >= 0 ? fmtT(left) : "+" + fmtT(-left);
-  $("#pt-plan").textContent = "of " + fmtT(plan);
   $("#ptimer").classList.toggle("over", left < 0);
   $("#ptimer").classList.toggle("low", left >= 0 && left <= 10 && plan > 10);
 }
